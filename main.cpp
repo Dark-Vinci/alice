@@ -1,13 +1,7 @@
-#include <iostream>
-#include "controller.h";
-
-using namespace std;
-
-void printly() {
-    cout << "Welcome to the password manager";
-}
+#include "ui.h";
 
 int main() {
-    cout << "Hello, World!" << endl;
+    auto app = new Terminal();
+    app->start();
     return 0;
 }

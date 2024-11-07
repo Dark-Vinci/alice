@@ -54,6 +54,24 @@ void Terminal::start() {
                 break;
             }
 
+            case 8: {
+                string result = application.update_user();
+                cout << result << endl;
+                break;
+            }
+
+            case 9: {
+                string result = application.delete_password();
+                cout << result << endl;
+                break;
+            }
+
+            case 10: {
+                string result = application.get_password();
+                cout << result << endl;
+                break;
+            }
+
             default: {
                 cout << "TERMINATING APPLICATION" << endl;
                 return;

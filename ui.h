@@ -13,9 +13,9 @@ class Terminal{
 private:
     Controller::App application;
 public:
-    Terminal(Controller::App app) {
+    Terminal() {
         cout << "--------INITIALIZING THE TERMINAL APPLICATION--------" << endl;
-        this->application = app;
+//        this->application = app;
     }
 
     void start();
