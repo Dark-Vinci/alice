@@ -14,13 +14,13 @@ using namespace std;
 string Utils::Crypto::decode(const string& encoded_string) {
     // ENCODED STRING -> DECODE MORSE CODE -> INVERSE ROT13 -> RESULT
     stringstream decoded_morse;
-    stringstream morseStream(encoded_string);
-    string morseChar;
+    stringstream morse_stream(encoded_string);
+    string morse_char;
 
-    while (morseStream >> morseChar) {
-        if (inverse_morse.find(morseChar) != inverse_morse.end()) {
-            decoded_morse << inverse_morse[morseChar];
-        } else if (morseChar == "/") {
+    while (morse_stream >> morse_char) {
+        if (inverse_morse.find(morse_char) != inverse_morse.end()) {
+            decoded_morse << inverse_morse[morse_char];
+        } else if (morse_char == "/") {
             decoded_morse << ' ';
         }
     }

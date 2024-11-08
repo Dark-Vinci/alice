@@ -15,7 +15,6 @@ private:
 public:
     Terminal() {
         cout << "--------INITIALIZING THE TERMINAL APPLICATION--------" << endl;
-//        this->application = app;
     }
 
     void start();
