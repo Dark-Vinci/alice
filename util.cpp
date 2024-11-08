@@ -5,7 +5,6 @@
 #include <string>
 #include <random>
 #include <algorithm>
-#include <functional>
 #include <sstream>
 #include "util.h"
 
