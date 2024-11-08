@@ -52,6 +52,8 @@ namespace DB {
 
     class Pass {
     public:
+        string username;
+        string name;
         string password;
         time_t created_at;
         time_t updated_at;
