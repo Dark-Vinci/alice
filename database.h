@@ -15,9 +15,9 @@ namespace DB {
         string first_name;
         string last_name;
         string password;
-        string created_at;
-        string update_at;
-        string deleted_at;
+        time_t created_at;
+        time_t update_at;
+        time_t* deleted_at;
         string is_admin;
 
     public:
