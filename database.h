@@ -3,9 +3,10 @@
 //
 
 #include <string>
-#include <ctime>
-#include <iomanip>
-#include <sstream>
+//#include <ctime>
+//#include <iomanip>
+//#include <sstream>
+//#include <utility>
 
 using namespace std;
 
@@ -13,7 +14,6 @@ using namespace std;
 #define PASSWORDMANAGER_DATABASE_H
 
 namespace DB {
-
     class UserEntity {
     private:
         string first_name;
@@ -53,26 +53,75 @@ namespace DB {
     };
 
     class Pass {
-    private:
+    public:
         string password;
         time_t created_at;
-        time_t update_at;
+        time_t updated_at;
         time_t* deleted_at;
         string user_id;
+        string id;
+
+    public:
+        Pass(string  pwd, string  user)
+                : password(std::move(pwd)), user_id(std::move(user)), deleted_at(nullptr) {
+            created_at = time(nullptr);
+            updated_at = created_at;
+        }
+
+        virtual ~Pass() {
+            delete deleted_at;
+        }
+
+        // Common function for all passes (could be overridden in derived classes)
+        [[nodiscard]] virtual string to_string() const;
     };
 
-    class WebPass: Pass {
+    class WebPass: public Pass {
     public:
         string url;
+
+        WebPass(const string& pwd, const string& user, string  url_)
+                : Pass(pwd, user), url(std::move(url_)) {};
+
+        [[nodiscard]] string to_string() const override {
+            cout << "DesktopPass with generic data" << endl;
+            return "WEB_PASSWORD:";
+        }
+
+        static WebPass from_string(string& str) {
+
+        }
     };
 
-    class GamePass: Pass {
+    class GamePass: public Pass {
     public:
         string developer;
+
+        GamePass(const string& pwd, const string& user, string  dev)
+                : Pass(pwd, user), developer(std::move(dev)) {}
+
+        [[nodiscard]] string to_string() const override {
+            cout << "DesktopPass with generic data" << endl;
+            return "GAME_PASSWORD:";
+        }
+
+        static GamePass from_string(string& str) {
+
+        }
     };
 
-    class DesktopPass: Pass {
+    class DesktopPass: public Pass {
     public:
+        DesktopPass(const string& pwd, const string& user)
+                : Pass(pwd, user) {};
+
+        [[nodiscard]] string to_string() const override {
+            return "DESKTOP_PASSWORD:";
+        }
+
+        static DesktopPass from_string(string& str) {
+
+        }
     };
 
     class User{
@@ -88,12 +137,16 @@ namespace DB {
     class Password{
     private:
         string file_name;
+        string password_temp_file = "password_temp.text";
+        string desktop_prefix = "DESKTOP:";
+        string web_prefix = "WEB:";
+        string game_prefix = "GAME:";
     public:
-        void create();
-        void update();
-        void get();
-        void get_all();
-        void delete_password();
+        Pass* create(Pass& password);
+        Pass* update(Pass& updated_password);
+        Pass* get(const string& password_id);
+        vector<Pass*> get_all(const string& user_id);
+        Pass* delete_password(const string& password_id);
     };
 }
 

@@ -3,20 +3,155 @@
 //
 #include <iostream>
 #include <fstream>
+#include <string>
+#include <vector>
 #include "database.h"
 
 using namespace std;
 
 // PASSWORD DATABASE IMPLEMENTATION
-void DB::Password::delete_password() {}
+DB::Pass* DB::Password::delete_password(const string& password_id) {
+    auto pass = this->get(password_id);
 
-void DB::Password::update(){}
+    if (pass == nullptr) {
+        return nullptr;
+    }
 
-void DB::Password::create() {}
+    //    READ THE DB FILE
+    ifstream file(file_name);
 
-void DB::Password::get() {}
+    if (!file.is_open()) {
+        cerr << "Could not open the file!" << endl;
+        return nullptr;
+    }
 
-void DB::Password::get_all() {}
+    //    CREATE A TEMP FILE TO HANDLE THE DELETING OF THE FILE
+    ofstream temp_file("password_temp_file.txt");
+
+    string line;
+    bool found = false;
+
+    while (getline(file, line)) {
+        if (line.find(password_id) != string::npos) {
+            found = true;
+            continue;
+        }
+        temp_file << line << endl;
+    }
+
+    file.close();
+    temp_file.close();
+
+    //  IF FOUND; DELETE THE DB FILE  AND RENAME THE TEMP_FILE TO THE DB FILE
+    if (found) {
+        remove(file_name.c_str());
+        rename("password_temp.txt", file_name.c_str());
+    } else {
+        remove("password_temp.txt");
+    }
+
+    return pass;
+}
+
+DB::Pass* DB::Password::update(DB::Pass& updated_password){
+    auto pass = this->get(updated_password.id);
+
+    if (pass == nullptr) {
+        return nullptr;
+    }
+
+    auto updated = this->create(updated_password);
+
+    if (updated == nullptr) {
+        return nullptr;
+    }
+
+    return updated;
+}
+
+DB::Pass* DB::Password::create(DB::Pass& password) {
+    ofstream file(file_name, ios::app);
+
+    if (!file.is_open()) {
+        cerr << "CANNOT OPEN FILE" << endl;
+        return nullptr;
+    }
+
+    const string& password_string = password.to_string();
+
+    file << password_string << endl;
+
+    file.close();
+
+    return &password;
+}
+
+DB::Pass* DB::Password::get(const string& password_id) {
+    ifstream file(file_name);
+    DB::Pass* password = nullptr;
+
+    if (!file.is_open()) {
+        cerr << "CANNOT OPEN FILE" << endl;
+        return nullptr;
+    }
+
+    string line;
+
+    while (getline(file, line)) {
+        if (line.find(password_id) != string::npos) {
+            if (line.compare(0, desktop_prefix.size(), desktop_prefix) == 0) {
+                // a desktop application
+                auto result = DB::DesktopPass::from_string(line);
+                password = new DesktopPass(result);
+            } else if (line.compare(0, game_prefix.size(), game_prefix) == 0) {
+                // game app
+                auto result = DB::GamePass::from_string(line);
+                password = new GamePass(result);
+            } else if ((line.compare(0, web_prefix.size(), web_prefix) == 0)) {
+                auto result = DB::WebPass::from_string(line);
+                password = new WebPass(result);
+            }
+            break;
+        }
+    }
+
+    file.close();
+
+    return password;
+}
+
+vector<DB::Pass*> DB::Password::get_all(const string& user_id) {
+    ifstream file(file_name);
+    vector<DB::Pass*> passwords = {};
+
+    if (!file.is_open()) {
+        cerr << "CANNOT OPEN FILE" << endl;
+        return {};
+    }
+
+    string line;
+
+    while (getline(file, line)) {
+        if (line.find(user_id) != string::npos) {
+            if (line.compare(0, desktop_prefix.size(), desktop_prefix) == 0) {
+                // a desktop application
+                auto result = DB::DesktopPass::from_string(line);
+                passwords.push_back(new DesktopPass(result));
+            } else if (line.compare(0, game_prefix.size(), game_prefix) == 0) {
+                // game app
+                auto result = DB::GamePass::from_string(line);
+                passwords.push_back(new GamePass(result));
+            } else if ((line.compare(0, web_prefix.size(), web_prefix) == 0)) {
+                auto result = DB::WebPass::from_string(line);
+                passwords.push_back(new WebPass(result));
+            }
+        }
+    }
+
+    file.close();
+
+    return passwords;
+}
 
 // USER DATABASE IMPLEMENTATION
 DB::UserEntity* DB::User::delete_user(const string& user_id) {
@@ -42,7 +177,7 @@ DB::UserEntity* DB::User::delete_user(const string& user_id) {
     }
 
     //    CREATE A TEMP FILE TO HANDLE THE DELETING OF THE FILE
-    ofstream temp_file("temp.txt");
+    ofstream temp_file("user_temp.txt");
 
     string line;
     bool found = false;
@@ -61,9 +196,9 @@ DB::UserEntity* DB::User::delete_user(const string& user_id) {
     //  IF FOUND; DELETE THE DB FILE  AND RENAME THE TEMP_FILE TO THE DB FILE
     if (found) {
         remove(file_name.c_str());
-        rename("temp.txt", file_name.c_str());
+        rename("user_temp.txt", file_name.c_str());
     } else {
-        remove("temp.txt");
+        remove("user_temp.txt");
     }
 
     return user;
