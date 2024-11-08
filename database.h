@@ -79,7 +79,7 @@ namespace DB {
     public:
         string url;
 
-        WebPass(const string& pwd, const string& user, string  url_)
+        WebPass()
                 : Pass(pwd, user), url(std::move(url_)) {};
 
         [[nodiscard]] string to_string() const override {
@@ -96,8 +96,8 @@ namespace DB {
     public:
         string developer;
 
-        GamePass(const string& pwd, const string& user, string  dev)
-                : Pass(pwd, user), developer(std::move(dev)) {}
+        GamePass()
+                : Pass(pwd, user), developer(std::move(dev)) {};
 
         [[nodiscard]] string to_string() const override {
             cout << "DesktopPass with generic data" << endl;
@@ -111,7 +111,7 @@ namespace DB {
 
     class DesktopPass: public Pass {
     public:
-        DesktopPass(const string& pwd, const string& user)
+        DesktopPass()
                 : Pass(pwd, user) {};
 
         [[nodiscard]] string to_string() const override {
