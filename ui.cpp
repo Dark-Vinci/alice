@@ -4,10 +4,31 @@
 
 #include "ui.h"
 
+void Terminal::print_options() {
+    cout << "INPUT NUMBER <1 - 9> TO PERFORM THE OPERATIONS BELOW" << endl;
+    //   User related actions
+    cout << "0> Login To User Account" << endl;
+    cout << "1> Create User Account" << endl;
+    cout << "2> Update User Account" << endl;
+    cout << "3> Delete User Account" << endl;
+    cout << "4> Get User Details" << endl;
+
+    //    Password related actions
+    cout << "5> Create Web password" << endl;
+    cout << "6> Create Desktop password" << endl;
+    cout << "7> Create Game password" << endl;
+    cout << "8> Get User Password" << endl;
+    cout << "9> Get All User Password" << endl;
+    cout << "10> Search User password" << endl;
+    cout << "11> Delete Password By NAME" << endl;
+    cout << "12> Update Password By NAME" << endl;
+}
+
 void Terminal::start() {
     cout << "WELCOME TO THE TERMINAL PASSWORD MANAGER" << endl;
 
     while (true) {
+        print_options();
         int typ;
 
         cin >> typ;

@@ -12,6 +12,7 @@ using namespace std;
 class Terminal{
 private:
     Controller::App application;
+    void print_options();
 public:
     Terminal() {
         cout << "--------INITIALIZING THE TERMINAL APPLICATION--------" << endl;

@@ -62,20 +62,19 @@ string Utils::Crypto::encode(const string& password) {
     return morse_string.str();
 }
 
-string Utils::Crypto::hash(const string password) {
+string Utils::Crypto::hash(const string& password) {
     return "*******HASHED*******";
 }
 
-string Utils::Crypto::generate_random_password() {
+string Utils::Crypto::generate_random_password(const int length) {
     const char from_pool[] = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-    const int password_length = 12;
     string generated_password;
 
     random_device rd;
     mt19937 generator(rd());
     uniform_int_distribution<int> distribution(0, sizeof(from_pool) - 2);
 
-    for (int i = 0; i < password_length; ++i) {
+    for (int i = 0; i < length; ++i) {
         generated_password += from_pool[distribution(generator)];
     }
 
