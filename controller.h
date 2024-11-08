@@ -20,11 +20,12 @@ namespace Controller {
         string update_user();
         string login();
 
-        string create_password();
-        string update_password();
-        string delete_password();
-        string get_user_passwords();
-        string get_password();
+        string create_password(string& token, string* URL, string& username, string& password, string& name, string* developer);
+        string update_password(string& token, string* URL, string* username, string* password, string* name, string* developer);
+        string delete_password(string& token, string& pass_id);
+        string get_user_passwords(string& token, string& user_id);
+        string get_password(string& token, string& pass_id);
+        string search_password(string& token, string& text);
     };
 }
 

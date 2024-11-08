@@ -39,7 +39,13 @@ DB::UserEntity* Service::User::get(string& user_id) {
         return nullptr;
     }
 
-    return this->database.get(user_id);
+    auto user = this->database.get(user_id);
+
+    if (user != nullptr) {
+        user->password = "*************";
+    }
+
+    return user;
 }
 
 DB::UserEntity* Service::User::delete_(string& user_id, bool is_admin) {
@@ -138,6 +144,10 @@ DB::Pass* Service::Password::get(const string& id) {
 
     auto result = this->database.get(id);
 
+    if (result != nullptr) {
+        result->password = this->crypto.decode(result->password);
+    }
+
     return result;
 }
 
@@ -147,12 +157,12 @@ vector<DB::Pass*> Service::Password::get_all_user(string& user_id) {
         return {};
     }
 
-    auto result = this->get_all_user(user_id);
+    auto result = this->database.get_all(user_id);
 
     return result;
 }
 
-DB::Pass* Service::Password::delete_(const string& pass_id, const bool is_admin, const string& user_id) {
+DB::Pass* Service::Password::delete_(const string& pass_id, bool is_admin, const string& user_id) {
     if (pass_id.empty()) {
         return nullptr;
     }

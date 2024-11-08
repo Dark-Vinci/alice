@@ -25,18 +25,11 @@ namespace Service {
         DB::Password database;
         Utils::Crypto crypto;
     public:
-        //overload for desktop
-//        DB::Pass* create(string& name, string& username, string& password, string& user_id, string& token);
-//        // overload for game
-//        DB::Pass* create(string& name,string& username, string& developer, string& password, string& user_id, string token);
-//        //    overload for web
-//        DB::Pass* create(string name, string& username, string& URL, string& password, string& user_id, string& token);
-
         DB::Pass* create(DB::GamePass pass, bool is_admin, string& user_id);
         DB::Pass* create(DB::WebPass pass, bool is_admin, string& user_id);
         DB::Pass* create(DB::DesktopPass pass, bool is_admin, string& user_id);
 
-        DB::Pass* delete_(const string& pass_id, const bool is_admin, const string& user_id);
+        DB::Pass* delete_(const string& pass_id, bool is_admin, const string& user_id);
 
         DB::Pass* update(DB::GamePass pass, bool is_admin, string& user_id);
         DB::Pass* update(DB::WebPass pass, bool is_admin, string& user_id);
