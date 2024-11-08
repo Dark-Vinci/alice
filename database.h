@@ -23,11 +23,13 @@ namespace DB {
         time_t update_at;
         time_t* deleted_at;
         bool is_admin;
+    public:
+        string id;
 
     public:
-        UserEntity(bool is_admin, string first_name);
+        UserEntity();
 
-        string to_string() {
+        const string to_string() {
             string result;
 
             result += "FirstName:" + first_name + ",";
@@ -43,6 +45,10 @@ namespace DB {
             result += "IsAdmin:" + std::to_string(is_admin);
 
             return result;
+        }
+
+        static UserEntity from_string(string& user_string) {
+//            return ;
         }
     };
 
@@ -73,10 +79,10 @@ namespace DB {
     private:
         string file_name;
     public:
-        void create(const UserEntity& user);
-        void delete_user(const string& user_id);
-        void update(const string& user_id, const UserEntity& updated);
-        void get(const string& user_id);
+        UserEntity* create(UserEntity& user);
+        UserEntity* delete_user(const string& user_id);
+        UserEntity* update(const string& user_id, UserEntity& updated);
+        UserEntity* get(const string& user_id);
     };
 
     class Password{

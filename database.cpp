@@ -18,27 +18,114 @@ void DB::Password::get() {}
 
 void DB::Password::get_all() {}
 
-//void create(const UserEntity& user);
-//void delete_user(const string& user_id);
-//void update(const string& user_id, const UserEntity& updated);
-//void get(const string& user_id);
-
 // USER DATABASE IMPLEMENTATION
-void DB::User::delete_user() {}
+DB::UserEntity* DB::User::delete_user(const string& user_id) {
+    if (user_id.empty()) {
+        cout << "USER ID IS EMPTY" << endl;
+        return nullptr;
+    }
 
-void DB::User::create(const UserEntity& user){
-    std::ifstream file(file_name, ios::app);
+    //     CHECK IF THE USER IS STORED
+    auto user = this->get(user_id);
+
+    if (user == nullptr) {
+        cout << "USER NOT FOUND" << endl;
+        return nullptr;
+    }
+
+    //    READ THE DB FILE
+    ifstream file(file_name);
+
+    if (!file.is_open()) {
+        cerr << "Could not open the file!" << endl;
+        return nullptr;
+    }
+
+    //    CREATE A TEMP FILE TO HANDLE THE DELETING OF THE FILE
+    ofstream temp_file("temp.txt");
+
+    string line;
+    bool found = false;
+
+    while (getline(file, line)) {
+        if (line.find(user_id) != string::npos) {
+            found = true;
+            continue;
+        }
+        temp_file << line << endl;
+    }
+
+    file.close();
+    temp_file.close();
+
+    //  IF FOUND; DELETE THE DB FILE  AND RENAME THE TEMP_FILE TO THE DB FILE
+    if (found) {
+        remove(file_name.c_str());
+        rename("temp.txt", file_name.c_str());
+    } else {
+        remove("temp.txt");
+    }
+
+    return user;
+}
+
+DB::UserEntity* DB::User::create(UserEntity& user){
+    ofstream file(file_name, ios::app);
 
     if (!file.is_open()) {
         cerr << "CANNOT OPEN FILE" << endl;
-        return;
+        return nullptr;
     }
 
+     const string& user_string = user.to_string();
 
+    file << user_string << endl;
 
     file.close();
+
+    return &user;
 }
 
-void DB::User::get() {}
+DB::UserEntity* DB::User::get(const string& user_id) {
+    ifstream file(file_name);
+    DB::UserEntity* user = nullptr;
 
-void DB::User::update() {}
+    if (!file.is_open()) {
+        cerr << "CANNOT OPEN FILE" << endl;
+        return nullptr;
+    }
+
+    string line;
+
+    while (getline(file, line)) {
+        DB::UserEntity temp_user = UserEntity::from_string(line);
+
+        if (temp_user.id == user_id) {
+            user = new DB::UserEntity(temp_user);
+            break;
+        }
+    }
+
+    file.close();
+
+    return user;
+}
+
+DB::UserEntity* DB::User::update(const string& user_id, UserEntity& updated) {
+    //   DELETE USER -> CREATE THE NEW USER
+    auto old_user = this->delete_user(user_id);
+
+    if (old_user == nullptr) {
+        cout << "CANNOT UPDATE A USER THAT IS NOT CREATED" << endl;
+        return nullptr;
+    }
+
+    auto new_user = this->create(updated);
+
+    if (new_user == nullptr) {
+        cout << "NOT UPDATED" << endl;
+        return nullptr;
+    }
+
+    return new_user;
+}
