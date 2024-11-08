@@ -18,6 +18,7 @@ namespace Controller {
         string get_user();
         string delete_user();
         string update_user();
+        string login();
 
         string create_password();
         string update_password();

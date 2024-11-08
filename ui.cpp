@@ -1,7 +1,6 @@
 //
 // Created by Ademola Olutomiwa Abraham on 07/11/2024.
 //
-
 #include "ui.h"
 
 void Terminal::print_options() {
@@ -29,14 +28,20 @@ void Terminal::start() {
 
     while (true) {
         print_options();
-        int typ;
 
+        int typ;
         cin >> typ;
 
         switch (typ) {
+            case 0: {
+                string result = application.login();
+                cout << result << endl;
+                break;
+            }
+
             case 1: {
-                auto a = application.delete_user();
-                cout << a << endl;
+                string result = application.delete_user();
+                cout << result << endl;
                 break;
             }
 
@@ -93,10 +98,24 @@ void Terminal::start() {
                 break;
             }
 
+            case 11: {
+                string result = application.delete_password();
+                cout << result << endl;
+                break;
+            }
+
+            case 12: {
+                string result = application.update_password();
+                cout << result << endl;
+                break;
+            }
+
             default: {
                 cout << "TERMINATING APPLICATION" << endl;
                 return;
             }
         }
+
+        cout << "___________________________________________________________________________" << endl;
     }
 }
