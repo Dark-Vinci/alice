@@ -27,9 +27,7 @@ namespace DB {
         string id;
 
     public:
-        UserEntity();
-
-        const string to_string() {
+        string to_string() {
             string result;
 
             result += "FirstName:" + first_name + ",";
