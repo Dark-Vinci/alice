@@ -32,6 +32,7 @@ namespace Utils {
         string decode(const string& encoded_string);
         string generate_random_password(const int length);
         string hash(const string& password);
+        string generate_id();
 
         Crypto() {
             for (const auto& pair : this->morse_map) {

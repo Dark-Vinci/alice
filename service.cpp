@@ -11,15 +11,61 @@
 using namespace std;
 
 // USER SERVICE IMPLEMENTATION
-DB::UserEntity Service::User::update_user() {}
+DB::UserEntity* Service::User::update(DB::UserEntity updated, bool is_admin, string& user_id, bool password_changed) {
+    if (updated.id.empty()) {
+        return nullptr;
+    }
 
-DB::UserEntity Service::User::delete_user() {}
+    auto user = this->database.get(updated.id);
 
-vector<DB::UserEntity> Service::User::get_all() {}
+    if (user == nullptr) {
+        return nullptr;
+    }
 
-void Service::User::delete_user(string user_id) {}
+    if (user->id != user_id && !is_admin) {
+        cout << "ACTION NOT PERMITTED" << endl;
+        return nullptr;
+    }
 
-DB::UserEntity Service::User::create_account() {}
+    if (password_changed) {
+        updated.password = this->crypto.hash(updated.password);
+    }
+
+    return this->database.update(updated.id, updated);
+}
+
+DB::UserEntity* Service::User::get(string& user_id) {
+    if (user_id.empty()) {
+        return nullptr;
+    }
+
+    return this->database.get(user_id);
+}
+
+DB::UserEntity* Service::User::delete_(string& user_id, bool is_admin) {
+    if (user_id.empty()) {
+        return nullptr;
+    }
+
+    auto user = this->database.get(user_id);
+
+    if (user == nullptr) {
+        return nullptr;
+    }
+
+    auto result = this->database.delete_user(user_id);
+
+    return result;
+}
+
+DB::UserEntity* Service::User::create(DB::UserEntity user) {
+    user.id = this->crypto.generate_id();
+    user.password = this->crypto.hash(user.password);
+
+    auto result = this->database.create(user);
+
+    return result;
+}
 
 // PASSWORD SERVICE IMPLEMENTATION
 DB::Pass* Service::Password::update(DB::GamePass pass, bool is_admin, string& user_id) {

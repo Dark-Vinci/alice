@@ -80,3 +80,7 @@ string Utils::Crypto::generate_random_password(const int length) {
 
     return generated_password;
 }
+
+string Utils::Crypto::generate_id() {
+    return generate_random_password(9);
+}

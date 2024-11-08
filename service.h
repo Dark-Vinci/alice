@@ -14,9 +14,9 @@ namespace Service {
         DB::User database;
         Utils::Crypto crypto;
     public:
-        DB::UserEntity* create();
-        DB::UserEntity* delete_();
-        DB::UserEntity* update();
+        DB::UserEntity* create(DB::UserEntity user);
+        DB::UserEntity* delete_(string& user_id, bool is_admin);
+        DB::UserEntity* update(DB::UserEntity updated, bool is_admin, string& user_id, bool password_changed);
         DB::UserEntity* get(string& user_id);
     };
 

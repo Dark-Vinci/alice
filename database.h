@@ -15,7 +15,7 @@ using namespace std;
 
 namespace DB {
     class UserEntity {
-    private:
+    public:
         string first_name;
         string last_name;
         string password;
@@ -23,7 +23,6 @@ namespace DB {
         time_t update_at;
         time_t* deleted_at;
         bool is_admin;
-    public:
         string id;
 
     public:
