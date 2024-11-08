@@ -2,13 +2,14 @@
 // Created by Ademola Olutomiwa Abraham on 07/11/2024.
 //
 
-#include "service.h";
-#include "database.h";
-#include <vector>;
-#include <string>;
+#include <vector>
+#include <string>
+#include "service.h"
+#include "database.h"
 
 using namespace std;
 
+// USER SERVICE IMPLEMENTATION
 DB::UserEntity Service::User::update_user() {}
 
 DB::UserEntity Service::User::delete_user() {}
@@ -20,7 +21,7 @@ void Service::User::delete_user(string user_id) {}
 DB::UserEntity Service::User::create_account() {}
 
 
-// PASSWORD SERVICE
+// PASSWORD SERVICE IMPLEMENTATION
 DB::Pass Service::Password::update(string id) {}
 
 DB::Pass Service::Password::get(string id, string user_id) {}

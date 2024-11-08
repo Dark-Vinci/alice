@@ -67,6 +67,24 @@ build CMakeFiles/passwordmanager.dir/ui.cpp.o: CXX_COMPILER__passwordmanager_uns
   OBJECT_DIR = CMakeFiles/passwordmanager.dir
   OBJECT_FILE_DIR = CMakeFiles/passwordmanager.dir
 
+build CMakeFiles/passwordmanager.dir/database.cpp.o: CXX_COMPILER__passwordmanager_unscanned_Debug /Users/ademolaolutomiwaabraham/CLionProjects/passwordmanager/database.cpp || cmake_object_order_depends_target_passwordmanager
+  DEP_FILE = CMakeFiles/passwordmanager.dir/database.cpp.o.d
+  FLAGS = -g -std=gnu++20 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.2.sdk -fcolor-diagnostics
+  OBJECT_DIR = CMakeFiles/passwordmanager.dir
+  OBJECT_FILE_DIR = CMakeFiles/passwordmanager.dir
+
+build CMakeFiles/passwordmanager.dir/service.cpp.o: CXX_COMPILER__passwordmanager_unscanned_Debug /Users/ademolaolutomiwaabraham/CLionProjects/passwordmanager/service.cpp || cmake_object_order_depends_target_passwordmanager
+  DEP_FILE = CMakeFiles/passwordmanager.dir/service.cpp.o.d
+  FLAGS = -g -std=gnu++20 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.2.sdk -fcolor-diagnostics
+  OBJECT_DIR = CMakeFiles/passwordmanager.dir
+  OBJECT_FILE_DIR = CMakeFiles/passwordmanager.dir
+
+build CMakeFiles/passwordmanager.dir/util.cpp.o: CXX_COMPILER__passwordmanager_unscanned_Debug /Users/ademolaolutomiwaabraham/CLionProjects/passwordmanager/util.cpp || cmake_object_order_depends_target_passwordmanager
+  DEP_FILE = CMakeFiles/passwordmanager.dir/util.cpp.o.d
+  FLAGS = -g -std=gnu++20 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.2.sdk -fcolor-diagnostics
+  OBJECT_DIR = CMakeFiles/passwordmanager.dir
+  OBJECT_FILE_DIR = CMakeFiles/passwordmanager.dir
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target passwordmanager
@@ -75,7 +93,7 @@ build CMakeFiles/passwordmanager.dir/ui.cpp.o: CXX_COMPILER__passwordmanager_uns
 #############################################
 # Link the executable passwordmanager
 
-build passwordmanager: CXX_EXECUTABLE_LINKER__passwordmanager_Debug CMakeFiles/passwordmanager.dir/main.cpp.o CMakeFiles/passwordmanager.dir/controller.cpp.o CMakeFiles/passwordmanager.dir/ui.cpp.o
+build passwordmanager: CXX_EXECUTABLE_LINKER__passwordmanager_Debug CMakeFiles/passwordmanager.dir/main.cpp.o CMakeFiles/passwordmanager.dir/controller.cpp.o CMakeFiles/passwordmanager.dir/ui.cpp.o CMakeFiles/passwordmanager.dir/database.cpp.o CMakeFiles/passwordmanager.dir/service.cpp.o CMakeFiles/passwordmanager.dir/util.cpp.o
   FLAGS = -g -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.2.sdk
   OBJECT_DIR = CMakeFiles/passwordmanager.dir
   POST_BUILD = :

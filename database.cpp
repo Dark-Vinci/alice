@@ -2,9 +2,9 @@
 // Created by Ademola Olutomiwa Abraham on 07/11/2024.
 //
 
+#include "database.h"
 
-#include "database.h";
-
+// PASSWORD DATABASE IMPLEMENTATION
 void DB::Password::delete_password() {}
 
 void DB::Password::update(){}

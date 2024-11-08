@@ -2,8 +2,8 @@
 // Created by Ademola Olutomiwa Abraham on 07/11/2024.
 //
 
-#include "database.h";
-#include "util.h";
+#include "database.h"
+#include "util.h"
 
 #ifndef PASSWORDMANAGER_SERVICE_H
 #define PASSWORDMANAGER_SERVICE_H

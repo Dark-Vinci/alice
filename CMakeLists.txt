@@ -9,4 +9,7 @@ add_executable(passwordmanager main.cpp
         controller.h
         util.h
         controller.cpp
-        ui.cpp)
+        ui.cpp
+        database.cpp
+        service.cpp
+        util.cpp)

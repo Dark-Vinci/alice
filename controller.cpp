@@ -2,7 +2,7 @@
 // Created by Ademola Olutomiwa Abraham on 07/11/2024.
 //
 
-#include "controller.h";
+#include "controller.h"
 
 string Controller::App::create_password() {
     return "USER PASSWORD";
