@@ -7,15 +7,11 @@
 
 using namespace std;
 
-string Controller::App::create_password() {
-    return "USER PASSWORD";
-}
-
 string Controller::App::create_user_account() {
     return " CREATED USER ACCOUNT ";
 }
 
-string Controller::App::delete_user(string &token, std::string *user_id) {
+string Controller::App::delete_user(string &token, string*user_id) {
     if (token.empty()) {
         return TOKEN_NOT_PROVIDED;
     }
@@ -39,7 +35,6 @@ string Controller::App::get_user(string& token, string* user_id) {
     }
 
     auto token_pair = this->extract_token(token);
-
     if (user_id == nullptr) {
         user_id = &token_pair.first;
     }
@@ -53,6 +48,20 @@ string Controller::App::get_user(string& token, string* user_id) {
 }
 
 string Controller::App::update_user() {}
+
+string Controller::App::create_password(string& token, string& typ, string* URL, string& username, string& password, string& name, string* developer) {
+    if (token.empty()) {
+        return TOKEN_NOT_PROVIDED;
+    }
+
+    auto token_pair = this->extract_token(token);
+
+    if (typ == "WEB") {
+
+    }
+
+    return "USER PASSWORD";
+}
 
 string Controller::App::get_password(string& token, string& pass_id) {
     if (token.empty()) {
