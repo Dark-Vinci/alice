@@ -32,17 +32,17 @@ namespace Service {
 //        //    overload for web
 //        DB::Pass* create(string name, string& username, string& URL, string& password, string& user_id, string& token);
 
-        DB::Pass* create(DB::GamePass pass, string& is_admin, string& user_id);
-        DB::Pass* create(DB::WebPass pass, string& is_admin, string& user_id);
-        DB::Pass* create(DB::DesktopPass pass, string& is_admin, string& user_id);
+        DB::Pass* create(DB::GamePass pass, bool is_admin, string& user_id);
+        DB::Pass* create(DB::WebPass pass, bool is_admin, string& user_id);
+        DB::Pass* create(DB::DesktopPass pass, bool is_admin, string& user_id);
 
-        DB::Pass* delete_(string& pass_id, string& is_admin, string& user_id);
+        DB::Pass* delete_(const string& pass_id, const bool is_admin, const string& user_id);
 
-        DB::Pass* update(DB::GamePass pass, string& is_admin, string& user_id);
-        DB::Pass* update(DB::WebPass pass, string& is_admin, string& user_id);
-        DB::Pass* update(DB::DesktopPass pass, string& is_admin, string& user_id);
+        DB::Pass* update(DB::GamePass pass, bool is_admin, string& user_id);
+        DB::Pass* update(DB::WebPass pass, bool is_admin, string& user_id);
+        DB::Pass* update(DB::DesktopPass pass, bool is_admin, string& user_id);
 
-        DB::Pass* get(string id);
+        DB::Pass* get(const string& id);
         vector<DB::Pass*> get_all_user(string& user_id);
     };
 }
