@@ -36,7 +36,10 @@ void Terminal::start() {
             case 0: {
                 string username, password;
 
+                cout << USERNAME;
                 cin >> username;
+
+                cout << PASSWORD;
                 cin >> password;
 
                 string result = this->application.login(username, password);
@@ -47,7 +50,10 @@ void Terminal::start() {
             case 1: {
                 string token, user_id;
 
+                cout << TOKEN;
                 cin >> token;
+
+                cout << USER_ID;
                 cin >> user_id;
 
                 string result = application.delete_user(token, &user_id);
@@ -58,8 +64,13 @@ void Terminal::start() {
             case 2: {
                 string username, password, token;
 
+                cout << USERNAME;
                 cin >> username;
+
+                cout << PASSWORD;
                 cin >> password;
+
+                cout << TOKEN;
                 cin >> token;
 
                 string result = application.create_user_account(&token, username, password, !token.empty());
@@ -69,10 +80,15 @@ void Terminal::start() {
             case 3: {
                 string user_id, token;
 
+                cout << TOKEN;
                 cin >> token;
+
+                cout << USER_ID;
                 cin >> user_id;
 
-                string result = application.get_user(token, &user_id);
+                string* user_id_prt = user_id.empty() ? nullptr : &user_id;
+
+                string result = application.get_user(token, user_id_prt);
                 cout << result << endl;
                 break;
             }
@@ -80,39 +96,65 @@ void Terminal::start() {
             case 4: {
                 string user_id, token, username, password;
 
+                cout << TOKEN;
                 cin >> token;
+
+                cout << USER_ID;
                 cin >> user_id;
+
+                cout << USERNAME;
                 cin >> username;
+
+                cout << PASSWORD;
                 cin >> password;
 
-                string result = application.update_user(token, &user_id, &username, &password);
+                string* user_id_ptr = user_id.empty() ? nullptr : &user_id;
+                string* password_ptr = password.empty() ? nullptr : &password;
+                string* username_ptr = username.empty() ? nullptr : &username;
+
+                string result = application.update_user(token, username_ptr, user_id_ptr, password_ptr);
                 cout << result << endl;
                 break;
             }
 
             case 5: {
-                string user_id, token, username, password, typ, URL, developer, name;
+                string user_id, token, username, password, type, URL_, developer, name;
 
+                cout << TOKEN;
                 cin >> token;
+
+                cout << USER_ID;
                 cin >> user_id;
+
+                cout << USERNAME;
                 cin >> username;
+
+                cout << PASSWORD;
                 cin >> password;
-                cin >> typ;
-                cin >> URL;
+
+                cout << TYPE;
+                cin >> type;
+
+                cout << URL;
+                cin >> URL_;
+
+                cout << DEVELOPER;
                 cin >> developer;
+
+                cout << NAME;
                 cin >> name;
 
-                string* URL_ptr = URL.empty() ? nullptr : &URL;
+                string* URL_ptr = URL_.empty() ? nullptr : &URL_;
                 string* developer_ptr = developer.empty() ? nullptr : &developer;
 
-                string result = application.create_password(token, typ, URL_ptr, username, password, name, developer_ptr);
+                string result = this->application.create_password(token, type, URL_ptr, username, password, name, developer_ptr);
 
                 cout << result << endl;
                 break;
             }
 
             case 6: {
-                string user_id, token, username, password, typ, URL, developer, name, id;
+                string user_id, token, username, password, type, URL, developer, name, id;
 
                 cin >> token;
                 cin >> user_id;
@@ -131,43 +173,63 @@ void Terminal::start() {
                 string* password_ptr = password.empty() ? nullptr : &password;
                 string* user_id_ptr = user_id.empty() ? nullptr : &user_id;
 
-                string result = application.update_password(token, typ, user_id_ptr, id, URL_ptr, username_ptr, password_ptr, name_ptr, developer_ptr);
+                string result = this->application.update_password(token, type, user_id_ptr, id, URL_ptr, username_ptr, password_ptr, name_ptr, developer_ptr);
                 cout << result << endl;
                 break;
             }
 
             case 7: {
-                string result = application.create_password();
+                string token, password_id;
+
+                cout << TOKEN;
+                cin >> token;
+
+                cout << PASSWORD_ID;
+                cin >> password_id;
+
+                string result = application.delete_password(token, password_id);
                 cout << result << endl;
                 break;
             }
 
             case 8: {
-                string result = application.update_user();
+                string token, user_id;
+
+                cout << TOKEN;
+                cin >> token;
+
+                cout << USER_ID;
+                cin >> user_id;
+
+                string result = application.get_user_passwords(token, user_id);
                 cout << result << endl;
                 break;
             }
 
             case 9: {
-                string result = application.delete_password();
+                string token, password_id;
+
+                cout << TOKEN;
+                cin >> token;
+
+                cout << PASSWORD_ID;
+                cin >> password_id;
+
+                string result = application.get_password(token, password_id);
                 cout << result << endl;
                 break;
             }
 
             case 10: {
-                string result = application.get_password();
-                cout << result << endl;
-                break;
-            }
+                string token, text;
 
-            case 11: {
-                string result = application.delete_password();
-                cout << result << endl;
-                break;
-            }
+                cout << TOKEN;
+                cin >> token;
 
-            case 12: {
-                string result = application.update_password();
+                cout << TEXT;
+                cin >> text;
+
+                string result = application.search_password(token, text);
                 cout << result << endl;
                 break;
             }
@@ -178,6 +240,6 @@ void Terminal::start() {
             }
         }
 
-        cout << "___________________________________________________________________________" << endl;
+        cout << "__________________________________________________________________________________________" << endl;
     }
 }
