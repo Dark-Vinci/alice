@@ -9,6 +9,22 @@ using namespace std;
 #define PASSWORDMANAGER_UTIL_H
 
 namespace Utils {
+    std::vector<std::string> split(const std::string& str, char delimiter) {
+        std::vector<std::string> tokens;
+        std::stringstream ss(str);
+        std::string token;
+
+        while (std::getline(ss, token, delimiter)) {
+            tokens.push_back(token);
+        }
+
+        return tokens;
+    }
+
+    time_t stringToTimeT(const std::string& timeStr) {
+        return static_cast<time_t>(std::stoll(timeStr));
+    }
+
     class Crypto {
     private:
         string encoding_key;
@@ -30,7 +46,7 @@ namespace Utils {
     public:
         string encode(const string& password);
         string decode(const string& encoded_string);
-        string generate_random_password(const int length);
+        string generate_random_password(int length);
         string hash(const string& password);
         string generate_id();
 

@@ -101,15 +101,12 @@ DB::Pass* DB::Password::get(const string& password_id) {
         if (line.find(password_id) != string::npos) {
             if (line.compare(0, desktop_prefix.size(), desktop_prefix) == 0) {
                 // a desktop application
-                auto result = DB::DesktopPass::from_string(line);
-                password = new DesktopPass(result);
+                password = DB::DesktopPass::from_string(line);
             } else if (line.compare(0, game_prefix.size(), game_prefix) == 0) {
                 // game app
-                auto result = DB::GamePass::from_string(line);
-                password = new GamePass(result);
+                password = DB::GamePass::from_string(line);
             } else if ((line.compare(0, web_prefix.size(), web_prefix) == 0)) {
-                auto result = DB::WebPass::from_string(line);
-                password = new WebPass(result);
+                password = DB::WebPass::from_string(line);
             }
             break;
         }
@@ -136,14 +133,14 @@ vector<DB::Pass*> DB::Password::get_all(const string& user_id) {
             if (line.compare(0, desktop_prefix.size(), desktop_prefix) == 0) {
                 // a desktop application
                 auto result = DB::DesktopPass::from_string(line);
-                passwords.push_back(new DesktopPass(result));
+                passwords.push_back(result);
             } else if (line.compare(0, game_prefix.size(), game_prefix) == 0) {
                 // game app
                 auto result = DB::GamePass::from_string(line);
-                passwords.push_back(new GamePass(result));
+                passwords.push_back(result);
             } else if ((line.compare(0, web_prefix.size(), web_prefix) == 0)) {
                 auto result = DB::WebPass::from_string(line);
-                passwords.push_back(new WebPass(result));
+                passwords.push_back(result);
             }
         }
     }
@@ -233,10 +230,10 @@ DB::UserEntity* DB::User::get(const string& user_id) {
     string line;
 
     while (getline(file, line)) {
-        DB::UserEntity temp_user = UserEntity::from_string(line);
+        DB::UserEntity* temp_user = UserEntity::from_string(line);
 
-        if (temp_user.id == user_id) {
-            user = new DB::UserEntity(temp_user);
+        if (temp_user->id == user_id) {
+            user = temp_user;
             break;
         }
     }
@@ -258,10 +255,10 @@ DB::UserEntity* DB::User::get_user_by_username(const string& username) {
     string line;
 
     while (getline(file, line)) {
-        DB::UserEntity temp_user = UserEntity::from_string(line);
+        DB::UserEntity* temp_user = UserEntity::from_string(line);
 
-        if (temp_user.username == username) {
-            user = new DB::UserEntity(temp_user);
+        if (temp_user->username == username) {
+            user = temp_user;
             break;
         }
     }

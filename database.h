@@ -4,6 +4,7 @@
 
 #include <string>
 #include <sstream>
+#include "util.h"
 
 using namespace std;
 
@@ -13,45 +14,97 @@ using namespace std;
 namespace DB {
     class UserEntity {
     public:
-        string first_name;
-        string last_name;
         string password;
         string username;
         time_t created_at;
-        time_t update_at;
-        time_t* deleted_at;
+        time_t updated_at;
         bool is_admin;
         string id;
 
     public:
+        UserEntity();
+
         UserEntity(string& username, string& password, bool is_admin) {
             this->username = username;
             this->password = password;
             this->created_at = time(0);
-            this->update_at = time(0);
+            this->updated_at = time(0);
             this->is_admin = is_admin;
         }
 
         string to_string() {
-            string result;
+            stringstream result;
 
-            result += "FirstName:" + first_name + ",";
-            result += "LastName:" + last_name + ",";
-            result += "Password:" + password + ",";
-            result += "CreatedAt" + std::to_string(created_at) + ",";
-            result += "UpdatedAt" + std::to_string(update_at) + ",";
+            result << "User->";
+            result << "id:" + id + ",";
+            result << "password:" + password + ",";
+            result << "username:" + password + ",";
+            result << "created_at:" + std::to_string(created_at) + ",";
+            result << "updated_at:" + std::to_string(updated_at) + ",";
+            result << "is_admin:" + std::to_string(is_admin);
 
-            if (deleted_at != nullptr) {
-                result += "DeletedAt:" + std::to_string(*deleted_at) + ",";
-            }
-
-            result += "IsAdmin:" + std::to_string(is_admin);
-
-            return result;
+            return result.str();
         }
 
-        static UserEntity from_string(string& user_string) {
-//            return ;
+        static UserEntity* from_string(string& str) {
+            string prefix = "User->";
+
+            if (!str.starts_with(prefix)) {
+                cerr << "CANNOT PARSE" << endl;
+                return nullptr;
+            }
+
+            str.erase(0, prefix.size());
+
+            auto result = Utils::split(str, ',');
+
+            auto* d = new UserEntity();
+
+            for (string& entry: result) {
+                if (entry.starts_with("updated_at:")) {
+                    string p = "updated_at:";
+
+                    entry.erase(0, p.size());
+
+                    d->updated_at = Utils::stringToTimeT(entry);
+                } else if (entry.starts_with("created_at:")) {
+                    string p = "created_at:";
+
+                    entry.erase(0, p.size());
+
+                    d->created_at = Utils::stringToTimeT(entry);
+                } else if (entry.starts_with("username:")) {
+                    string p = "username:";
+
+                    entry.erase(0, p.size());
+
+                    d->username = entry;
+                } else if (entry.starts_with("password:")) {
+                    string p = "password:";
+
+                    entry.erase(0, p.size());
+
+                    d->password = entry;
+                } else if (entry.starts_with("id:")) {
+                    string p = "id:";
+
+                    entry.erase(0, p.size());
+
+                    d->id = entry;
+                }else if (entry.starts_with("is_admin:")) {
+                    string p = "is_admin:";
+
+                    entry.erase(0, p.size());
+
+                    if (entry == "true") {
+                        d->is_admin = true;
+                    } else {
+                        d->is_admin = false;
+                    }
+                }
+            }
+
+            return d;
         }
     };
 
@@ -85,6 +138,8 @@ namespace DB {
     public:
         string url;
 
+        WebPass();
+
         WebPass(string& username, string& password, string& name, string& user_id, string& url)
                 : Pass(username, password, name, user_id), url(url) {};
 
@@ -100,15 +155,72 @@ namespace DB {
             ss << "updated_at: " + std::to_string(updated_at) + ",";
             ss << "id:" + id + ",";
             ss << "name:" + name + ",";
-            ss << "url" + url + ",";
+            ss << "url:" + url + ",";
 
             return ss.str();
         }
 
-        static WebPass from_string(string& str) {
-            stringstream ss;
+        static WebPass* from_string(string& str) {
+            string prefix = "DesktopPass->";
 
+            if (!str.starts_with(prefix)) {
+                cerr << "CANNOT PARSE" << endl;
+                return nullptr;
+            }
 
+            str.erase(0, prefix.size());
+
+            auto result = Utils::split(str, ',');
+
+            auto* d = new WebPass();
+
+            for (string& entry: result) {
+                if (entry.starts_with("updated_at:")) {
+                    string p = "updated_at:";
+
+                    entry.erase(0, p.size());
+
+                    d->updated_at = Utils::stringToTimeT(entry);
+                } else if (entry.starts_with("created_at:")) {
+                    string p = "created_at:";
+
+                    entry.erase(0, p.size());
+
+                    d->created_at = Utils::stringToTimeT(entry);
+                } else if (entry.starts_with("name:")) {
+                    string p = "name:";
+
+                    entry.erase(0, p.size());
+
+                    d->name = entry;
+                } else if (entry.starts_with("username:")) {
+                    string p = "username:";
+
+                    entry.erase(0, p.size());
+
+                    d->username = entry;
+                } else if (entry.starts_with("password:")) {
+                    string p = "password:";
+
+                    entry.erase(0, p.size());
+
+                    d->password = entry;
+                } else if (entry.starts_with("user_id:")) {
+                    string p = "user_id:";
+
+                    entry.erase(0, p.size());
+
+                    d->password = entry;
+                }else if (entry.starts_with("url:")) {
+                    string p = "url:";
+
+                    entry.erase(0, p.size());
+
+                    d->url = entry;
+                }
+            }
+
+            return d;
         }
     };
 
@@ -116,12 +228,14 @@ namespace DB {
     public:
         string developer;
 
+        GamePass();
+
         GamePass(string& username, string& password, string& name, string& user_id, string& developer)
             : Pass(username, password, name, user_id), developer(developer) {}
 
         [[nodiscard]] string to_string() const override {
             stringstream ss;
-            ss << "GamePass:";
+            ss << "GamePass->";
 
             ss << "username:" + username + ",";
             ss << "user_id:" + user_id + ",";
@@ -135,33 +249,147 @@ namespace DB {
             return ss.str();
         }
 
-        static GamePass from_string(string& str) {
+        static GamePass* from_string(string& str) {
+            string prefix = "DesktopPass->";
 
+            if (!str.starts_with(prefix)) {
+                cerr << "CANNOT PARSE" << endl;
+                return nullptr;
+            }
+
+            str.erase(0, prefix.size());
+
+            auto result = Utils::split(str, ',');
+
+            auto* d = new GamePass();
+
+            for (string& entry: result) {
+                if (entry.starts_with("updated_at:")) {
+                    string p = "updated_at:";
+
+                    entry.erase(0, p.size());
+
+                    d->updated_at = Utils::stringToTimeT(entry);
+                } else if (entry.starts_with("created_at:")) {
+                    string p = "created_at:";
+
+                    entry.erase(0, p.size());
+
+                    d->created_at = Utils::stringToTimeT(entry);
+                } else if (entry.starts_with("name:")) {
+                    string p = "name:";
+
+                    entry.erase(0, p.size());
+
+                    d->name = entry;
+                } else if (entry.starts_with("username:")) {
+                    string p = "username:";
+
+                    entry.erase(0, p.size());
+
+                    d->username = entry;
+                } else if (entry.starts_with("password:")) {
+                    string p = "password:";
+
+                    entry.erase(0, p.size());
+
+                    d->password = entry;
+                } else if (entry.starts_with("user_id:")) {
+                    string p = "user_id:";
+
+                    entry.erase(0, p.size());
+
+                    d->password = entry;
+                }else if (entry.starts_with("developer:")) {
+                    string p = "developer:";
+
+                    entry.erase(0, p.size());
+
+                    d->developer = entry;
+                }
+            }
+
+            return d;
         }
     };
 
     class DesktopPass: public Pass {
     public:
+        DesktopPass();
+
         DesktopPass(string& username, string& password, string& name, string& user_id, string& developer)
             : Pass(username, password, name, user_id) {};
 
         [[nodiscard]] string to_string() const override {
             stringstream ss;
-            ss << "DesktopPass:";
+            ss << "DesktopPass->";
 
+            ss << "id:" + id + ",";
+            ss << "name:" + name + ",";
             ss << "username:" + username + ",";
             ss << "user_id:" + user_id + ",";
             ss << "password:" + password + ",";
             ss << "created_at:" + std::to_string(created_at) + ",";
             ss << "updated_at: " + std::to_string(updated_at) + ",";
-            ss << "id:" + id + ",";
-            ss << "name:" + name + ",";
 
             return ss.str();
         }
 
-        static DesktopPass from_string(string& str) {
+        static DesktopPass* from_string(string& str) {
+            string prefix = "DesktopPass->";
 
+            if (!str.starts_with(prefix)) {
+                cerr << "CANNOT PARSE" << endl;
+                return nullptr;
+            }
+
+            str.erase(0, prefix.size());
+
+            auto result = Utils::split(str, ',');
+
+            auto* d = new DesktopPass();
+
+            for (string& entry: result) {
+                if (entry.starts_with("updated_at:")) {
+                    string p = "updated_at:";
+
+                    entry.erase(0, p.size());
+
+                    d->updated_at = Utils::stringToTimeT(entry);
+                } else if (entry.starts_with("created_at:")) {
+                    string p = "created_at:";
+
+                    entry.erase(0, p.size());
+
+                    d->created_at = Utils::stringToTimeT(entry);
+                } else if (entry.starts_with("name:")) {
+                    string p = "name:";
+
+                    entry.erase(0, p.size());
+
+                    d->name = entry;
+                } else if (entry.starts_with("username:")) {
+                    string p = "username:";
+
+                    entry.erase(0, p.size());
+
+                    d->username = entry;
+                } else if (entry.starts_with("password:")) {
+                    string p = "password:";
+
+                    entry.erase(0, p.size());
+
+                    d->password = entry;
+                } else if (entry.starts_with("user_id:")) {
+                    string p = "user_id:";
+
+                    entry.erase(0, p.size());
+
+                    d->password = entry;
+                }
+            }
+
+            return d;
         }
     };
 

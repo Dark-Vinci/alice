@@ -66,7 +66,7 @@ string Utils::Crypto::hash(const string& password) {
     return "*******HASHED*******";
 }
 
-string Utils::Crypto::generate_random_password(const int length) {
+string Utils::Crypto::generate_random_password(int length) {
     const char from_pool[] = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     string generated_password;
 
