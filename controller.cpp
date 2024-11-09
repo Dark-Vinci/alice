@@ -27,12 +27,12 @@ string Controller::App::login(string &username, string &password) {
         return INVALID_INPUT;
     }
 
-    string* token = this->user_service.login(username, password);
-    if (token == nullptr) {
+    string token = this->user_service.login(username, password);
+    if (token.empty()) {
         return UNABLE_TO_PERFORM_OPERATION;
     }
 
-    return LOGIN_TOKEN + *token;
+    return LOGIN_TOKEN + token;
 }
 
 string Controller::App::delete_user(string &token, string*  user_id) {
@@ -280,6 +280,25 @@ string Controller::App::get_user_passwords(string& token, string& user_id) {
 
 string Controller::App::search_password(string& token, string& text){
     if (token.empty()) {
-        return "NO TOKEN PROVIDED";
+        return TOKEN_NOT_PROVIDED;
     }
+
+    pair<string, bool> token_pair = this->extract_token(token);
+
+    vector<DB::Pass*> passwords = this->password_service.get_all_user(token_pair.first);
+    if (passwords.empty()) {
+        return NO_PASSWORD_FOR_USER;
+    }
+
+    string result;
+
+    for (const DB::Pass* pass: passwords) {
+        string str = pass->to_string();
+
+        if (str.find(text) != std::string::npos) {
+            result += pass->to_string() + "\n";
+        }
+    }
+
+    return result;
 }

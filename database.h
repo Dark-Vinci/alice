@@ -140,6 +140,7 @@ namespace DB {
         UserEntity* delete_user(const string& user_id);
         UserEntity* update(const string& user_id, UserEntity& updated);
         UserEntity* get(const string& user_id);
+        UserEntity* get_user_by_username(const string& username);
     };
 
     class Password{

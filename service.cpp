@@ -5,6 +5,7 @@
 #include <vector>
 #include <string>
 #include <iostream>
+#include <sstream>
 #include "service.h"
 #include "database.h"
 
@@ -48,6 +49,31 @@ DB::UserEntity* Service::User::get(string& user_id) {
     }
 
     return user;
+}
+
+string Service::User::login(string& username, string& password) {
+    // validation has been done in the controller
+    DB::UserEntity* user = this->database.get_user_by_username(username);
+
+    if (user == nullptr) {
+        return "";
+    }
+
+    if (this->crypto.hash(password) != user->password) {
+        return "";
+    }
+
+    stringstream result;
+
+    if (user->is_admin) {
+        result << "true,";
+    } else {
+        result << "false,";
+    }
+
+    result << this->crypto.encode(user->id);
+
+    return result.str();
 }
 
 DB::UserEntity* Service::User::delete_(string& user_id, bool is_admin) {
