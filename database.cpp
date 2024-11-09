@@ -9,8 +9,6 @@
 
 using namespace std;
 
-// get_user_by_username
-
 // PASSWORD DATABASE IMPLEMENTATION
 DB::Pass* DB::Password::delete_password(const string& password_id) {
     auto pass = this->get(password_id);
@@ -238,6 +236,31 @@ DB::UserEntity* DB::User::get(const string& user_id) {
         DB::UserEntity temp_user = UserEntity::from_string(line);
 
         if (temp_user.id == user_id) {
+            user = new DB::UserEntity(temp_user);
+            break;
+        }
+    }
+
+    file.close();
+
+    return user;
+}
+
+DB::UserEntity* DB::User::get_user_by_username(const string& username) {
+    ifstream file(file_name);
+    DB::UserEntity* user = nullptr;
+
+    if (!file.is_open()) {
+        cerr << "CANNOT OPEN FILE" << endl;
+        return nullptr;
+    }
+
+    string line;
+
+    while (getline(file, line)) {
+        DB::UserEntity temp_user = UserEntity::from_string(line);
+
+        if (temp_user.username == username) {
             user = new DB::UserEntity(temp_user);
             break;
         }

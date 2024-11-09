@@ -3,10 +3,7 @@
 //
 
 #include <string>
-//#include <ctime>
-//#include <iomanip>
-//#include <sstream>
-//#include <utility>
+#include <sstream>
 
 using namespace std;
 
@@ -65,20 +62,20 @@ namespace DB {
         string password;
         time_t created_at;
         time_t updated_at;
-        time_t* deleted_at;
         string user_id;
         string id;
 
     public:
-        Pass(string  pwd, string  user)
-                : password(std::move(pwd)), user_id(std::move(user)), deleted_at(nullptr) {
-            created_at = time(nullptr);
-            updated_at = created_at;
+        Pass(string& username, string& password, string& name, string& user_id) {
+            this->created_at = time(0);
+            this->updated_at = time(0);
+            this->password = password;
+            this->username = username;
+            this->user_id = user_id;
+            this->name = name;
         }
 
-        virtual ~Pass() {
-            delete deleted_at;
-        }
+        virtual ~Pass() = default;
 
         // Common function for all passes (could be overridden in derived classes)
         [[nodiscard]] virtual string to_string() const;
@@ -88,15 +85,29 @@ namespace DB {
     public:
         string url;
 
-        WebPass()
-                : Pass(pwd, user), url(std::move(url_)) {};
+        WebPass(string& username, string& password, string& name, string& user_id, string& url)
+                : Pass(username, password, name, user_id), url(url) {};
 
         [[nodiscard]] string to_string() const override {
-            cout << "DesktopPass with generic data" << endl;
-            return "WEB_PASSWORD:";
+            stringstream ss;
+
+            ss << "WebPass->";
+
+            ss << "username:" + username + ",";
+            ss << "user_id:" + user_id + ",";
+            ss << "password:" + password + ",";
+            ss << "created_at:" + std::to_string(created_at) + ",";
+            ss << "updated_at: " + std::to_string(updated_at) + ",";
+            ss << "id:" + id + ",";
+            ss << "name:" + name + ",";
+            ss << "url" + url + ",";
+
+            return ss.str();
         }
 
         static WebPass from_string(string& str) {
+            stringstream ss;
+
 
         }
     };
@@ -105,12 +116,23 @@ namespace DB {
     public:
         string developer;
 
-        GamePass()
-                : Pass(pwd, user), developer(std::move(dev)) {};
+        GamePass(string& username, string& password, string& name, string& user_id, string& developer)
+            : Pass(username, password, name, user_id), developer(developer) {}
 
         [[nodiscard]] string to_string() const override {
-            cout << "DesktopPass with generic data" << endl;
-            return "GAME_PASSWORD:";
+            stringstream ss;
+            ss << "GamePass:";
+
+            ss << "username:" + username + ",";
+            ss << "user_id:" + user_id + ",";
+            ss << "password:" + password + ",";
+            ss << "created_at:" + std::to_string(created_at) + ",";
+            ss << "updated_at: " + std::to_string(updated_at) + ",";
+            ss << "id:" + id + ",";
+            ss << "name:" + name + ",";
+            ss << "developer:" + developer + ",";
+
+            return ss.str();
         }
 
         static GamePass from_string(string& str) {
@@ -120,11 +142,22 @@ namespace DB {
 
     class DesktopPass: public Pass {
     public:
-        DesktopPass()
-                : Pass(pwd, user) {};
+        DesktopPass(string& username, string& password, string& name, string& user_id, string& developer)
+            : Pass(username, password, name, user_id) {};
 
         [[nodiscard]] string to_string() const override {
-            return "DESKTOP_PASSWORD:";
+            stringstream ss;
+            ss << "DesktopPass:";
+
+            ss << "username:" + username + ",";
+            ss << "user_id:" + user_id + ",";
+            ss << "password:" + password + ",";
+            ss << "created_at:" + std::to_string(created_at) + ",";
+            ss << "updated_at: " + std::to_string(updated_at) + ",";
+            ss << "id:" + id + ",";
+            ss << "name:" + name + ",";
+
+            return ss.str();
         }
 
         static DesktopPass from_string(string& str) {
