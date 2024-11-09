@@ -7,11 +7,22 @@
 
 using namespace std;
 
-string Controller::App::create_user_account() {
-    return " CREATED USER ACCOUNT ";
+string Controller::App::create_user_account(string* token, string& username, string& password, bool is_admin) {
+    DB::UserEntity user = DB::UserEntity(username, password, is_admin);
+
+    DB::UserEntity* result = this->user_service.create(user);
+    if (result == nullptr) {
+        return UNABLE_TO_PERFORM_OPERATION;
+    }
+
+    if (token == nullptr) {
+        return USER_CREATED + result->to_string();
+    }
+
+    return ADMIN_CREATED + result->to_string();
 }
 
-string Controller::App::delete_user(string &token, string*user_id) {
+string Controller::App::delete_user(string &token, string*  user_id) {
     if (token.empty()) {
         return TOKEN_NOT_PROVIDED;
     }
@@ -47,7 +58,33 @@ string Controller::App::get_user(string& token, string* user_id) {
     return result->to_string();
 }
 
-string Controller::App::update_user() {}
+string Controller::App::update_user(string& token, string* user_id, string* username, string* password) {
+    if (token.empty()) {
+        return TOKEN_NOT_PROVIDED;
+    }
+
+    auto token_pair = this->extract_token(token);
+    if (user_id == nullptr) {
+        user_id = &token_pair.first;
+    }
+
+    auto user = this->user_service.get(*user_id);
+    if (user == nullptr) {
+        return RECORD_NOT_FOUND;
+    }
+
+    if (password != nullptr) {
+        user->password = *password;
+    }
+
+    if (username != nullptr) {
+        user->username = *username;
+    }
+
+    auto result = this->user_service.update(*user, token_pair.second, *user_id, password != nullptr);
+
+    return "UPDATED" + result->to_string();
+}
 
 string Controller::App::create_password(string& token, string& typ, string* URL, string& username, string& password, string& name, string* developer) {
     if (token.empty()) {

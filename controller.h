@@ -20,11 +20,15 @@ namespace Controller {
         Service::Password password_service;
         pair<string, bool> extract_token(string& str);
 
+    private:
+        string USER_CREATED = "USER CREATED";
+        string ADMIN_CREATED = "ADMIN CREATED";
+
     public:
-        string create_user_account();
+        string create_user_account(string* token, string& username, string& password, bool is_admin);
         string get_user(string& token, string* user_id);
         string delete_user(string& token, string* user_id);
-        string update_user();
+        string update_user(string& token, string* user_id, string* username, string* password);
         string login();
 
         string create_password(string& token, string& typ, string* URL, string& username, string& password, string& name, string* developer);

@@ -31,6 +31,8 @@ DB::UserEntity* Service::User::update(DB::UserEntity updated, bool is_admin, str
         updated.password = this->crypto.hash(updated.password);
     }
 
+    updated.update_at = time(0);
+
     return this->database.update(updated.id, updated);
 }
 

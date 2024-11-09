@@ -19,6 +19,7 @@ namespace DB {
         string first_name;
         string last_name;
         string password;
+        string username;
         time_t created_at;
         time_t update_at;
         time_t* deleted_at;
@@ -26,6 +27,14 @@ namespace DB {
         string id;
 
     public:
+        UserEntity(string& username, string& password, bool is_admin) {
+            this->username = username;
+            this->password = password;
+            this->created_at = time(0);
+            this->update_at = time(0);
+            this->is_admin = is_admin;
+        }
+
         string to_string() {
             string result;
 
