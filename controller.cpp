@@ -162,25 +162,55 @@ string Controller::App::create_password(string& token, string& typ, string* URL,
             return INVALID_INPUT;
         }
 
-        DB::WebPass web(username, password, name, user_id, *URL);
+        DB::WebPass web;
+
+        web.password = password;
+        web.name = name;
+        web.user_id = *user_id;
+        web.url = *URL;
 
         auto pass = this->password_service.create(web);
-        result = pass.to_string();
+
+        if (pass == nullptr) {
+            return UNABLE_TO_PERFORM_OPERATION;
+        }
+
+        result = pass->to_string();
         delete pass;
     } else if (typ == "DESKTOP") {
-        DB::DesktopPass desktop(username, password, name, user_id);
+        DB::DesktopPass desktop;
+        desktop.user_id = *user_id;
+        desktop.username = username;
+        desktop.password = password;
+        desktop.name = name;
 
         auto pass = this->password_service.create(desktop);
-        result = pass.to_string();
+
+        if (pass == nullptr) {
+            return UNABLE_TO_PERFORM_OPERATION;
+        }
+
+        result = pass->to_string();
         delete pass;
     } else if (typ == "GAME") {
         if (developer == nullptr) {
             return INVALID_INPUT;
         }
 
-        DB::GamePass game(username, password, name, user_id, *developer);
+        DB::GamePass game;
+        game.user_id = *user_id;
+        game.username = username;
+        game.password = password;
+        game.developer = *developer;
+        game.name = name;
+
         auto pass = this->password_service.create(game);
-        result = pass.to_string();
+
+        if (pass == nullptr) {
+            return UNABLE_TO_PERFORM_OPERATION;
+        }
+
+        result = pass->to_string();
         delete pass;
     } else {
         result = INVALID_OPERATION;

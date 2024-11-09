@@ -244,6 +244,9 @@ DB::Pass* Service::Password::create(DB::GamePass pass) {
     }
 
     pass.password = this->crypto.encode(pass.password);
+    pass.id = this->crypto.generate_id();
+    pass.created_at = time(0);
+    pass.updated_at = time(0);
 
     auto result = this->database.create(pass);
 
@@ -261,6 +264,9 @@ DB::Pass* Service::Password::create(DB::WebPass pass) {
     }
 
     pass.password = this->crypto.encode(pass.password);
+    pass.id = this->crypto.generate_id();
+    pass.created_at = time(0);
+    pass.updated_at = time(0);
 
     auto result = this->database.create(pass);
 
@@ -278,6 +284,9 @@ DB::Pass* Service::Password::create(DB::DesktopPass pass) {
     }
 
     pass.password = this->crypto.encode(pass.password);
+    pass.id = this->crypto.generate_id();
+    pass.created_at = time(0);
+    pass.updated_at = time(0);
 
     auto result = this->database.create(pass);
 
