@@ -154,19 +154,36 @@ void Terminal::start() {
             }
 
             case 6: {
-                string user_id, token, username, password, type, URL, developer, name, id;
+                string user_id, token, username, password, type, URL_, developer, name, id;
 
+                cout << TOKEN;
                 cin >> token;
+
+                cout << USER_ID;
                 cin >> user_id;
+
+                cout << USERNAME;
                 cin >> username;
+
+                cout << PASSWORD;
                 cin >> password;
-                cin >> typ;
-                cin >> URL;
+
+                cout << TYPE;
+                cin >> type;
+
+                cout << URL;
+                cin >> URL_;
+
+                cout << DEVELOPER;
                 cin >> developer;
+
+                cout << NAME;
                 cin >> name;
+
+                cout << ID;
                 cin >> id;
 
-                string* URL_ptr = URL.empty() ? nullptr : &URL;
+                string* URL_ptr = URL_.empty() ? nullptr : &URL_;
                 string* developer_ptr = developer.empty() ? nullptr : &developer;
                 string* name_ptr = name.empty() ? nullptr : &name;
                 string* username_ptr = username.empty() ? nullptr : &username;

@@ -25,6 +25,7 @@ private:
     string NAME = "NAME: ";
     string TYPE = "TYPE: ";
     string TEXT = "TEXT: ";
+    string ID = "ID: ";
 public:
     Terminal() {
         cout << "--------INITIALIZING THE TERMINAL APPLICATION--------" << endl;
