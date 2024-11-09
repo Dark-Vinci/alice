@@ -3,9 +3,35 @@
 //
 #include <vector>
 #include <string>
+#include <sstream>
 #include "controller.h"
 
 using namespace std;
+
+pair<string, bool> Controller::App::extract_token(string& str) {
+    if (str.empty()) {
+        return {"", false};
+    }
+
+    stringstream ss(str);
+    string token;
+    bool is_admin;
+    string encrypted_id;
+
+    while (getline(ss, token, ',')) {
+        if (token == "true") {
+            is_admin = true;
+        } else if (token == "false") {
+            is_admin = false;
+        } else {
+            token = encrypted_id;
+        }
+    }
+
+    encrypted_id = this->crypto.decode(encrypted_id);
+
+    return {encrypted_id, is_admin};
+}
 
 string Controller::App::create_user_account(string* token, string& username, string& password, bool is_admin) {
     DB::UserEntity user = DB::UserEntity(username, password, is_admin);
@@ -295,7 +321,7 @@ string Controller::App::search_password(string& token, string& text){
     for (const DB::Pass* pass: passwords) {
         string str = pass->to_string();
 
-        if (str.find(text) != std::string::npos) {
+        if (str.find(text) != string::npos) {
             result += pass->to_string() + "\n";
         }
     }

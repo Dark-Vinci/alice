@@ -17,14 +17,19 @@ namespace Controller {
         string NO_PASSWORD_FOR_USER = "NO PASSWORD FOR USER";
         string INVALID_OPERATION = "INVALID OPERATION";
         string INVALID_INPUT = "INVALID INPUT";
+
+    private:
+        pair<string, bool> extract_token(string& str);
+
+    private:
         Service::User user_service;
         Service::Password password_service;
-        pair<string, bool> extract_token(string& str);
+        Utils::Crypto crypto;
 
     private:
         string USER_CREATED = "USER CREATED";
         string ADMIN_CREATED = "ADMIN CREATED";
-        string LOGIN_TOKEN = "LOGIN TOKEN:";
+        string LOGIN_TOKEN = "LOGIN TOKEN";
 
     public:
         string create_user_account(string* token, string& username, string& password, bool is_admin);

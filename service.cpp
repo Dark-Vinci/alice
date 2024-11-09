@@ -93,6 +93,12 @@ DB::UserEntity* Service::User::delete_(string& user_id, bool is_admin) {
 }
 
 DB::UserEntity* Service::User::create(DB::UserEntity user) {
+    auto check_user = this->database.get_user_by_username(user.username);
+    if (check_user != nullptr) {
+        cout<< "USERNAME IS NOT AVAILABLE" << endl;
+        return nullptr;
+    }
+
     user.id = this->crypto.generate_id();
     user.password = this->crypto.hash(user.password);
 

@@ -9,6 +9,8 @@
 
 using namespace std;
 
+// get_user_by_username
+
 // PASSWORD DATABASE IMPLEMENTATION
 DB::Pass* DB::Password::delete_password(const string& password_id) {
     auto pass = this->get(password_id);
