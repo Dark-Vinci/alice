@@ -56,8 +56,12 @@ void Terminal::start() {
                 cout << USER_ID;
                 cin >> user_id;
 
-                string result = application.delete_user(token, &user_id);
+                string* user_id_ptr = user_id.empty() ? nullptr : &user_id;
+
+                string result = application.delete_user(token, user_id_ptr);
                 cout << result << endl;
+
+                delete user_id_ptr;
                 break;
             }
 
@@ -90,6 +94,8 @@ void Terminal::start() {
 
                 string result = application.get_user(token, user_id_prt);
                 cout << result << endl;
+
+                delete user_id_prt;
                 break;
             }
 
@@ -114,6 +120,11 @@ void Terminal::start() {
 
                 string result = application.update_user(token, username_ptr, user_id_ptr, password_ptr);
                 cout << result << endl;
+
+                delete user_id_ptr;
+                delete password_ptr;
+                delete username_ptr;
+
                 break;
             }
 
@@ -150,6 +161,10 @@ void Terminal::start() {
                 string result = this->application.create_password(token, type, URL_ptr, username, password, name, developer_ptr);
 
                 cout << result << endl;
+
+                delete URL_ptr;
+                delete developer_ptr;
+
                 break;
             }
 
@@ -192,6 +207,14 @@ void Terminal::start() {
 
                 string result = this->application.update_password(token, type, user_id_ptr, id, URL_ptr, username_ptr, password_ptr, name_ptr, developer_ptr);
                 cout << result << endl;
+
+                delete URL_ptr;
+                delete developer_ptr;
+                delete name_ptr;
+                delete username_ptr;
+                delete password_ptr;
+                delete user_id_ptr;
+
                 break;
             }
 

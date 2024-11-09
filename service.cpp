@@ -28,11 +28,13 @@ DB::UserEntity* Service::User::update(DB::UserEntity updated, bool is_admin, str
         return nullptr;
     }
 
+    delete user;
+
     if (password_changed) {
         updated.password = this->crypto.hash(updated.password);
     }
 
-    updated.update_at = time(0);
+    updated.updated_at = time(0);
 
     return this->database.update(updated.id, updated);
 }
@@ -73,6 +75,8 @@ string Service::User::login(string& username, string& password) {
 
     result << this->crypto.encode(user->id);
 
+    delete user;
+
     return result.str();
 }
 
@@ -87,6 +91,8 @@ DB::UserEntity* Service::User::delete_(string& user_id, bool is_admin) {
         return nullptr;
     }
 
+    delete user;
+
     auto result = this->database.delete_user(user_id);
 
     return result;
@@ -98,6 +104,8 @@ DB::UserEntity* Service::User::create(DB::UserEntity user) {
         cout<< "USERNAME IS NOT AVAILABLE" << endl;
         return nullptr;
     }
+
+    delete check_user;
 
     user.id = this->crypto.generate_id();
     user.password = this->crypto.hash(user.password);
@@ -124,6 +132,8 @@ DB::Pass* Service::Password::update(DB::GamePass pass, bool is_admin, string& us
         return nullptr;
     }
 
+    delete fetch;
+
     auto result = this->database.update(pass);
 
     return result;
@@ -145,6 +155,8 @@ DB::Pass* Service::Password::update(DB::WebPass pass, bool is_admin, string& use
         return nullptr;
     }
 
+    delete fetch;
+
     auto result = this->database.update(pass);
 
     return result;
@@ -165,6 +177,8 @@ DB::Pass* Service::Password::update(DB::DesktopPass pass, bool is_admin, string&
         cout << "ONLY ADMINS CAN DELETE FOR ANOTHER USER" << endl;
         return nullptr;
     }
+
+    delete fetch;
 
     auto result = this->database.update(pass);
 
@@ -212,6 +226,8 @@ DB::Pass* Service::Password::delete_(const string& pass_id, bool is_admin, const
         cout << "INVALID ACTION" << endl;
         return nullptr;
     }
+
+    delete pass;
 
     auto result = this->database.delete_password(pass_id);
 

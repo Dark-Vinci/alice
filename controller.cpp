@@ -41,11 +41,17 @@ string Controller::App::create_user_account(string* token, string& username, str
         return UNABLE_TO_PERFORM_OPERATION;
     }
 
+    string ret;
+
     if (token == nullptr) {
-        return USER_CREATED + result->to_string();
+        ret =  USER_CREATED + result->to_string();
+    } else {
+        ret = ADMIN_CREATED + result->to_string();
     }
 
-    return ADMIN_CREATED + result->to_string();
+    delete result;
+
+    return ret;
 }
 
 string Controller::App::login(string& username, string& password) {
@@ -76,7 +82,11 @@ string Controller::App::delete_user(string &token, string*  user_id) {
         return UNABLE_TO_PERFORM_OPERATION;
     }
 
-    return result->to_string();
+    string return_str = result->to_string();
+
+    delete result;
+
+    return return_str;
 }
 
 string Controller::App::get_user(string& token, string* user_id) {
@@ -94,7 +104,10 @@ string Controller::App::get_user(string& token, string* user_id) {
         return RECORD_NOT_FOUND;
     }
 
-    return result->to_string();
+    string result_str = result->to_string();
+    delete result;
+
+    return result_str;
 }
 
 string Controller::App::update_user(string& token, string* user_id, string* username, string* password) {
@@ -121,10 +134,17 @@ string Controller::App::update_user(string& token, string* user_id, string* user
     }
 
     auto result = this->user_service.update(*user, token_pair.second, *user_id, password != nullptr);
+    if (result == nullptr) {
+        return UNABLE_TO_PERFORM_OPERATION;
+    }
 
-    return "UPDATED" + result->to_string();
+    string result_str = "UPDATED" + result->to_string();
+    delete result;
+
+    return result_str;
 }
 
+// todo: add implementation
 string Controller::App::create_password(string& token, string& typ, string* URL, string& username, string& password, string& name, string* developer) {
     if (token.empty()) {
         return TOKEN_NOT_PROVIDED;
@@ -155,7 +175,10 @@ string Controller::App::get_password(string& token, string& pass_id) {
         return NOT_AUTHORIZED;
     }
 
-    return result->to_string();
+    string result_str = result->to_string();
+    delete result;
+
+    return result_str;
 }
 
 string Controller::App::delete_password(string& token, string& pass_id) {
@@ -170,7 +193,10 @@ string Controller::App::delete_password(string& token, string& pass_id) {
         return UNABLE_TO_PERFORM_OPERATION;
     }
 
-    return "DELETED" + result->to_string();
+    string result_str = "DELETED" + result->to_string();
+    delete result;
+
+    return result_str;
 }
 
 string Controller::App::update_password(string& token, string& typ, string* user_id, string& id, string* URL, string* username, string* password, string* name, string* developer) {
@@ -179,6 +205,8 @@ string Controller::App::update_password(string& token, string& typ, string* user
     }
 
     pair<string, bool> token_pair = this->extract_token(token);
+
+    string result_str = INVALID_OPERATION;
 
     if (typ == "WEB") {
         DB::WebPass pass;
@@ -215,7 +243,9 @@ string Controller::App::update_password(string& token, string& typ, string* user
             return UNABLE_TO_PERFORM_OPERATION;
         }
 
-        return result->to_string();
+        result_str = result->to_string();
+
+        delete result;
     } else if (typ == "DESKTOP") {
         DB::DesktopPass pass;
 
@@ -246,7 +276,9 @@ string Controller::App::update_password(string& token, string& typ, string* user
             return UNABLE_TO_PERFORM_OPERATION;
         }
 
-        return result->to_string();
+        result_str = result->to_string();
+
+        delete result;
     } else if (typ == "GAME") {
         DB::GamePass pass;
 
@@ -277,10 +309,12 @@ string Controller::App::update_password(string& token, string& typ, string* user
             return UNABLE_TO_PERFORM_OPERATION;
         }
 
-        return result->to_string();
-    } else {
-        return INVALID_OPERATION;
+        result_str = result->to_string();
+
+        delete result;
     }
+
+    return result_str;
 }
 
 string Controller::App::get_user_passwords(string& token, string& user_id) {
@@ -299,7 +333,10 @@ string Controller::App::get_user_passwords(string& token, string& user_id) {
 
     for (const DB::Pass* pass: passwords) {
         result += pass->to_string() + "\n";
+        delete pass;
     }
+
+    passwords.clear();
 
     return result;
 }
@@ -324,7 +361,11 @@ string Controller::App::search_password(string& token, string& text){
         if (str.find(text) != string::npos) {
             result += pass->to_string() + "\n";
         }
+
+        delete pass;
     }
+
+    passwords.clear();
 
     return result;
 }
