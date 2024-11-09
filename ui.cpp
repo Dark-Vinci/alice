@@ -91,13 +91,47 @@ void Terminal::start() {
             }
 
             case 5: {
-                string result = application.get_user_passwords();
+                string user_id, token, username, password, typ, URL, developer, name;
+
+                cin >> token;
+                cin >> user_id;
+                cin >> username;
+                cin >> password;
+                cin >> typ;
+                cin >> URL;
+                cin >> developer;
+                cin >> name;
+
+                string* URL_ptr = URL.empty() ? nullptr : &URL;
+                string* developer_ptr = developer.empty() ? nullptr : &developer;
+
+                string result = application.create_password(token, typ, URL_ptr, username, password, name, developer_ptr);
+
                 cout << result << endl;
                 break;
             }
 
             case 6: {
-                string result = application.delete_user();
+                string user_id, token, username, password, typ, URL, developer, name, id;
+
+                cin >> token;
+                cin >> user_id;
+                cin >> username;
+                cin >> password;
+                cin >> typ;
+                cin >> URL;
+                cin >> developer;
+                cin >> name;
+                cin >> id;
+
+                string* URL_ptr = URL.empty() ? nullptr : &URL;
+                string* developer_ptr = developer.empty() ? nullptr : &developer;
+                string* name_ptr = name.empty() ? nullptr : &name;
+                string* username_ptr = username.empty() ? nullptr : &username;
+                string* password_ptr = password.empty() ? nullptr : &password;
+                string* user_id_ptr = user_id.empty() ? nullptr : &user_id;
+
+                string result = application.update_password(token, typ, user_id_ptr, id, URL_ptr, username_ptr, password_ptr, name_ptr, developer_ptr);
                 cout << result << endl;
                 break;
             }
