@@ -205,7 +205,11 @@ vector<DB::Pass*> Service::Password::get_all_user(string& user_id) {
         return {};
     }
 
-    auto result = this->database.get_all(user_id);
+    vector<DB::Pass*> result = this->database.get_all(user_id);
+
+    for (auto& pass: result) {
+        pass->password = "**********";
+    }
 
     return result;
 }
@@ -234,7 +238,7 @@ DB::Pass* Service::Password::delete_(const string& pass_id, bool is_admin, const
     return result;
 }
 
-DB::Pass* Service::Password::create(DB::GamePass pass, bool is_admin, string& user_id) {
+DB::Pass* Service::Password::create(DB::GamePass pass) {
     if (pass.password.empty()) {
         pass.password = this->crypto.generate_random_password(10);
     }
@@ -251,7 +255,7 @@ DB::Pass* Service::Password::create(DB::GamePass pass, bool is_admin, string& us
     return result;
 }
 
-DB::Pass* Service::Password::create(DB::WebPass pass, bool is_admin, string& user_id) {
+DB::Pass* Service::Password::create(DB::WebPass pass) {
     if (pass.password.empty()) {
         pass.password = this->crypto.generate_random_password(10);
     }
@@ -268,7 +272,7 @@ DB::Pass* Service::Password::create(DB::WebPass pass, bool is_admin, string& use
     return result;
 }
 
-DB::Pass* Service::Password::create(DB::DesktopPass pass, bool is_admin, string& user_id) {
+DB::Pass* Service::Password::create(DB::DesktopPass pass) {
     if (pass.password.empty()) {
         pass.password = this->crypto.generate_random_password(10);
     }

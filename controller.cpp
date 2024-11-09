@@ -144,19 +144,49 @@ string Controller::App::update_user(string& token, string* user_id, string* user
     return result_str;
 }
 
-// todo: add implementation
-string Controller::App::create_password(string& token, string& typ, string* URL, string& username, string& password, string& name, string* developer) {
+string Controller::App::create_password(string& token, string& typ, string* URL, string& username, string& password, string& name, string* developer, string* user_id) {
     if (token.empty()) {
         return TOKEN_NOT_PROVIDED;
     }
 
     auto token_pair = this->extract_token(token);
 
-    if (typ == "WEB") {
-
+    if (user_id == nullptr) {
+        user_id = &token_pair.first;
     }
 
-    return "USER PASSWORD";
+    string result;
+
+    if (typ == "WEB") {
+        if (URL == nullptr) {
+            return INVALID_INPUT;
+        }
+
+        DB::WebPass web(username, password, name, user_id, *URL);
+
+        auto pass = this->password_service.create(web);
+        result = pass.to_string();
+        delete pass;
+    } else if (typ == "DESKTOP") {
+        DB::DesktopPass desktop(username, password, name, user_id);
+
+        auto pass = this->password_service.create(desktop);
+        result = pass.to_string();
+        delete pass;
+    } else if (typ == "GAME") {
+        if (developer == nullptr) {
+            return INVALID_INPUT;
+        }
+
+        DB::GamePass game(username, password, name, user_id, *developer);
+        auto pass = this->password_service.create(game);
+        result = pass.to_string();
+        delete pass;
+    } else {
+        result = INVALID_OPERATION;
+    }
+
+    return result;
 }
 
 string Controller::App::get_password(string& token, string& pass_id) {

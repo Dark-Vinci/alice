@@ -26,9 +26,9 @@ namespace Service {
         DB::Password database;
         Utils::Crypto crypto;
     public:
-        DB::Pass* create(DB::GamePass pass, bool is_admin, string& user_id);
-        DB::Pass* create(DB::WebPass pass, bool is_admin, string& user_id);
-        DB::Pass* create(DB::DesktopPass pass, bool is_admin, string& user_id);
+        DB::Pass* create(DB::GamePass pass);
+        DB::Pass* create(DB::WebPass pass);
+        DB::Pass* create(DB::DesktopPass pass);
 
         DB::Pass* delete_(const string& pass_id, bool is_admin, const string& user_id);
 

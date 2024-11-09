@@ -32,7 +32,7 @@ string Utils::Crypto::decode(const string& encoded_string) {
 string  Utils::Crypto::rot13(const string& str) {
     string rot13_string;
 
-    for (char c: str) {
+    for (const char c: str) {
         if (c >= 'A' && c <= 'Z') {
             rot13_string += (c - 'A' + 13) % 26 + 'A';
         } else if (c >= 'a' && c <= 'z') {
@@ -63,7 +63,7 @@ string Utils::Crypto::encode(const string& password) {
 }
 
 string Utils::Crypto::hash(const string& password) {
-    return "*******HASHED*******";
+    return this->encode(password);
 }
 
 string Utils::Crypto::generate_random_password(int length) {

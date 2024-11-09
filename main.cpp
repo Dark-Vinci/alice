@@ -1,4 +1,4 @@
-#include "ui.h";
+#include "ui.h"
 
 int main() {
     auto app = new Terminal();
