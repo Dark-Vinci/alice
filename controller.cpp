@@ -22,6 +22,19 @@ string Controller::App::create_user_account(string* token, string& username, str
     return ADMIN_CREATED + result->to_string();
 }
 
+string Controller::App::login(string &username, string &password) {
+    if (username.empty() || password.empty()) {
+        return INVALID_INPUT;
+    }
+
+    string* token = this->user_service.login(username, password);
+    if (token == nullptr) {
+        return UNABLE_TO_PERFORM_OPERATION;
+    }
+
+    return LOGIN_TOKEN + *token;
+}
+
 string Controller::App::delete_user(string &token, string*  user_id) {
     if (token.empty()) {
         return TOKEN_NOT_PROVIDED;

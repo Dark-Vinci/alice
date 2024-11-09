@@ -18,6 +18,7 @@ namespace Service {
         DB::UserEntity* delete_(string& user_id, bool is_admin);
         DB::UserEntity* update(DB::UserEntity updated, bool is_admin, string& user_id, bool password_changed);
         DB::UserEntity* get(string& user_id);
+        string* login(string& username, string& password);
     };
 
     class Password{

@@ -34,30 +34,58 @@ void Terminal::start() {
 
         switch (typ) {
             case 0: {
-                string result = application.login();
+                string username, password;
+
+                cin >> username;
+                cin >> password;
+
+                string result = this->application.login(username, password);
                 cout << result << endl;
                 break;
             }
 
             case 1: {
-                string result = application.delete_user();
+                string token, user_id;
+
+                cin >> token;
+                cin >> user_id;
+
+                string result = application.delete_user(token, &user_id);
                 cout << result << endl;
                 break;
             }
 
             case 2: {
-                string result = application.create_user_account();
+                string username, password, token;
+
+                cin >> username;
+                cin >> password;
+                cin >> token;
+
+                string result = application.create_user_account(&token, username, password, !token.empty());
                 break;
             }
 
             case 3: {
-                string result = application.get_user();
+                string user_id, token;
+
+                cin >> token;
+                cin >> user_id;
+
+                string result = application.get_user(token, &user_id);
                 cout << result << endl;
                 break;
             }
 
             case 4: {
-                string result = application.update_password();
+                string user_id, token, username, password;
+
+                cin >> token;
+                cin >> user_id;
+                cin >> username;
+                cin >> password;
+
+                string result = application.update_user(token, &user_id, &username, &password);
                 cout << result << endl;
                 break;
             }
