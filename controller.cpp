@@ -22,7 +22,7 @@ string Controller::App::create_user_account(string* token, string& username, str
     return ADMIN_CREATED + result->to_string();
 }
 
-string Controller::App::login(string &username, string &password) {
+string Controller::App::login(string& username, string& password) {
     if (username.empty() || password.empty()) {
         return INVALID_INPUT;
     }
