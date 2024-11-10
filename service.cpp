@@ -18,7 +18,6 @@ DB::UserEntity* Service::User::update(DB::UserEntity updated, bool is_admin, str
     }
 
     auto user = this->database.get(updated.id);
-
     if (user == nullptr) {
         return nullptr;
     }
@@ -222,7 +221,7 @@ DB::Pass* Service::Password::delete_(const string& pass_id, bool is_admin, const
     auto pass = this->database.get(pass_id);
 
     if (pass == nullptr) {
-        cout << "PASSWORD DOESN;T EXIST" << endl;
+        cout << "PASSWORD DOES;NT EXIST" << endl;
         return nullptr;
     }
 
