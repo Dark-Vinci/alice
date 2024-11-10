@@ -2,6 +2,7 @@
 // Created by Ademola Olutomiwa Abraham on 07/11/2024.
 //
 #include <string>
+#include <vector>
 
 using namespace std;
 
@@ -9,20 +10,20 @@ using namespace std;
 #define PASSWORDMANAGER_UTIL_H
 
 namespace Utils {
-    std::vector<std::string> split(const std::string& str, char delimiter) {
-        std::vector<std::string> tokens;
-        std::stringstream ss(str);
-        std::string token;
+    inline vector<string> split(const string& str, char delimiter) {
+        vector<string> tokens;
+        stringstream ss(str);
+        string token;
 
-        while (std::getline(ss, token, delimiter)) {
+        while (getline(ss, token, delimiter)) {
             tokens.push_back(token);
         }
 
         return tokens;
     }
 
-    time_t stringToTimeT(const std::string& timeStr) {
-        return static_cast<time_t>(std::stoll(timeStr));
+    inline time_t stringToTimeT(const string& timeStr) {
+        return static_cast<time_t>(stoll(timeStr));
     }
 
     class Crypto {

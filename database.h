@@ -132,7 +132,20 @@ namespace DB {
         }
 
         // Common function for all passes (could be overridden in derived classes)
-        [[nodiscard]] virtual string to_string() const;
+        [[nodiscard]] virtual string to_string() const {
+            stringstream ss;
+
+            ss << "WebPass->"
+               << "username:" + username + ","
+               << "user_id:" + user_id + ","
+               << "password:" + password + ","
+               << "created_at:" + std::to_string(created_at) + ","
+               << "updated_at: " + std::to_string(updated_at) + ","
+               << "id:" + id + ","
+               << "name:" + name;
+
+            return ss.str();
+        }
     };
 
     class WebPass: public Pass {
@@ -147,16 +160,15 @@ namespace DB {
         [[nodiscard]] string to_string() const override {
             stringstream ss;
 
-            ss << "WebPass->";
-
-            ss << "username:" + username + ","
+            ss << "WebPass->"
+            << "username:" + username + ","
             << "user_id:" + user_id + ","
             << "password:" + password + ","
             << "created_at:" + std::to_string(created_at) + ","
             << "updated_at: " + std::to_string(updated_at) + ","
             << "id:" + id + ","
             << "name:" + name + ","
-            << "url:" + url + ",";
+            << "url:" + url;
 
             return ss.str();
         }
