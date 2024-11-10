@@ -9,6 +9,15 @@
 
 using namespace std;
 
+DB::UserEntity::UserEntity() {}
+
+DB::GamePass::GamePass() {}
+
+DB::DesktopPass::DesktopPass() {
+}
+
+DB::WebPass::WebPass() {}
+
 // PASSWORD DATABASE IMPLEMENTATION
 DB::Pass* DB::Password::delete_password(const string& password_id) {
     auto pass = this->get(password_id);

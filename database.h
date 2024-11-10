@@ -120,6 +120,8 @@ namespace DB {
         string id;
 
     public:
+        Pass(){}
+
         Pass(string& username, string& password, string& name, string& user_id) {
             this->created_at = time(0);
             this->updated_at = time(0);
@@ -128,8 +130,6 @@ namespace DB {
             this->user_id = user_id;
             this->name = name;
         }
-
-        virtual ~Pass() = default;
 
         // Common function for all passes (could be overridden in derived classes)
         [[nodiscard]] virtual string to_string() const;
