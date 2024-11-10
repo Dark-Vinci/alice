@@ -73,6 +73,10 @@ string Controller::App::delete_user(string &token, string*  user_id) {
     }
 
     auto token_pair = this->extract_token(token);
+    if (token_pair.first.empty()) {
+        return INVALID_TOKEN;
+    }
+
     if (user_id == nullptr) {
         user_id = &token_pair.first;
     }
@@ -95,6 +99,10 @@ string Controller::App::get_user(string& token, string* user_id) {
     }
 
     auto token_pair = this->extract_token(token);
+    if (token_pair.first.empty()) {
+        return INVALID_TOKEN;
+    }
+
     if (user_id == nullptr) {
         user_id = &token_pair.first;
     }
@@ -116,6 +124,10 @@ string Controller::App::update_user(string& token, string* user_id, string* user
     }
 
     auto token_pair = this->extract_token(token);
+    if (token_pair.first.empty()) {
+        return INVALID_TOKEN;
+    }
+
     if (user_id == nullptr) {
         user_id = &token_pair.first;
     }
@@ -150,6 +162,9 @@ string Controller::App::create_password(string& token, string& typ, string* URL,
     }
 
     auto token_pair = this->extract_token(token);
+    if (token_pair.first.empty()) {
+        return INVALID_TOKEN;
+    }
 
     if (user_id == nullptr) {
         user_id = &token_pair.first;
@@ -225,6 +240,9 @@ string Controller::App::get_password(string& token, string& pass_id) {
     }
 
     auto token_pair = this->extract_token(token);
+    if (token_pair.first.empty()) {
+        return INVALID_TOKEN;
+    }
 
     auto result = this->password_service.get(pass_id);
     if (result == nullptr) {
@@ -247,6 +265,9 @@ string Controller::App::delete_password(string& token, string& pass_id) {
     }
 
     pair<string, bool> token_pair = this->extract_token(token);
+    if (token_pair.first.empty()) {
+        return INVALID_TOKEN;
+    }
 
     auto result = this->password_service.delete_(pass_id, token_pair.second, token_pair.first);
     if (result == nullptr) {
@@ -265,6 +286,9 @@ string Controller::App::update_password(string& token, string& typ, string* user
     }
 
     pair<string, bool> token_pair = this->extract_token(token);
+    if (token_pair.first.empty()) {
+        return INVALID_TOKEN;
+    }
 
     string result_str = INVALID_OPERATION;
 
@@ -383,6 +407,9 @@ string Controller::App::get_user_passwords(string& token, string& user_id) {
     }
 
     pair<string, bool> token_pair = this->extract_token(token);
+    if (token_pair.first.empty()) {
+        return INVALID_TOKEN;
+    }
 
     vector<DB::Pass*> passwords = this->password_service.get_all_user(token_pair.first);
     if (passwords.empty()) {
@@ -407,6 +434,9 @@ string Controller::App::search_password(string& token, string& text){
     }
 
     pair<string, bool> token_pair = this->extract_token(token);
+    if (token_pair.first.empty()) {
+        return INVALID_TOKEN;
+    }
 
     vector<DB::Pass*> passwords = this->password_service.get_all_user(token_pair.first);
     if (passwords.empty()) {

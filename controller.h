@@ -17,6 +17,7 @@ namespace Controller {
         string NO_PASSWORD_FOR_USER = "NO PASSWORD FOR USER";
         string INVALID_OPERATION = "INVALID OPERATION";
         string INVALID_INPUT = "INVALID INPUT";
+        string INVALID_TOKEN = "INVALID TOKEN";
 
     private:
         pair<string, bool> extract_token(string& str);
