@@ -1,0 +1,10 @@
+# ninja log v6
+15	2917	1731227854343122386	CMakeFiles/passwordmanager.dir/service.cpp.o	2451f4c8501dfba4
+12	3015	1731227854339464811	CMakeFiles/passwordmanager.dir/main.cpp.o	64a5694e5991daef
+16	3048	1731227854343545176	CMakeFiles/passwordmanager.dir/util.cpp.o	ff49550ac8818f10
+15	3150	1731227854342712887	CMakeFiles/passwordmanager.dir/database.cpp.o	236cbbbac1bf4d9d
+11	2900	1731228052450020909	CMakeFiles/passwordmanager.dir/service.cpp.o	2451f4c8501dfba4
+9	2902	1731228052448263163	CMakeFiles/passwordmanager.dir/ui.cpp.o	b60ae45bcb6dc74e
+8	2962	1731228052447754706	CMakeFiles/passwordmanager.dir/controller.cpp.o	21202c82fef7cabe
+6	3002	1731228052445560461	CMakeFiles/passwordmanager.dir/main.cpp.o	64a5694e5991daef
+10	3109	1731228052449299119	CMakeFiles/passwordmanager.dir/database.cpp.o	236cbbbac1bf4d9d

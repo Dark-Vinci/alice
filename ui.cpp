@@ -157,13 +157,15 @@ void Terminal::start() {
 
                 string* URL_ptr = URL_.empty() ? nullptr : &URL_;
                 string* developer_ptr = developer.empty() ? nullptr : &developer;
+                string* user_id_ptr = user_id.empty() ? nullptr : &user_id;
 
-                string result = this->application.create_password(token, type, URL_ptr, username, password, name, developer_ptr);
+                string result = this->application.create_password(token, type, URL_ptr, username, password, name, developer_ptr, user_id_ptr);
 
                 cout << result << endl;
 
                 delete URL_ptr;
                 delete developer_ptr;
+                delete user_id_ptr;
 
                 break;
             }

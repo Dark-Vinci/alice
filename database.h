@@ -4,6 +4,7 @@
 
 #include <string>
 #include <sstream>
+#include <iostream>
 #include "util.h"
 
 using namespace std;
@@ -38,7 +39,7 @@ namespace DB {
             result << "User->";
             result << "id:" + id + ",";
             result << "password:" + password + ",";
-            result << "username:" + password + ",";
+            result << "username:" + username + ",";
             result << "created_at:" + std::to_string(created_at) + ",";
             result << "updated_at:" + std::to_string(updated_at) + ",";
             result << "is_admin:" + std::to_string(is_admin);
@@ -148,20 +149,20 @@ namespace DB {
 
             ss << "WebPass->";
 
-            ss << "username:" + username + ",";
-            ss << "user_id:" + user_id + ",";
-            ss << "password:" + password + ",";
-            ss << "created_at:" + std::to_string(created_at) + ",";
-            ss << "updated_at: " + std::to_string(updated_at) + ",";
-            ss << "id:" + id + ",";
-            ss << "name:" + name + ",";
-            ss << "url:" + url + ",";
+            ss << "username:" + username + ","
+            << "user_id:" + user_id + ","
+            << "password:" + password + ","
+            << "created_at:" + std::to_string(created_at) + ","
+            << "updated_at: " + std::to_string(updated_at) + ","
+            << "id:" + id + ","
+            << "name:" + name + ","
+            << "url:" + url + ",";
 
             return ss.str();
         }
 
         static WebPass* from_string(string& str) {
-            string prefix = "DesktopPass->";
+            string prefix = "WebPass->";
 
             if (!str.starts_with(prefix)) {
                 cerr << "CANNOT PARSE" << endl;
@@ -210,7 +211,7 @@ namespace DB {
 
                     entry.erase(0, p.size());
 
-                    d->password = entry;
+                    d->user_id = entry;
                 }else if (entry.starts_with("url:")) {
                     string p = "url:";
 
@@ -235,16 +236,16 @@ namespace DB {
 
         [[nodiscard]] string to_string() const override {
             stringstream ss;
-            ss << "GamePass->";
 
-            ss << "username:" + username + ",";
-            ss << "user_id:" + user_id + ",";
-            ss << "password:" + password + ",";
-            ss << "created_at:" + std::to_string(created_at) + ",";
-            ss << "updated_at: " + std::to_string(updated_at) + ",";
-            ss << "id:" + id + ",";
-            ss << "name:" + name + ",";
-            ss << "developer:" + developer + ",";
+            ss << "GamePass->"
+             << "username:" + username + ","
+             << "user_id:" + user_id + ","
+             << "password:" + password + ","
+             << "created_at:" + std::to_string(created_at) + ","
+             << "updated_at: " + std::to_string(updated_at) + ","
+             << "id:" + id + ","
+             << "name:" + name + ","
+             << "developer:" + developer;
 
             return ss.str();
         }
@@ -322,15 +323,15 @@ namespace DB {
 
         [[nodiscard]] string to_string() const override {
             stringstream ss;
-            ss << "DesktopPass->";
 
-            ss << "id:" + id + ",";
-            ss << "name:" + name + ",";
-            ss << "username:" + username + ",";
-            ss << "user_id:" + user_id + ",";
-            ss << "password:" + password + ",";
-            ss << "created_at:" + std::to_string(created_at) + ",";
-            ss << "updated_at: " + std::to_string(updated_at) + ",";
+            ss << "DesktopPass->"
+             << "id:" + id + ","
+             << "name:" + name + ","
+             << "username:" + username + ","
+             << "user_id:" + user_id + ","
+             << "password:" + password + ","
+             << "created_at:" + std::to_string(created_at) + ","
+             << "updated_at: " + std::to_string(updated_at);
 
             return ss.str();
         }
