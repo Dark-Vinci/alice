@@ -9,7 +9,9 @@
 using namespace std;
 
 pair<string, bool> Controller::App::extract_token(string& str) {
+    cout << "extract_token" +str << endl;
     if (str.empty()) {
+        cout << "TOKEN" << endl;
         return {"", false};
     }
 
@@ -18,15 +20,36 @@ pair<string, bool> Controller::App::extract_token(string& str) {
     bool is_admin;
     string encrypted_id;
 
-    while (getline(ss, token, ',')) {
-        if (token == "true") {
+    cout << "GOT HERE" << endl;
+
+    auto sp = Utils::split(str, ',');
+
+    cout << sp[0] << endl;
+    cout << sp[1] << endl;
+
+    for (const auto & st : sp) {
+        if (st == "true") {
             is_admin = true;
-        } else if (token == "false") {
+        } else if (st == "false") {
             is_admin = false;
         } else {
-            token = encrypted_id;
+            encrypted_id = st;
         }
     }
+
+//    while (getline(ss, token, ',')) {
+////        if (token == "true") {
+////            is_admin = true;
+////        } else if (token == "false") {
+////            is_admin = false;
+////        } else {
+////            token = encrypted_id;
+////        }
+//
+//        cout << "WHAT" + token << endl;
+//    }
+
+    cout << "EMCRYPTED" + encrypted_id << endl;
 
     encrypted_id = this->crypto.decode(encrypted_id);
 
@@ -49,7 +72,9 @@ string Controller::App::create_user_account(string* token, string& username, str
         ret = ADMIN_CREATED + result->to_string();
     }
 
-    delete result;
+    cout << "wan" + result->to_string() << endl;
+
+//    delete result;
 
     return ret;
 }
@@ -72,7 +97,10 @@ string Controller::App::delete_user(string &token, string*  user_id) {
         return TOKEN_NOT_PROVIDED;
     }
 
+    cout << token << endl;
     auto token_pair = this->extract_token(token);
+    cout << "FIRST -> " + token_pair.first << endl;
+    cout << " SECOND->" + token_pair.second << endl;
     if (token_pair.first.empty()) {
         return INVALID_TOKEN;
     }

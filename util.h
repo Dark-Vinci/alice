@@ -26,6 +26,18 @@ namespace Utils {
         return static_cast<time_t>(stoll(timeStr));
     }
 
+    inline std::vector<std::string> splitl (const std::string &s, char delim) {
+        std::vector<std::string> result;
+        std::stringstream ss (s);
+        std::string item;
+
+        while (getline (ss, item, delim)) {
+            result.push_back (item);
+        }
+
+        return result;
+    }
+
     class Crypto {
     private:
         string encoding_key;

@@ -5,10 +5,11 @@
 
 void Terminal::print_options() {
     cout << "INPUT NUMBER <1 - 9> TO PERFORM THE OPERATIONS BELOW" << endl;
+
     //   User related actions
-    cout << "0> Login To User Account" << endl;
-    cout << "1> Create User Account" << endl;
-    cout << "2> Update User Account" << endl;
+    cout << "0> Login To Account" << endl;
+    cout << "1> Delete User/Self Account" << endl;
+    cout << "2> Create User Account" << endl;
     cout << "3> Delete User Account" << endl;
     cout << "4> Get User Details" << endl;
 
@@ -33,6 +34,7 @@ void Terminal::start() {
         cin >> typ;
 
         switch (typ) {
+//            working
             case 0: {
                 string username, password;
 
@@ -43,28 +45,29 @@ void Terminal::start() {
                 cin >> password;
 
                 string result = this->application.login(username, password);
-                cout << result << endl;
+                cout << "RESULT: " + result << endl;
                 break;
             }
 
+//            working
             case 1: {
                 string token, user_id;
-
-                cout << TOKEN;
-                cin >> token;
 
                 cout << USER_ID;
                 cin >> user_id;
 
-                string* user_id_ptr = user_id.empty() ? nullptr : &user_id;
+                cout << TOKEN;
+                cin >> token;
+
+                string* user_id_ptr = user_id == "-" ? nullptr : &user_id;
 
                 string result = application.delete_user(token, user_id_ptr);
-                cout << result << endl;
+                cout << "RESULT: " + result << endl;
 
-                delete user_id_ptr;
                 break;
             }
 
+//            working
             case 2: {
                 string username, password, token;
 
@@ -77,7 +80,11 @@ void Terminal::start() {
                 cout << TOKEN;
                 cin >> token;
 
-                string result = application.create_user_account(&token, username, password, !token.empty());
+                string* token_ptr = token=="-" ? nullptr : &token;
+
+                string result = application.create_user_account(token_ptr, username, password, token=="-");
+
+                cout << "RESULT: " + result << endl;
                 break;
             }
 
@@ -121,9 +128,9 @@ void Terminal::start() {
                 string result = application.update_user(token, username_ptr, user_id_ptr, password_ptr);
                 cout << result << endl;
 
-                delete user_id_ptr;
-                delete password_ptr;
-                delete username_ptr;
+//                delete user_id_ptr;
+//                delete password_ptr;
+//                delete username_ptr;
 
                 break;
             }
@@ -163,9 +170,9 @@ void Terminal::start() {
 
                 cout << result << endl;
 
-                delete URL_ptr;
-                delete developer_ptr;
-                delete user_id_ptr;
+//                delete URL_ptr;
+//                delete developer_ptr;
+//                delete user_id_ptr;
 
                 break;
             }
@@ -210,12 +217,12 @@ void Terminal::start() {
                 string result = this->application.update_password(token, type, user_id_ptr, id, URL_ptr, username_ptr, password_ptr, name_ptr, developer_ptr);
                 cout << result << endl;
 
-                delete URL_ptr;
-                delete developer_ptr;
-                delete name_ptr;
-                delete username_ptr;
-                delete password_ptr;
-                delete user_id_ptr;
+//                delete URL_ptr;
+//                delete developer_ptr;
+//                delete name_ptr;
+//                delete username_ptr;
+//                delete password_ptr;
+//                delete user_id_ptr;
 
                 break;
             }
@@ -282,6 +289,8 @@ void Terminal::start() {
             }
         }
 
-        cout << "__________________________________________________________________________________________" << endl;
+        return;
+
+//        cout << "__________________________________________________________________________________________" << endl;
     }
 }

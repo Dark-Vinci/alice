@@ -267,6 +267,8 @@ DB::UserEntity* DB::User::get_user_by_username(const string& username) {
     while (getline(file, line)) {
         DB::UserEntity* temp_user = UserEntity::from_string(line);
 
+        cout << line << endl;
+
         if (temp_user->username == username) {
             user = temp_user;
             break;

@@ -1,0 +1,8 @@
+User->id:Zgr8Rd4QD,password:-. --.- .-. --.. -... -.-- -. ,username:ADEMOLA,created_at:1731403059,updated_at:1731403059,is_admin:1
+User->id:QmhsWisbn,password:--. -... --.. ...- .--- -. ,username:tomiwa,created_at:1731403333,updated_at:1731403333,is_admin:1
+User->id:BeUrMMNlE,password:--.. ...- .--- -. ,username:miwa,created_at:1731403741,updated_at:1731403741,is_admin:1
+User->id:6n6eZAoKm,password:--.. --.. ,username:mm,created_at:1731403795,updated_at:1731403795,is_admin:1
+User->id:YfWkpjFQB,password:--.. .-. -.-- -... .- ,username:melon,created_at:1731403868,updated_at:1731403868,is_admin:1
+User->id:9bLQm8pXm,password:-..- ...- -.-- ,username:kil,created_at:1731404001,updated_at:1731404001,is_admin:1
+User->id:8CMcrWDm7,password:-.-. -... -.-- ,username:pol,created_at:1731404161,updated_at:1731404161,is_admin:1
+User->id:I539hrd9Q,password:gbel,username:tory,created_at:1731407353,updated_at:1731407353,is_admin:1
