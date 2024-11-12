@@ -105,7 +105,7 @@ DB::UserEntity* Service::User::create(DB::UserEntity user) {
     auto check_user = this->database.get_user_by_username(user.username);
     if (check_user != nullptr) {
         cout<< "USERNAME IS NOT AVAILABLE"+ check_user->username << endl;
-        delete check_user;
+//        delete check_user;
         return nullptr;
     }
 
@@ -265,6 +265,8 @@ DB::Pass* Service::Password::create(DB::GamePass pass) {
         return nullptr;
     }
 
+    cout << pass.id << endl;
+
     return result;
 }
 
@@ -277,6 +279,8 @@ DB::Pass* Service::Password::create(DB::WebPass pass) {
     pass.id = this->crypto.generate_id();
     pass.created_at = time(0);
     pass.updated_at = time(0);
+
+    cout << "MISSING URL" + pass.url << endl;
 
     auto result = this->database.create(pass);
 

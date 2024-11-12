@@ -146,20 +146,25 @@ void Terminal::start() {
                 cin >> password;
 
                 cout << TYPE;
+                cout << "WEB or DESKTOP or GAME" << endl;
                 cin >> type;
 
-                cout << URL;
-                cin >> URL_;
+                if (type == "WEB") {
+                    cout << URL;
+                    cin >> URL_;
+                }
 
-                cout << DEVELOPER;
-                cin >> developer;
+                if (type == "GAME") {
+                    cout << DEVELOPER;
+                    cin >> developer;
+                }
 
                 cout << NAME;
                 cin >> name;
 
-                string* URL_ptr = URL_.empty() ? nullptr : &URL_;
-                string* developer_ptr = developer.empty() ? nullptr : &developer;
-                string* user_id_ptr = user_id.empty() ? nullptr : &user_id;
+                string* URL_ptr = URL_ == "-" ? nullptr : &URL_;
+                string* developer_ptr = developer == "-" ? nullptr : &developer;
+                string* user_id_ptr = user_id == "-" ? nullptr : &user_id;
 
                 string result = this->application.create_password(token, type, URL_ptr, username, password, name, developer_ptr, user_id_ptr);
 
@@ -171,6 +176,10 @@ void Terminal::start() {
 
             case 6: {
                 string user_id, token, username, password, type, URL_, developer, name, id;
+
+                cout << TYPE;
+                cout << "WEB or DESKTOP or GAME" << endl;
+                cin >> type;
 
                 cout << TOKEN;
                 cin >> token;
@@ -184,8 +193,9 @@ void Terminal::start() {
                 cout << PASSWORD;
                 cin >> password;
 
-                cout << TYPE;
-                cin >> type;
+//                cout << TYPE;
+//                cout << "WEB or DESKTOP or GAME" << endl;
+//                cin >> type;
 
                 cout << URL;
                 cin >> URL_;
@@ -199,12 +209,12 @@ void Terminal::start() {
                 cout << ID;
                 cin >> id;
 
-                string* URL_ptr = URL_.empty() ? nullptr : &URL_;
-                string* developer_ptr = developer.empty() ? nullptr : &developer;
-                string* name_ptr = name.empty() ? nullptr : &name;
-                string* username_ptr = username.empty() ? nullptr : &username;
-                string* password_ptr = password.empty() ? nullptr : &password;
-                string* user_id_ptr = user_id.empty() ? nullptr : &user_id;
+                string* URL_ptr = URL_ == "-" ? nullptr : &URL_;
+                string* developer_ptr = developer == "-" ? nullptr : &developer;
+                string* name_ptr = name == "-" ? nullptr : &name;
+                string* username_ptr = username == "-" ? nullptr : &username;
+                string* password_ptr = password == "-" ? nullptr : &password;
+                string* user_id_ptr = user_id == "-" ? nullptr : &user_id;
 
                 string result = this->application.update_password(token, type, user_id_ptr, id, URL_ptr, username_ptr, password_ptr, name_ptr, developer_ptr);
                 cout << result << endl;

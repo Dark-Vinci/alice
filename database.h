@@ -230,6 +230,12 @@ namespace DB {
                     entry.erase(0, p.size());
 
                     d->url = entry;
+                } else if (entry.starts_with("id:")) {
+                    string p = "id:";
+
+                    entry.erase(0, p.size());
+
+                    d->id = entry;
                 }
             }
 
@@ -263,7 +269,7 @@ namespace DB {
         }
 
         static GamePass* from_string(string& str) {
-            string prefix = "DesktopPass->";
+            string prefix = "GamePass->";
 
             if (!str.starts_with(prefix)) {
                 cerr << "CANNOT PARSE" << endl;
@@ -319,6 +325,12 @@ namespace DB {
                     entry.erase(0, p.size());
 
                     d->developer = entry;
+                } else if (entry.starts_with("id:")) {
+                    string p = "id:";
+
+                    entry.erase(0, p.size());
+
+                    d->id = entry;
                 }
             }
 
@@ -399,6 +411,12 @@ namespace DB {
                     entry.erase(0, p.size());
 
                     d->password = entry;
+                } else if (entry.starts_with("id:")) {
+                    string p = "id:";
+
+                    entry.erase(0, p.size());
+
+                    d->id = entry;
                 }
             }
 
@@ -421,9 +439,9 @@ namespace DB {
     private:
         string file_name = "./password_file.text";
         string password_temp_file = "password_temp.text";
-        string desktop_prefix = "DESKTOP:";
-        string web_prefix = "WEB:";
-        string game_prefix = "GAME:";
+        string desktop_prefix = "DesktopPass->";
+        string web_prefix = "WebPass->";
+        string game_prefix = "GamePass->";
     public:
         Pass* create(Pass& password);
         Pass* update(Pass& updated_password);

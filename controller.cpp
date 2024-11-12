@@ -152,7 +152,6 @@ string Controller::App::update_user(string& token, string* user_id, string* user
     }
 
     auto token_pair = this->extract_token(token);
-    cout << "TOKEN -> : " + token_pair.first << endl;
     if (token_pair.first.empty()) {
         return INVALID_TOKEN;
     }
@@ -160,8 +159,6 @@ string Controller::App::update_user(string& token, string* user_id, string* user
     if (user_id == nullptr) {
         user_id = &token_pair.first;
     }
-
-    cout << "THE USER ID" + *user_id << endl;
 
     auto user = this->user_service.get(*user_id);
     if (user == nullptr) {
@@ -213,6 +210,7 @@ string Controller::App::create_password(string& token, string& typ, string* URL,
         web.name = name;
         web.user_id = *user_id;
         web.url = *URL;
+        web.username = username;
 
         auto pass = this->password_service.create(web);
 
@@ -221,7 +219,6 @@ string Controller::App::create_password(string& token, string& typ, string* URL,
         }
 
         result = pass->to_string();
-        delete pass;
     } else if (typ == "DESKTOP") {
         DB::DesktopPass desktop;
         desktop.user_id = *user_id;
@@ -236,7 +233,6 @@ string Controller::App::create_password(string& token, string& typ, string* URL,
         }
 
         result = pass->to_string();
-        delete pass;
     } else if (typ == "GAME") {
         if (developer == nullptr) {
             return INVALID_INPUT;
@@ -256,7 +252,6 @@ string Controller::App::create_password(string& token, string& typ, string* URL,
         }
 
         result = pass->to_string();
-        delete pass;
     } else {
         result = INVALID_OPERATION;
     }
@@ -440,6 +435,8 @@ string Controller::App::get_user_passwords(string& token, string& user_id) {
     if (token_pair.first.empty()) {
         return INVALID_TOKEN;
     }
+
+    cout << "USER TOKEN" + token_pair.first << endl;
 
     vector<DB::Pass*> passwords = this->password_service.get_all_user(token_pair.first);
     if (passwords.empty()) {
