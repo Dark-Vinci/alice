@@ -217,7 +217,7 @@ void Terminal::start() {
                 break;
             }
 
-//            working now
+//           TODO: working now
             case 7: {
                 string token, password_id;
 
@@ -232,6 +232,7 @@ void Terminal::start() {
                 break;
             }
 
+//           TODO: done
             case 8: {
                 string token, user_id;
 
@@ -246,6 +247,7 @@ void Terminal::start() {
                 break;
             }
 
+            // TODO: DONE
             case 9: {
                 string token, password_id;
 

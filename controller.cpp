@@ -37,18 +37,6 @@ pair<string, bool> Controller::App::extract_token(string& str) {
         }
     }
 
-//    while (getline(ss, token, ',')) {
-////        if (token == "true") {
-////            is_admin = true;
-////        } else if (token == "false") {
-////            is_admin = false;
-////        } else {
-////            token = encrypted_id;
-////        }
-//
-//        cout << "WHAT" + token << endl;
-//    }
-
     cout << "EMCRYPTED" + encrypted_id << endl;
 
     encrypted_id = this->crypto.decode(encrypted_id);
@@ -141,7 +129,6 @@ string Controller::App::get_user(string& token, string* user_id) {
     result->password = "**********";
 
     string result_str = result->to_string();
-//    delete result;
 
     return result_str;
 }
@@ -323,17 +310,19 @@ string Controller::App::update_password(string& token, string& typ, string* user
     string result_str = INVALID_OPERATION;
 
     if (typ == "WEB") {
+        auto a = this->password_service.get(id);
+        if (a == nullptr) {
+            return UNABLE_TO_PERFORM_OPERATION;
+        }
+
         DB::WebPass pass;
 
-        pass.id = id;
+
         //todo:  created at should be looked into
         pass.updated_at = time(0);
-
-        if (user_id != nullptr) {
-            pass.user_id = *user_id;
-        } else {
-            pass.user_id = token_pair.first;
-        }
+        pass.created_at = a->created_at;
+        pass.user_id = a->user_id;
+        pass.id = id;
 
         if (URL != nullptr) {
             pass.url = *URL;
@@ -344,7 +333,7 @@ string Controller::App::update_password(string& token, string& typ, string* user
         }
 
         if (password != nullptr) {
-            pass.password = *password;
+            pass.password = this->crypto.encode(*password);
         }
 
         if (name != nullptr) {
@@ -358,8 +347,6 @@ string Controller::App::update_password(string& token, string& typ, string* user
         }
 
         result_str = result->to_string();
-
-        delete result;
     } else if (typ == "DESKTOP") {
         DB::DesktopPass pass;
 
@@ -391,8 +378,6 @@ string Controller::App::update_password(string& token, string& typ, string* user
         }
 
         result_str = result->to_string();
-
-        delete result;
     } else if (typ == "GAME") {
         DB::GamePass pass;
 
@@ -424,8 +409,6 @@ string Controller::App::update_password(string& token, string& typ, string* user
         }
 
         result_str = result->to_string();
-
-        delete result;
     }
 
     return result_str;

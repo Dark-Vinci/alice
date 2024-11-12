@@ -154,18 +154,18 @@ DB::Pass* Service::Password::update(DB::WebPass pass, bool is_admin, string& use
         return nullptr;
     }
 
-    auto fetch = this->database.get(pass.id);
+//    auto fetch = this->database.get(pass.id);
+//
+//    if (fetch == nullptr) {
+//        return nullptr;
+//    }
 
-    if (fetch == nullptr) {
-        return nullptr;
-    }
-
-    if (!is_admin && fetch->user_id != user_id) {
+    if (!is_admin && pass.user_id != user_id) {
         cout << "ONLY ADMINS CAN DELETE FOR ANOTHER USER" << endl;
         return nullptr;
     }
 
-    delete fetch;
+//    delete fetch;
 
     auto result = this->database.update(pass);
 

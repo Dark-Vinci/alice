@@ -431,7 +431,7 @@ namespace DB {
 
     class User{
     private:
-        string file_name = "./user_file.txt";
+        string file_name = "new_user_file.txt";
     public:
         UserEntity* create(UserEntity& user);
         UserEntity* delete_user(const string& user_id);
@@ -442,7 +442,7 @@ namespace DB {
 
     class Password{
     private:
-        string file_name = "./password_file.txt";
+        string file_name = "new_password_file.txt";
         string password_temp_file = "password_temp.text";
         string desktop_prefix = "DesktopPass->";
         string web_prefix = "WebPass->";

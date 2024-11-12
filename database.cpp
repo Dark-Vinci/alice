@@ -64,7 +64,7 @@ DB::Pass* DB::Password::delete_password(const string& password_id) {
 
 //todo: delete -> create
 DB::Pass* DB::Password::update(DB::Pass& updated_password){
-    auto pass = this->get(updated_password.id);
+    auto pass = this->delete_password(updated_password.id);
 
     if (pass == nullptr) {
         return nullptr;
