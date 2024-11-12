@@ -236,9 +236,6 @@ DB::Pass* Service::Password::delete_(const string& pass_id, bool is_admin, const
         return nullptr;
     }
 
-    cout << "PASS ID: " + pass->user_id << endl;
-    cout << "USER ID: " + user_id << endl;
-
     if (!is_admin && pass->user_id != user_id) {
         cout << "INVALID ACTION" << endl;
         return nullptr;

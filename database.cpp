@@ -54,9 +54,9 @@ DB::Pass* DB::Password::delete_password(const string& password_id) {
     //  IF FOUND; DELETE THE DB FILE  AND RENAME THE TEMP_FILE TO THE DB FILE
     if (found) {
         remove(file_name.c_str());
-        rename("password_temp.txt", file_name.c_str());
+        rename("password_temp_file.txt", file_name.c_str());
     } else {
-        remove("password_temp.txt");
+        remove("password_temp_file.txt");
     }
 
     return pass;

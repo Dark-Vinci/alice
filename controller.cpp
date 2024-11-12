@@ -274,7 +274,10 @@ string Controller::App::get_password(string& token, string& pass_id) {
         return RECORD_NOT_FOUND;
     }
 
-    if (result->id != token_pair.first && !token_pair.second) {
+    cout << "RESULT USER ID: " + result->user_id << endl;
+    cout << "RESULT TOKEN: " + token_pair.first << endl;
+
+    if (result->user_id != token_pair.first && !token_pair.second) {
         return NOT_AUTHORIZED;
     }
 

@@ -442,7 +442,7 @@ namespace DB {
 
     class Password{
     private:
-        string file_name = "./password_file.text";
+        string file_name = "./password_file.txt";
         string password_temp_file = "password_temp.text";
         string desktop_prefix = "DesktopPass->";
         string web_prefix = "WebPass->";

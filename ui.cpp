@@ -192,10 +192,6 @@ void Terminal::start() {
                 cout << PASSWORD;
                 cin >> password;
 
-//                cout << TYPE;
-//                cout << "WEB or DESKTOP or GAME" << endl;
-//                cin >> type;
-
                 cout << URL;
                 cin >> URL_;
 
@@ -221,6 +217,7 @@ void Terminal::start() {
                 break;
             }
 
+//            working now
             case 7: {
                 string token, password_id;
 
@@ -282,8 +279,6 @@ void Terminal::start() {
                 return;
             }
         }
-
-//        return;
 
         cout << "__________________________________________________________________________________________" << endl;
     }
