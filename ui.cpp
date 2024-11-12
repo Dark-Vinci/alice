@@ -168,8 +168,7 @@ void Terminal::start() {
 
                 string result = this->application.create_password(token, type, URL_ptr, username, password, name, developer_ptr, user_id_ptr);
 
-                cout << result << endl;
-
+                cout << "RESULT: " + result << endl;
 
                 break;
             }
@@ -218,13 +217,6 @@ void Terminal::start() {
 
                 string result = this->application.update_password(token, type, user_id_ptr, id, URL_ptr, username_ptr, password_ptr, name_ptr, developer_ptr);
                 cout << result << endl;
-
-//                delete URL_ptr;
-//                delete developer_ptr;
-//                delete name_ptr;
-//                delete username_ptr;
-//                delete password_ptr;
-//                delete user_id_ptr;
 
                 break;
             }

@@ -294,6 +294,8 @@ string Controller::App::delete_password(string& token, string& pass_id) {
         return INVALID_TOKEN;
     }
 
+    cout << "TOKEN ID: " + token_pair.first << endl;
+
     auto result = this->password_service.delete_(pass_id, token_pair.second, token_pair.first);
     if (result == nullptr) {
         return UNABLE_TO_PERFORM_OPERATION;

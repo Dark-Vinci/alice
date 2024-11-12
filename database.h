@@ -374,7 +374,10 @@ namespace DB {
 
             auto* d = new DesktopPass();
 
+            cout << "LINNER" + str << endl;
+
             for (string& entry: result) {
+                cout << "LINER: ENTRY ->" + entry << endl;
                 if (entry.starts_with("updated_at:")) {
                     string p = "updated_at:";
 
@@ -410,11 +413,13 @@ namespace DB {
 
                     entry.erase(0, p.size());
 
-                    d->password = entry;
+                    d->user_id = entry;
                 } else if (entry.starts_with("id:")) {
                     string p = "id:";
 
                     entry.erase(0, p.size());
+
+                    cout << "IS-> ID" + entry << endl;
 
                     d->id = entry;
                 }
