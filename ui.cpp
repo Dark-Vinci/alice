@@ -97,12 +97,11 @@ void Terminal::start() {
                 cout << USER_ID;
                 cin >> user_id;
 
-                string* user_id_prt = user_id.empty() ? nullptr : &user_id;
+                string* user_id_prt = user_id == "-" ? nullptr : &user_id;
 
                 string result = application.get_user(token, user_id_prt);
-                cout << result << endl;
+                cout << "RESULT: " + result << endl;
 
-                delete user_id_prt;
                 break;
             }
 
@@ -121,16 +120,12 @@ void Terminal::start() {
                 cout << PASSWORD;
                 cin >> password;
 
-                string* user_id_ptr = user_id.empty() ? nullptr : &user_id;
-                string* password_ptr = password.empty() ? nullptr : &password;
-                string* username_ptr = username.empty() ? nullptr : &username;
+                string* user_id_ptr = user_id == "-" ? nullptr : &user_id;
+                string* password_ptr = password == "-" ? nullptr : &password;
+                string* username_ptr = username == "-" ? nullptr : &username;
 
-                string result = application.update_user(token, username_ptr, user_id_ptr, password_ptr);
+                string result = application.update_user(token,  user_id_ptr, username_ptr, password_ptr);
                 cout << result << endl;
-
-//                delete user_id_ptr;
-//                delete password_ptr;
-//                delete username_ptr;
 
                 break;
             }
@@ -170,9 +165,6 @@ void Terminal::start() {
 
                 cout << result << endl;
 
-//                delete URL_ptr;
-//                delete developer_ptr;
-//                delete user_id_ptr;
 
                 break;
             }
@@ -289,8 +281,8 @@ void Terminal::start() {
             }
         }
 
-        return;
+//        return;
 
-//        cout << "__________________________________________________________________________________________" << endl;
+        cout << "__________________________________________________________________________________________" << endl;
     }
 }

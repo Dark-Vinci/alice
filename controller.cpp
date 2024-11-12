@@ -74,8 +74,6 @@ string Controller::App::create_user_account(string* token, string& username, str
 
     cout << "wan" + result->to_string() << endl;
 
-//    delete result;
-
     return ret;
 }
 
@@ -140,8 +138,10 @@ string Controller::App::get_user(string& token, string* user_id) {
         return RECORD_NOT_FOUND;
     }
 
+    result->password = "**********";
+
     string result_str = result->to_string();
-    delete result;
+//    delete result;
 
     return result_str;
 }
@@ -152,6 +152,7 @@ string Controller::App::update_user(string& token, string* user_id, string* user
     }
 
     auto token_pair = this->extract_token(token);
+    cout << "TOKEN -> : " + token_pair.first << endl;
     if (token_pair.first.empty()) {
         return INVALID_TOKEN;
     }
@@ -159,6 +160,8 @@ string Controller::App::update_user(string& token, string* user_id, string* user
     if (user_id == nullptr) {
         user_id = &token_pair.first;
     }
+
+    cout << "THE USER ID" + *user_id << endl;
 
     auto user = this->user_service.get(*user_id);
     if (user == nullptr) {
@@ -178,8 +181,7 @@ string Controller::App::update_user(string& token, string* user_id, string* user
         return UNABLE_TO_PERFORM_OPERATION;
     }
 
-    string result_str = "UPDATED" + result->to_string();
-    delete result;
+    string result_str = "UPDATED: " + result->to_string();
 
     return result_str;
 }

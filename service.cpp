@@ -45,11 +45,15 @@ DB::UserEntity* Service::User::get(string& user_id) {
 
     auto user = this->database.get(user_id);
 
-    if (user != nullptr) {
-        user->password = "*************";
-    }
+//    if (user != nullptr) {
+//        user->password = "*************";
+//    }
 
     return user;
+}
+
+DB::UserEntity*  Service::User::get_by_username(const string& username) {
+    return this->database.get_user_by_username(username);
 }
 
 string Service::User::login(string& username, string& password) {
