@@ -298,6 +298,7 @@ DB::UserEntity* DB::User::delete_user(const string& user_id) {
         temp_file << line << endl;
     }
 
+    // close both opened files
     file.close();
     temp_file.close();
 
@@ -312,9 +313,11 @@ DB::UserEntity* DB::User::delete_user(const string& user_id) {
     return user;
 }
 
+// DB::User::create, create a new user
 DB::UserEntity* DB::User::create(UserEntity& user){
     ofstream file(file_name, ios::app);
 
+    // error opening file
     if (!file.is_open()) {
         cerr << "CANNOT OPEN FILE" << endl;
         return nullptr;
@@ -324,6 +327,7 @@ DB::UserEntity* DB::User::create(UserEntity& user){
 
     file << user_string << endl;
 
+    // close the opened file
     file.close();
 
     return &user;
@@ -354,10 +358,12 @@ DB::UserEntity* DB::User::get(const string& user_id) {
     return user;
 }
 
+//DB::User::get_user_by_username; help get a user by their username
 DB::UserEntity* DB::User::get_user_by_username(const string& username) {
     ifstream file(file_name);
     DB::UserEntity* user = nullptr;
 
+    // error opening file
     if (!file.is_open()) {
         cerr << "CANNOT OPEN FILE" << endl;
         return nullptr;
@@ -365,6 +371,7 @@ DB::UserEntity* DB::User::get_user_by_username(const string& username) {
 
     string line;
 
+    // filter for when the username is equal to the input name
     while (getline(file, line)) {
         DB::UserEntity* temp_user = UserEntity::from_string(line);
 
@@ -374,6 +381,7 @@ DB::UserEntity* DB::User::get_user_by_username(const string& username) {
         }
     }
 
+    // close the opened file
     file.close();
 
     return user;
@@ -398,6 +406,7 @@ DB::UserEntity* DB::User::update(const string& user_id, UserEntity& updated) {
     return new_user;
 }
 
+// DB::UserEntity::to_string; converts a user entity to a string
 string DB::UserEntity::to_string() {
     stringstream result;
 
@@ -412,9 +421,11 @@ string DB::UserEntity::to_string() {
     return result.str();
 }
 
+// DB::UserEntity::from_string; create a new user entity from a string
 DB::UserEntity* DB::UserEntity::from_string(string& str) {
     string prefix = "User->";
 
+    // input validation
     if (!str.starts_with(prefix)) {
         cerr << "CANNOT PARSE" << endl;
         return nullptr;
@@ -422,10 +433,12 @@ DB::UserEntity* DB::UserEntity::from_string(string& str) {
 
     str.erase(0, prefix.size());
 
+    // split the string by the char ','
     auto result = Utils::split(str, ',');
 
     auto* d = new UserEntity();
 
+    // loop through and update the user entity with the right key:value pair
     for (string& entry: result) {
         if (entry.starts_with("updated_at:")) {
             string p = "updated_at:";
@@ -473,6 +486,7 @@ DB::UserEntity* DB::UserEntity::from_string(string& str) {
     return d;
 }
 
+//DB::GamePass::to_string; converts a Game password to string
 string DB::GamePass::to_string() const {
     stringstream ss;
 
@@ -489,9 +503,11 @@ string DB::GamePass::to_string() const {
     return ss.str();
 }
 
+//DB::GamePass::from_string; create a GamePassword from a string
 DB::GamePass* DB::GamePass::from_string(string& str) {
     string prefix = "GamePass->";
 
+    // input validation
     if (!str.starts_with(prefix)) {
         cerr << "CANNOT PARSE" << endl;
         return nullptr;
@@ -501,8 +517,9 @@ DB::GamePass* DB::GamePass::from_string(string& str) {
 
     auto result = Utils::split(str, ',');
 
-    auto* d = new GamePass();
+    GamePass* d = new GamePass();
 
+    // loop through the fields and update the game pass with the appropriate values
     for (string& entry: result) {
         if (entry.starts_with("updated_at:")) {
             string p = "updated_at:";
@@ -558,20 +575,25 @@ DB::GamePass* DB::GamePass::from_string(string& str) {
     return d;
 }
 
+//DB::DesktopPass::from_string; create a Desktop password from a string
 DB::DesktopPass* DB::DesktopPass::from_string(string& str) {
     string prefix = "DesktopPass->";
 
+    //input validation
     if (!str.starts_with(prefix)) {
         cerr << "CANNOT PARSE" << endl;
         return nullptr;
     }
 
+    // remove the prefix
     str.erase(0, prefix.size());
 
+    // split the string by the delimiter ','
     auto result = Utils::split(str, ',');
 
-    auto* d = new DesktopPass();
+    DesktopPass* d = new DesktopPass();
 
+    // fill the created password with its approriate fields
     for (string& entry: result) {
         if (entry.starts_with("updated_at:")) {
             string p = "updated_at:";
@@ -621,6 +643,7 @@ DB::DesktopPass* DB::DesktopPass::from_string(string& str) {
     return d;
 }
 
+// DB::DesktopPass::to_string; converts a Desktop password to a string
 string DB::DesktopPass::to_string() const {
     stringstream ss;
 
@@ -636,6 +659,8 @@ string DB::DesktopPass::to_string() const {
     return ss.str();
 }
 
+
+// DB::WebPass::to_string; converts a Web password to a string
 string DB::WebPass::to_string() const {
     stringstream ss;
 
@@ -652,6 +677,7 @@ string DB::WebPass::to_string() const {
     return ss.str();
 }
 
+// DB::WebPass::from_string; creates a Webpassword from a string
 DB::WebPass* DB::WebPass::from_string(string& str) {
     string prefix = "WebPass->";
 
@@ -662,10 +688,12 @@ DB::WebPass* DB::WebPass::from_string(string& str) {
 
     str.erase(0, prefix.size());
 
+    // split the string by a delimiter
     auto result = Utils::split(str, ',');
 
-    auto* d = new WebPass();
+    WebPass* d = new WebPass();
 
+    // loop through the string and fill the web password with it's appropriate fields
     for (string& entry: result) {
         if (entry.starts_with("updated_at:")) {
             string p = "updated_at:";

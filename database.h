@@ -13,6 +13,7 @@ using namespace std;
 #define PASSWORDMANAGER_DATABASE_H
 
 namespace DB {
+    // User entity class
     class UserEntity {
     public:
         string password;
@@ -38,6 +39,7 @@ namespace DB {
         static UserEntity* from_string(string& str);
     };
 
+    // Base class for all form of passwords to inherit from
     class Pass {
     public:
         string username;
@@ -51,6 +53,7 @@ namespace DB {
     public:
         Pass(){}
 
+        // constructor fuction
         Pass(string& username, string& password, string& name, string& user_id) {
             this->created_at = time(0);
             this->updated_at = time(0);
@@ -60,7 +63,7 @@ namespace DB {
             this->name = name;
         }
 
-        // Common function for all passes (could be overridden in derived classes)
+        // Default function from the password to convert the password to string
         [[nodiscard]] virtual string to_string() const {
             stringstream ss;
 
@@ -77,6 +80,7 @@ namespace DB {
         }
     };
 
+    // Game WebPass class{ inherits from Pass and adds a extra field with an extra method}
     class WebPass: public Pass {
     public:
         string url;
@@ -91,6 +95,7 @@ namespace DB {
         static WebPass* from_string(string& str);
     };
 
+    // Game Password class{ inherits from Pass and adds a extra field with an extra method}
     class GamePass: public Pass {
     public:
         string developer;
@@ -105,11 +110,12 @@ namespace DB {
         static GamePass* from_string(string& str);
     };
 
+    // Game DesktopPass class{ inherits from Pass with an extra method}
     class DesktopPass: public Pass {
     public:
         DesktopPass();
 
-        DesktopPass(string& username, string& password, string& name, string& user_id, string& developer)
+        DesktopPass(string& username, string& password, string& name, string& user_id)
             : Pass(username, password, name, user_id) {};
 
         [[nodiscard]] string to_string() const override;
@@ -117,6 +123,7 @@ namespace DB {
         static DesktopPass* from_string(string& str);
     };
 
+    // User class repository{ to interact with the DB[FILE]}
     class User{
     private:
         string file_name = "new_user_file.txt";
@@ -128,6 +135,7 @@ namespace DB {
         UserEntity* get_user_by_username(const string& username);
     };
 
+    // Password class repository{ to interact with the DB[FILE]}
     class Password{
     private:
         string file_name = "new_password_file.txt";
