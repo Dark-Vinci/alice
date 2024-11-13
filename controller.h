@@ -42,7 +42,7 @@ namespace Controller {
         string create_password(string& token, string& typ, string* URL, string& username, string& password, string& name, string* developer, string* user_id);
         string update_password(string& token, string& typ, string* user_id, string& id, string* URL, string* username, string* password, string* name, string* developer);
         string delete_password(string& token, string& pass_id);
-        string get_user_passwords(string& token, string& user_id);
+        string get_user_passwords(string& token, string* user_id);
         string get_password(string& token, string& pass_id);
         string search_password(string& token, string& text);
     };

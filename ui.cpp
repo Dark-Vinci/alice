@@ -24,6 +24,7 @@ void Terminal::print_options() {
 void Terminal::start() {
     cout << "WELCOME TO THE TERMINAL PASSWORD MANAGER" << endl;
 
+    // Application loop: this stops the application to be used for multiple actions without needing to restart the application;
     while (true) {
         print_options();
 
@@ -140,7 +141,13 @@ void Terminal::start() {
                 break;
             }
 
-            //
+            // To create a new password(WEB, DESKTOP, GAME)
+            // If an admin is creating the password for the user, the user_id must be added, else the password will be created for the user of the token
+            // username is a must provided
+            // password must be provided
+            // for WEB: URL must be provided
+            // For GAME: Developer name must be provided
+            // name of the password must also be provided
             case 5: {
                 string user_id, token, username, password, type, URL_, developer, name;
 
@@ -228,6 +235,9 @@ void Terminal::start() {
                 break;
             }
 
+            // To delete a user password(admin, user)
+            // provide the login token
+            // provide the password id which cannot be empty
             case 7: {
                 string token, password_id;
 
@@ -242,6 +252,9 @@ void Terminal::start() {
                 break;
             }
 
+            // Get list of all user password(admin, user)
+            // provide the login token
+            // provide the user id an admin checking for a user, else use "-"
             case 8: {
                 string token, user_id;
 
@@ -251,11 +264,16 @@ void Terminal::start() {
                 cout << USER_ID;
                 cin >> user_id;
 
-                string result = this->application.get_user_passwords(token, user_id);
+                string* user_id_ptr = user_id == "-" ? nullptr : &user_id;
+
+                string result = this->application.get_user_passwords(token, user_id_ptr);
                 cout << "RESULT: " + result << endl;
                 break;
             }
 
+            // To get a password by id (user, admin)
+            // provide the login token
+            // provide the password ID
             case 9: {
                 string token, password_id;
 
@@ -270,6 +288,9 @@ void Terminal::start() {
                 break;
             }
 
+            // To search a list of user password
+            // provide the user token
+            // provide the "substring" to be searched
             case 10: {
                 string token, text;
 

@@ -15,6 +15,7 @@ private:
     void print_options();
 
 private:
+    // LIST OF INPUT VALUE
     string TOKEN = "TOKEN: ";
     string PASSWORD = "PASSWORD: ";
     string USERNAME = "USERNAME: ";
@@ -31,6 +32,7 @@ public:
         cout << "--------INITIALIZING THE TERMINAL APPLICATION--------" << endl;
     }
 
+    // application loop;
     void start();
 };
 

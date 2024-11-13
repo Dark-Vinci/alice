@@ -57,10 +57,12 @@ string Service::User::login(string& username, string& password) {
     // validation has been done in the controller
     DB::UserEntity* user = this->database.get_user_by_username(username);
 
+    // no user exist with same username
     if (user == nullptr) {
         return "";
     }
 
+    // check if the hash of the password input is valid
     if (this->crypto.hash(password) != user->password) {
         return "";
     }

@@ -436,7 +436,7 @@ DB::UserEntity* DB::UserEntity::from_string(string& str) {
 
             entry.erase(0, p.size());
 
-            if (entry == "true") {
+            if (entry == "1") {
                 d->is_admin = true;
             } else {
                 d->is_admin = false;
