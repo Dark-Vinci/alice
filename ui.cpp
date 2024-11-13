@@ -61,7 +61,7 @@ void Terminal::start() {
 
                 string* user_id_ptr = user_id == "-" ? nullptr : &user_id;
 
-                string result = application.delete_user(token, user_id_ptr);
+                string result = this->application.delete_user(token, user_id_ptr);
                 cout << "RESULT: " + result << endl;
 
                 break;
@@ -227,7 +227,7 @@ void Terminal::start() {
                 cout << PASSWORD_ID;
                 cin >> password_id;
 
-                string result = application.delete_password(token, password_id);
+                string result = this->application.delete_password(token, password_id);
                 cout << result << endl;
                 break;
             }
@@ -257,7 +257,7 @@ void Terminal::start() {
                 cout << PASSWORD_ID;
                 cin >> password_id;
 
-                string result = application.get_password(token, password_id);
+                string result = this->application.get_password(token, password_id);
                 cout << result << endl;
                 break;
             }
@@ -271,7 +271,7 @@ void Terminal::start() {
                 cout << TEXT;
                 cin >> text;
 
-                string result = application.search_password(token, text);
+                string result = this->application.search_password(token, text);
                 cout << result << endl;
                 break;
             }

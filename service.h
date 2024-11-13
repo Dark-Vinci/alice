@@ -37,6 +37,10 @@ namespace Service {
         DB::Pass* update(DB::WebPass pass, bool is_admin, string& user_id);
         DB::Pass* update(DB::DesktopPass pass, bool is_admin, string& user_id);
 
+        DB::WebPass* get_web(const string& id);
+        DB::GamePass* get_game(const string& id);
+        DB::DesktopPass* get_desktop(const string& id);
+
         DB::Pass* get(const string& id);
         vector<DB::Pass*> get_all_user(string& user_id);
     };

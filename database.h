@@ -135,12 +135,12 @@ namespace DB {
         [[nodiscard]] virtual string to_string() const {
             stringstream ss;
 
-            ss << "WebPass->"
+            ss << "Pass->"
                << "username:" + username + ","
                << "user_id:" + user_id + ","
                << "password:" + password + ","
                << "created_at:" + std::to_string(created_at) + ","
-               << "updated_at: " + std::to_string(updated_at) + ","
+               << "updated_at:" + std::to_string(updated_at) + ","
                << "id:" + id + ","
                << "name:" + name;
 
@@ -157,90 +157,9 @@ namespace DB {
         WebPass(string& username, string& password, string& name, string& user_id, string& url)
                 : Pass(username, password, name, user_id), url(url) {};
 
-        [[nodiscard]] string to_string() const override {
-            stringstream ss;
+        [[nodiscard]] string to_string() const override;
 
-            ss << "WebPass->"
-            << "username:" + username + ","
-            << "user_id:" + user_id + ","
-            << "password:" + password + ","
-            << "created_at:" + std::to_string(created_at) + ","
-            << "updated_at: " + std::to_string(updated_at) + ","
-            << "id:" + id + ","
-            << "name:" + name + ","
-            << "url:" + url;
-
-            return ss.str();
-        }
-
-        static WebPass* from_string(string& str) {
-            string prefix = "WebPass->";
-
-            if (!str.starts_with(prefix)) {
-                cerr << "CANNOT PARSE" << endl;
-                return nullptr;
-            }
-
-            str.erase(0, prefix.size());
-
-            auto result = Utils::split(str, ',');
-
-            auto* d = new WebPass();
-
-            for (string& entry: result) {
-                if (entry.starts_with("updated_at:")) {
-                    string p = "updated_at:";
-
-                    entry.erase(0, p.size());
-
-                    d->updated_at = Utils::stringToTimeT(entry);
-                } else if (entry.starts_with("created_at:")) {
-                    string p = "created_at:";
-
-                    entry.erase(0, p.size());
-
-                    d->created_at = Utils::stringToTimeT(entry);
-                } else if (entry.starts_with("name:")) {
-                    string p = "name:";
-
-                    entry.erase(0, p.size());
-
-                    d->name = entry;
-                } else if (entry.starts_with("username:")) {
-                    string p = "username:";
-
-                    entry.erase(0, p.size());
-
-                    d->username = entry;
-                } else if (entry.starts_with("password:")) {
-                    string p = "password:";
-
-                    entry.erase(0, p.size());
-
-                    d->password = entry;
-                } else if (entry.starts_with("user_id:")) {
-                    string p = "user_id:";
-
-                    entry.erase(0, p.size());
-
-                    d->user_id = entry;
-                }else if (entry.starts_with("url:")) {
-                    string p = "url:";
-
-                    entry.erase(0, p.size());
-
-                    d->url = entry;
-                } else if (entry.starts_with("id:")) {
-                    string p = "id:";
-
-                    entry.erase(0, p.size());
-
-                    d->id = entry;
-                }
-            }
-
-            return d;
-        }
+        static WebPass* from_string(string& str);
     };
 
     class GamePass: public Pass {
@@ -355,7 +274,7 @@ namespace DB {
              << "user_id:" + user_id + ","
              << "password:" + password + ","
              << "created_at:" + std::to_string(created_at) + ","
-             << "updated_at: " + std::to_string(updated_at);
+             << "updated_at:" + std::to_string(updated_at);
 
             return ss.str();
         }
@@ -451,6 +370,9 @@ namespace DB {
         Pass* create(Pass& password);
         Pass* update(Pass& updated_password);
         Pass* get(const string& password_id);
+        WebPass* get_web(const string& id);
+        GamePass* get_game(const string& id);
+        DesktopPass* get_desktop(const string& id);
         vector<Pass*> get_all(const string& user_id);
         Pass* delete_password(const string& password_id);
     };

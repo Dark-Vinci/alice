@@ -62,6 +62,81 @@ DB::Pass* DB::Password::delete_password(const string& password_id) {
     return pass;
 }
 
+DB::WebPass* DB::Password::get_web(const string& id) {
+    ifstream file(file_name);
+    DB::WebPass* password = nullptr;
+
+    if (!file.is_open()) {
+        cerr << "CANNOT OPEN FILE" << endl;
+        return nullptr;
+    }
+
+    string line;
+
+    while (getline(file, line)) {
+        if (line.find(id) != string::npos) {
+            if ((line.compare(0, web_prefix.size(), web_prefix) == 0)) {
+                password = DB::WebPass::from_string(line);
+            }
+            break;
+        }
+    }
+
+    file.close();
+
+    return password;
+}
+
+DB::GamePass* DB::Password::get_game(const string& id) {
+    ifstream file(file_name);
+    DB::GamePass* password = nullptr;
+
+    if (!file.is_open()) {
+        cerr << "CANNOT OPEN FILE" << endl;
+        return nullptr;
+    }
+
+    string line;
+
+    while (getline(file, line)) {
+        if (line.find(id) != string::npos) {
+            if ((line.compare(0, game_prefix.size(), game_prefix) == 0)) {
+                password = DB::GamePass::from_string(line);
+            }
+            break;
+        }
+    }
+
+    file.close();
+
+    return password;
+}
+
+DB::DesktopPass* DB::Password::get_desktop(const string& id) {
+    ifstream file(file_name);
+    DB::DesktopPass* password = nullptr;
+
+    if (!file.is_open()) {
+        cerr << "CANNOT OPEN FILE" << endl;
+        return nullptr;
+    }
+
+    string line;
+
+    while (getline(file, line)) {
+        if (line.find(id) != string::npos) {
+            if ((line.compare(0, game_prefix.size(), game_prefix) == 0)) {
+                password = DB::DesktopPass::from_string(line);
+            }
+            break;
+        }
+    }
+
+    file.close();
+
+    return password;
+}
+
 //todo: delete -> create
 DB::Pass* DB::Password::update(DB::Pass& updated_password){
     auto pass = this->delete_password(updated_password.id);
@@ -297,4 +372,89 @@ DB::UserEntity* DB::User::update(const string& user_id, UserEntity& updated) {
     }
 
     return new_user;
+}
+
+string DB::WebPass::to_string() const {
+    stringstream ss;
+
+    ss << "WebPass->"
+    << "username:" + username + ","
+    << "user_id:" + user_id + ","
+    << "password:" + password + ","
+    << "created_at:" + std::to_string(created_at) + ","
+    << "updated_at: " + std::to_string(updated_at) + ","
+    << "id:" + id + ","
+    << "name:" + name + ","
+    << "url:" + url;
+
+    return ss.str();
+}
+
+DB::WebPass* DB::WebPass::from_string(string& str) {
+    string prefix = "WebPass->";
+
+    if (!str.starts_with(prefix)) {
+        cerr << "CANNOT PARSE" << endl;
+        return nullptr;
+    }
+
+    str.erase(0, prefix.size());
+
+    auto result = Utils::split(str, ',');
+
+    auto* d = new WebPass();
+
+    for (string& entry: result) {
+        if (entry.starts_with("updated_at:")) {
+            string p = "updated_at:";
+
+            entry.erase(0, p.size());
+
+            d->updated_at = Utils::stringToTimeT(entry);
+        } else if (entry.starts_with("created_at:")) {
+            string p = "created_at:";
+
+            entry.erase(0, p.size());
+
+            d->created_at = Utils::stringToTimeT(entry);
+        } else if (entry.starts_with("name:")) {
+            string p = "name:";
+
+            entry.erase(0, p.size());
+
+            d->name = entry;
+        } else if (entry.starts_with("username:")) {
+            string p = "username:";
+
+            entry.erase(0, p.size());
+
+            d->username = entry;
+        } else if (entry.starts_with("password:")) {
+            string p = "password:";
+
+            entry.erase(0, p.size());
+
+            d->password = entry;
+        } else if (entry.starts_with("user_id:")) {
+            string p = "user_id:";
+
+            entry.erase(0, p.size());
+
+            d->user_id = entry;
+        }else if (entry.starts_with("url:")) {
+            string p = "url:";
+
+            entry.erase(0, p.size());
+
+            d->url = entry;
+        } else if (entry.starts_with("id:")) {
+            string p = "id:";
+
+            entry.erase(0, p.size());
+
+            d->id = entry;
+        }
+    }
+
+    return d;
 }

@@ -60,7 +60,7 @@ string Controller::App::create_user_account(string* token, string& username, str
         ret = ADMIN_CREATED + result->to_string();
     }
 
-    cout << "wan" + result->to_string() << endl;
+//    cout << "wan" + result->to_string() << endl;
 
     return ret;
 }
@@ -261,8 +261,8 @@ string Controller::App::get_password(string& token, string& pass_id) {
         return RECORD_NOT_FOUND;
     }
 
-    cout << "RESULT USER ID: " + result->user_id << endl;
-    cout << "RESULT TOKEN: " + token_pair.first << endl;
+//    cout << "RESULT USER ID: " + result->user_id << endl;
+//    cout << "RESULT TOKEN: " + token_pair.first << endl;
 
     if (result->user_id != token_pair.first && !token_pair.second) {
         return NOT_AUTHORIZED;
@@ -284,14 +284,14 @@ string Controller::App::delete_password(string& token, string& pass_id) {
         return INVALID_TOKEN;
     }
 
-    cout << "TOKEN ID: " + token_pair.first << endl;
+//    cout << "TOKEN ID: " + token_pair.first << endl;
 
     auto result = this->password_service.delete_(pass_id, token_pair.second, token_pair.first);
     if (result == nullptr) {
         return UNABLE_TO_PERFORM_OPERATION;
     }
 
-    string result_str = "DELETED" + result->to_string();
+    string result_str = "DELETED: " + result->to_string();
     delete result;
 
     return result_str;
@@ -307,103 +307,97 @@ string Controller::App::update_password(string& token, string& typ, string* user
         return INVALID_TOKEN;
     }
 
+    cout << "ABEG OOOOO2" << endl;
+
     string result_str = INVALID_OPERATION;
 
     if (typ == "WEB") {
-        auto a = this->password_service.get(id);
-        if (a == nullptr) {
+        cout << "ABEG OOOOO" << endl;
+        auto old = this->password_service.get_web(id);
+        if (old == nullptr) {
             return UNABLE_TO_PERFORM_OPERATION;
         }
 
-        DB::WebPass pass;
+        cout << "ABEG OOOOO999" << endl;
 
-
-        //todo:  created at should be looked into
-        pass.updated_at = time(0);
-        pass.created_at = a->created_at;
-        pass.user_id = a->user_id;
-        pass.id = id;
+        old->updated_at = time(0);
 
         if (URL != nullptr) {
-            pass.url = *URL;
+            old->url = *URL;
         }
 
         if (username != nullptr) {
-            pass.username = *username;
+            old->username = *username;
         }
 
         if (password != nullptr) {
-            pass.password = this->crypto.encode(*password);
+            old->password = this->crypto.encode(*password);
         }
 
         if (name != nullptr) {
-            pass.name = *name;
+            old->name = *name;
         }
 
-        auto result = this->password_service.update(pass, token_pair.second, pass.user_id);
+        cout << "ABEG OOOOO4" << endl;
+        auto result = this->password_service.update(*old, token_pair.second, old->user_id);
 
+        cout << "ABEG OOOOO3" << endl;
         if (result == nullptr) {
             return UNABLE_TO_PERFORM_OPERATION;
         }
 
         result_str = result->to_string();
     } else if (typ == "DESKTOP") {
-        DB::DesktopPass pass;
-
-        pass.id = id;
-        pass.updated_at = time(0);
-
-        if (user_id != nullptr) {
-            pass.user_id = *user_id;
-        } else {
-            pass.user_id = token_pair.first;
+        auto old = this->password_service.get_desktop(id);
+        if (old == nullptr) {
+            return UNABLE_TO_PERFORM_OPERATION;
         }
 
+        old->updated_at = time(0);
+
         if (username != nullptr) {
-            pass.username = *username;
+            old->username = *username;
         }
 
         if (password != nullptr) {
-            pass.password = *password;
+            old->password = this->crypto.encode(*password);
         }
 
         if (name != nullptr) {
-            pass.name = *name;
+            old->name = *name;
         }
 
-        auto result = this->password_service.update(pass, token_pair.second, pass.user_id);
-
+        auto result = this->password_service.update(*old, token_pair.second, old->user_id);
         if (result == nullptr) {
             return UNABLE_TO_PERFORM_OPERATION;
         }
 
         result_str = result->to_string();
     } else if (typ == "GAME") {
-        DB::GamePass pass;
-
-        pass.id = id;
-        pass.updated_at = time(0);
-
-        if (user_id != nullptr) {
-            pass.user_id = *user_id;
-        } else {
-            pass.user_id = token_pair.first;
+        auto old = this->password_service.get_game(id);
+        if (old == nullptr) {
+            return UNABLE_TO_PERFORM_OPERATION;
         }
 
+        old->updated_at = time(0);
+
         if (username != nullptr) {
-            pass.username = *username;
+            old->username = *username;
         }
 
         if (password != nullptr) {
-            pass.password = *password;
+            old->password = this->crypto.encode(*password);;
         }
 
         if (name != nullptr) {
-            pass.name = *name;
+            old->name = *name;
         }
 
-        auto result = this->password_service.update(pass, token_pair.second, pass.user_id);
+        if (developer != nullptr) {
+            old->developer = *developer;
+        }
 
+        auto result = this->password_service.update(*old, token_pair.second, old->user_id);
         if (result == nullptr) {
             return UNABLE_TO_PERFORM_OPERATION;
         }

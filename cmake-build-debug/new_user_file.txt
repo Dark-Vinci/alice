@@ -1,2 +1,3 @@
-User->id:ppESKJ4hC,password:GBZVJN,username:TOMIWA,created_at:1731430370,updated_at:1731430370,is_admin:1
-User->id:HS7p8izQ2,password:zvjn,username:miwa,created_at:1731430583,updated_at:1731430583,is_admin:1
+User->id:ffZKwjMyW,password:zbyn,username:mola,created_at:1731490962,updated_at:1731490962,is_admin:1
+User->id:5ps65AZI9,password:mreb,username:below-zero,created_at:1731491028,updated_at:1731491028,is_admin:1
+User->id:QowjyGevF,password:ybob,username:lobo,created_at:1731490981,updated_at:1731493165,is_admin:0
