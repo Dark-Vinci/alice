@@ -19,7 +19,10 @@ DB::DesktopPass::DesktopPass() {
 DB::WebPass::WebPass() {}
 
 // PASSWORD DATABASE IMPLEMENTATION
+
+// DB::Password::delete_password: delete a password by its id
 DB::Pass* DB::Password::delete_password(const string& password_id) {
+    // fetch the password by its ID
     auto pass = this->get(password_id);
 
     if (pass == nullptr) {
@@ -29,6 +32,7 @@ DB::Pass* DB::Password::delete_password(const string& password_id) {
     //    READ THE DB FILE
     ifstream file(file_name);
 
+    // if the file could not be open, return a nullptr value
     if (!file.is_open()) {
         cerr << "Could not open the file!" << endl;
         return nullptr;
@@ -40,6 +44,7 @@ DB::Pass* DB::Password::delete_password(const string& password_id) {
     string line;
     bool found = false;
 
+    // filter the required lines out
     while (getline(file, line)) {
         if (line.find(password_id) != string::npos) {
             found = true;
@@ -62,17 +67,21 @@ DB::Pass* DB::Password::delete_password(const string& password_id) {
     return pass;
 }
 
+// DB::Password::get_web: get a web password by its id
 DB::WebPass* DB::Password::get_web(const string& id) {
     ifstream file(file_name);
-    DB::WebPass* password = nullptr;
 
+    // file could not be opned
     if (!file.is_open()) {
         cerr << "CANNOT OPEN FILE" << endl;
         return nullptr;
     }
 
+    DB::WebPass* password = nullptr;
+
     string line;
 
+    // filter the required lines out
     while (getline(file, line)) {
         if (line.find(id) != string::npos) {
             if ((line.compare(0, web_prefix.size(), web_prefix) == 0)) {
@@ -87,6 +96,7 @@ DB::WebPass* DB::Password::get_web(const string& id) {
     return password;
 }
 
+// DB::Password::get_game: get a game password by its id
 DB::GamePass* DB::Password::get_game(const string& id) {
     ifstream file(file_name);
     DB::GamePass* password = nullptr;
@@ -98,6 +108,7 @@ DB::GamePass* DB::Password::get_game(const string& id) {
 
     string line;
 
+    // filter where the password id is equal to the input id
     while (getline(file, line)) {
         if (line.find(id) != string::npos) {
             if ((line.compare(0, game_prefix.size(), game_prefix) == 0)) {
@@ -107,11 +118,13 @@ DB::GamePass* DB::Password::get_game(const string& id) {
         }
     }
 
+    // close the open file
     file.close();
 
     return password;
 }
 
+//DB::Password::get_desktop gets a desktop password by it's id
 DB::DesktopPass* DB::Password::get_desktop(const string& id) {
     ifstream file(file_name);
     DB::DesktopPass* password = nullptr;
@@ -123,6 +136,7 @@ DB::DesktopPass* DB::Password::get_desktop(const string& id) {
 
     string line;
 
+    // filter the desktop where the id is equal to the input id
     while (getline(file, line)) {
         if (line.find(id) != string::npos) {
             if ((line.compare(0, game_prefix.size(), game_prefix) == 0)) {
@@ -132,21 +146,25 @@ DB::DesktopPass* DB::Password::get_desktop(const string& id) {
         }
     }
 
+    //close the opened file
     file.close();
 
     return password;
 }
 
-//todo: delete -> create
+//DB::Password::update:  update a password
 DB::Pass* DB::Password::update(DB::Pass& updated_password){
     auto pass = this->delete_password(updated_password.id);
 
+    // failure to delete
     if (pass == nullptr) {
         return nullptr;
     }
 
+    // create a new password
     auto updated = this->create(updated_password);
 
+    // unable to create
     if (updated == nullptr) {
         return nullptr;
     }
@@ -171,6 +189,7 @@ DB::Pass* DB::Password::create(DB::Pass& password) {
     return &password;
 }
 
+//DB::Password::get: get a password by its id
 DB::Pass* DB::Password::get(const string& password_id) {
     ifstream file(file_name);
     DB::Pass* password = nullptr;
@@ -182,6 +201,7 @@ DB::Pass* DB::Password::get(const string& password_id) {
 
     string line;
 
+    // filters the password and convert the string to the password object
     while (getline(file, line)) {
         if (line.find(password_id) != string::npos) {
             if (line.compare(0, desktop_prefix.size(), desktop_prefix) == 0) {
@@ -191,17 +211,20 @@ DB::Pass* DB::Password::get(const string& password_id) {
                 // game app
                 password = DB::GamePass::from_string(line);
             } else if ((line.compare(0, web_prefix.size(), web_prefix) == 0)) {
+                // web password
                 password = DB::WebPass::from_string(line);
             }
             break;
         }
     }
 
+    // close file
     file.close();
 
     return password;
 }
 
+//DB::Password::get_all: gets all passwords related/created by a user
 vector<DB::Pass*> DB::Password::get_all(const string& user_id) {
     ifstream file(file_name);
     vector<DB::Pass*> passwords = {};
@@ -213,6 +236,7 @@ vector<DB::Pass*> DB::Password::get_all(const string& user_id) {
 
     string line;
 
+    // filter the passwords by the user id
     while (getline(file, line)) {
         if (line.find(user_id) != string::npos) {
             if (line.compare(0, desktop_prefix.size(), desktop_prefix) == 0) {
@@ -230,6 +254,7 @@ vector<DB::Pass*> DB::Password::get_all(const string& user_id) {
         }
     }
 
+    // close file
     file.close();
 
     return passwords;
@@ -237,16 +262,16 @@ vector<DB::Pass*> DB::Password::get_all(const string& user_id) {
 
 // USER DATABASE IMPLEMENTATION
 DB::UserEntity* DB::User::delete_user(const string& user_id) {
+    // validate the user id is not empty
     if (user_id.empty()) {
-        cout << "USER ID IS EMPTY" << endl;
         return nullptr;
     }
 
     //     CHECK IF THE USER IS STORED
     auto user = this->get(user_id);
 
+    // user is not found
     if (user == nullptr) {
-        cout << "USER NOT FOUND" << endl;
         return nullptr;
     }
 
@@ -264,6 +289,7 @@ DB::UserEntity* DB::User::delete_user(const string& user_id) {
     string line;
     bool found = false;
 
+    // filter the needed user
     while (getline(file, line)) {
         if (line.find(user_id) != string::npos) {
             found = true;
