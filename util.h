@@ -10,33 +10,9 @@ using namespace std;
 #define PASSWORDMANAGER_UTIL_H
 
 namespace Utils {
-    inline vector<string> split(const string& str, char delimiter) {
-        vector<string> tokens;
-        stringstream ss(str);
-        string token;
-
-        while (getline(ss, token, delimiter)) {
-            tokens.push_back(token);
-        }
-
-        return tokens;
-    }
-
-    inline time_t stringToTimeT(const string& timeStr) {
-        return static_cast<time_t>(stoll(timeStr));
-    }
-
-    inline std::vector<std::string> splitl (const std::string &s, char delim) {
-        std::vector<std::string> result;
-        std::stringstream ss (s);
-        std::string item;
-
-        while (getline (ss, item, delim)) {
-            result.push_back (item);
-        }
-
-        return result;
-    }
+    vector<string> split(const string& str, char delimiter);
+    time_t stringToTimeT(const string& timeStr);
+    vector<string> splitl (const string& s, char delim);
 
     class Crypto {
     private:

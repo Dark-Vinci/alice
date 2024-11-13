@@ -6,26 +6,40 @@
 #include <random>
 #include <algorithm>
 #include <sstream>
+#include <vector>
 #include "util.h"
 
 using namespace std;
 
+vector<string> Utils::split(const string& str, char delimiter) {
+    vector<string> tokens;
+    stringstream ss(str);
+    string token;
+
+    while (getline(ss, token, delimiter)) {
+        tokens.push_back(token);
+    }
+
+    return tokens;
+}
+
+time_t Utils::stringToTimeT(const string& timeStr) {
+    return static_cast<time_t>(stoll(timeStr));
+}
+
+vector<string> Utils::splitl(const std::string &s, char delim) {
+    std::vector<std::string> result;
+    std::stringstream ss (s);
+    std::string item;
+
+    while (getline (ss, item, delim)) {
+        result.push_back (item);
+    }
+
+    return result;
+}
+
 string Utils::Crypto::decode(const string& encoded_string) {
-    // ENCODED STRING -> DECODE MORSE CODE -> INVERSE ROT13 -> RESULT
-//    stringstream decoded_morse;
-//    stringstream morse_stream(encoded_string);
-//    string morse_char;
-
-//    while (morse_stream >> morse_char) {
-//        if (inverse_morse.find(morse_char) != inverse_morse.end()) {
-//            decoded_morse << inverse_morse[morse_char];
-//        } else if (morse_char == "/") {
-//            decoded_morse << ' ';
-//        }
-//    }
-
-//    auto decoded_morse_string = decoded_morse.str();
-
     return this->rot13(encoded_string);
 }
 
@@ -46,20 +60,7 @@ string  Utils::Crypto::rot13(const string& str) {
 }
 
 string Utils::Crypto::encode(const string& password) {
-    //STRING -> ROT13 -> MORSE CODE -> RESULT
-    string rot13 = this->rot13(password);
-
-//    stringstream morse_string;
-//
-//    for(char c: password) {
-//        c = toupper(c);
-//
-//        if (morse_map.find(c) != morse_map.end()) {
-//            morse_string << morse_map[c] << " ";
-//        }
-//    }
-
-    return rot13;
+    return this->rot13(password);
 }
 
 string Utils::Crypto::hash(const string& password) {

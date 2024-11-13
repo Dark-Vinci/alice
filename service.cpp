@@ -6,6 +6,7 @@
 #include <string>
 #include <iostream>
 #include <sstream>
+
 #include "service.h"
 #include "database.h"
 
@@ -44,10 +45,6 @@ DB::UserEntity* Service::User::get(string& user_id) {
     }
 
     auto user = this->database.get(user_id);
-
-//    if (user != nullptr) {
-//        user->password = "*************";
-//    }
 
     return user;
 }
@@ -105,7 +102,6 @@ DB::UserEntity* Service::User::create(DB::UserEntity user) {
     auto check_user = this->database.get_user_by_username(user.username);
     if (check_user != nullptr) {
         cout<< "USERNAME IS NOT AVAILABLE"+ check_user->username << endl;
-//        delete check_user;
         return nullptr;
     }
 
@@ -304,7 +300,6 @@ DB::Pass* Service::Password::create(DB::WebPass pass) {
     pass.created_at = time(0);
     pass.updated_at = time(0);
 
-    cout << "MISSING URL" + pass.url << endl;
 
     auto result = this->database.create(pass);
 

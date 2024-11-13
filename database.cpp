@@ -374,6 +374,249 @@ DB::UserEntity* DB::User::update(const string& user_id, UserEntity& updated) {
     return new_user;
 }
 
+string DB::UserEntity::to_string() {
+    stringstream result;
+
+    result << "User->";
+    result << "id:" + id + ",";
+    result << "password:" + password + ",";
+    result << "username:" + username + ",";
+    result << "created_at:" + std::to_string(created_at) + ",";
+    result << "updated_at:" + std::to_string(updated_at) + ",";
+    result << "is_admin:" + std::to_string(is_admin);
+
+    return result.str();
+}
+
+DB::UserEntity* DB::UserEntity::from_string(string& str) {
+    string prefix = "User->";
+
+    if (!str.starts_with(prefix)) {
+        cerr << "CANNOT PARSE" << endl;
+        return nullptr;
+    }
+
+    str.erase(0, prefix.size());
+
+    auto result = Utils::split(str, ',');
+
+    auto* d = new UserEntity();
+
+    for (string& entry: result) {
+        if (entry.starts_with("updated_at:")) {
+            string p = "updated_at:";
+
+            entry.erase(0, p.size());
+
+            d->updated_at = Utils::stringToTimeT(entry);
+        } else if (entry.starts_with("created_at:")) {
+            string p = "created_at:";
+
+            entry.erase(0, p.size());
+
+            d->created_at = Utils::stringToTimeT(entry);
+        } else if (entry.starts_with("username:")) {
+            string p = "username:";
+
+            entry.erase(0, p.size());
+
+            d->username = entry;
+        } else if (entry.starts_with("password:")) {
+            string p = "password:";
+
+            entry.erase(0, p.size());
+
+            d->password = entry;
+        } else if (entry.starts_with("id:")) {
+            string p = "id:";
+
+            entry.erase(0, p.size());
+
+            d->id = entry;
+        }else if (entry.starts_with("is_admin:")) {
+            string p = "is_admin:";
+
+            entry.erase(0, p.size());
+
+            if (entry == "true") {
+                d->is_admin = true;
+            } else {
+                d->is_admin = false;
+            }
+        }
+    }
+
+    return d;
+}
+
+string DB::GamePass::to_string() const {
+    stringstream ss;
+
+    ss << "GamePass->"
+    << "username:" + username + ","
+    << "user_id:" + user_id + ","
+    << "password:" + password + ","
+    << "created_at:" + std::to_string(created_at) + ","
+    << "updated_at: " + std::to_string(updated_at) + ","
+    << "id:" + id + ","
+    << "name:" + name + ","
+    << "developer:" + developer;
+
+    return ss.str();
+}
+
+DB::GamePass* DB::GamePass::from_string(string& str) {
+    string prefix = "GamePass->";
+
+    if (!str.starts_with(prefix)) {
+        cerr << "CANNOT PARSE" << endl;
+        return nullptr;
+    }
+
+    str.erase(0, prefix.size());
+
+    auto result = Utils::split(str, ',');
+
+    auto* d = new GamePass();
+
+    for (string& entry: result) {
+        if (entry.starts_with("updated_at:")) {
+            string p = "updated_at:";
+
+            entry.erase(0, p.size());
+
+            d->updated_at = Utils::stringToTimeT(entry);
+        } else if (entry.starts_with("created_at:")) {
+            string p = "created_at:";
+
+            entry.erase(0, p.size());
+
+            d->created_at = Utils::stringToTimeT(entry);
+        } else if (entry.starts_with("name:")) {
+            string p = "name:";
+
+            entry.erase(0, p.size());
+
+            d->name = entry;
+        } else if (entry.starts_with("username:")) {
+            string p = "username:";
+
+            entry.erase(0, p.size());
+
+            d->username = entry;
+        } else if (entry.starts_with("password:")) {
+            string p = "password:";
+
+            entry.erase(0, p.size());
+
+            d->password = entry;
+        } else if (entry.starts_with("user_id:")) {
+            string p = "user_id:";
+
+            entry.erase(0, p.size());
+
+            d->password = entry;
+        }else if (entry.starts_with("developer:")) {
+            string p = "developer:";
+
+            entry.erase(0, p.size());
+
+            d->developer = entry;
+        } else if (entry.starts_with("id:")) {
+            string p = "id:";
+
+            entry.erase(0, p.size());
+
+            d->id = entry;
+        }
+    }
+
+    return d;
+}
+
+DB::DesktopPass* DB::DesktopPass::from_string(string& str) {
+    string prefix = "DesktopPass->";
+
+    if (!str.starts_with(prefix)) {
+        cerr << "CANNOT PARSE" << endl;
+        return nullptr;
+    }
+
+    str.erase(0, prefix.size());
+
+    auto result = Utils::split(str, ',');
+
+    auto* d = new DesktopPass();
+
+    cout << "LINNER" + str << endl;
+
+    for (string& entry: result) {
+        cout << "LINER: ENTRY ->" + entry << endl;
+        if (entry.starts_with("updated_at:")) {
+            string p = "updated_at:";
+
+            entry.erase(0, p.size());
+
+            d->updated_at = Utils::stringToTimeT(entry);
+        } else if (entry.starts_with("created_at:")) {
+            string p = "created_at:";
+
+            entry.erase(0, p.size());
+
+            d->created_at = Utils::stringToTimeT(entry);
+        } else if (entry.starts_with("name:")) {
+            string p = "name:";
+
+            entry.erase(0, p.size());
+
+            d->name = entry;
+        } else if (entry.starts_with("username:")) {
+            string p = "username:";
+
+            entry.erase(0, p.size());
+
+            d->username = entry;
+        } else if (entry.starts_with("password:")) {
+            string p = "password:";
+
+            entry.erase(0, p.size());
+
+            d->password = entry;
+        } else if (entry.starts_with("user_id:")) {
+            string p = "user_id:";
+
+            entry.erase(0, p.size());
+
+            d->user_id = entry;
+        } else if (entry.starts_with("id:")) {
+            string p = "id:";
+
+            entry.erase(0, p.size());
+
+            cout << "IS-> ID" + entry << endl;
+
+            d->id = entry;
+        }
+    }
+
+    return d;
+}
+
+string DB::DesktopPass::to_string() const {
+    stringstream ss;
+
+    ss << "DesktopPass->"
+    << "id:" + id + ","
+    << "name:" + name + ","
+    << "username:" + username + ","
+    << "user_id:" + user_id + ","
+    << "password:" + password + ","
+    << "created_at:" + std::to_string(created_at) + ","
+    << "updated_at:" + std::to_string(updated_at);
+
+    return ss.str();
+}
+
 string DB::WebPass::to_string() const {
     stringstream ss;
 
@@ -441,7 +684,7 @@ DB::WebPass* DB::WebPass::from_string(string& str) {
             entry.erase(0, p.size());
 
             d->user_id = entry;
-        }else if (entry.starts_with("url:")) {
+        } else if (entry.starts_with("url:")) {
             string p = "url:";
 
             entry.erase(0, p.size());

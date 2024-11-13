@@ -9,7 +9,6 @@
 using namespace std;
 
 pair<string, bool> Controller::App::extract_token(string& str) {
-    cout << "extract_token" +str << endl;
     if (str.empty()) {
         cout << "TOKEN" << endl;
         return {"", false};
@@ -59,8 +58,6 @@ string Controller::App::create_user_account(string* token, string& username, str
     } else {
         ret = ADMIN_CREATED + result->to_string();
     }
-
-//    cout << "wan" + result->to_string() << endl;
 
     return ret;
 }
