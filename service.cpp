@@ -116,8 +116,6 @@ DB::UserEntity* Service::User::create(DB::UserEntity user) {
         result->password = "*********";
     }
 
-    cout << result->username << endl;
-
     return result;
 }
 
@@ -197,7 +195,6 @@ DB::Pass* Service::Password::get(const string& id) {
     }
 
     auto result = this->database.get(id);
-
     if (result != nullptr) {
         result->password = this->crypto.decode(result->password);
     }

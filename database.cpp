@@ -342,8 +342,6 @@ DB::UserEntity* DB::User::get_user_by_username(const string& username) {
     while (getline(file, line)) {
         DB::UserEntity* temp_user = UserEntity::from_string(line);
 
-        cout << line << endl;
-
         if (temp_user->username == username) {
             user = temp_user;
             break;
@@ -515,7 +513,7 @@ DB::GamePass* DB::GamePass::from_string(string& str) {
 
             entry.erase(0, p.size());
 
-            d->password = entry;
+            d->user_id = entry;
         }else if (entry.starts_with("developer:")) {
             string p = "developer:";
 
@@ -548,10 +546,7 @@ DB::DesktopPass* DB::DesktopPass::from_string(string& str) {
 
     auto* d = new DesktopPass();
 
-    cout << "LINNER" + str << endl;
-
     for (string& entry: result) {
-        cout << "LINER: ENTRY ->" + entry << endl;
         if (entry.starts_with("updated_at:")) {
             string p = "updated_at:";
 
@@ -592,8 +587,6 @@ DB::DesktopPass* DB::DesktopPass::from_string(string& str) {
             string p = "id:";
 
             entry.erase(0, p.size());
-
-            cout << "IS-> ID" + entry << endl;
 
             d->id = entry;
         }

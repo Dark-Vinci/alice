@@ -5,23 +5,20 @@
 
 void Terminal::print_options() {
     cout << "INPUT NUMBER <1 - 9> TO PERFORM THE OPERATIONS BELOW" << endl;
+    cout << "USE an hyphen \"-\" for values that are empty" << endl;
 
     //   User related actions
     cout << "0> Login To Account" << endl;
     cout << "1> Delete User/Self Account" << endl;
     cout << "2> Create User Account" << endl;
     cout << "3> Delete User Account" << endl;
-    cout << "4> Get User Details" << endl;
-
-    //    Password related actions
-    cout << "5> Create Web password" << endl;
-    cout << "6> Create Desktop password" << endl;
-    cout << "7> Create Game password" << endl;
-    cout << "8> Get User Password" << endl;
-    cout << "9> Get All User Password" << endl;
-    cout << "10> Search User password" << endl;
-    cout << "11> Delete Password By NAME" << endl;
-    cout << "12> Update Password By NAME" << endl;
+    cout << "4> Update User Details" << endl;
+    cout << "5> Create Password" << endl;
+    cout << "6> Update User Password" << endl;
+    cout << "7> Delete User password" << endl;
+    cout << "8> Get All User Password" << endl;
+    cout << "9> Get User Password" << endl;
+    cout << "10> Search User passwords" << endl;
 }
 
 void Terminal::start() {
@@ -34,7 +31,7 @@ void Terminal::start() {
         cin >> typ;
 
         switch (typ) {
-//            working
+            //     To login to user account, kindly use the right username and password used in the creation of the user account
             case 0: {
                 string username, password;
 
@@ -49,7 +46,9 @@ void Terminal::start() {
                 break;
             }
 
-//            working
+            // To delete a user account
+            // if admin, provide the user_id of the user to be deleted
+            // else just provide your login token and use "-" for the user_id
             case 1: {
                 string token, user_id;
 
@@ -67,7 +66,9 @@ void Terminal::start() {
                 break;
             }
 
-//            working
+            //  Create a User account
+            // If an admin is creating the account for the user, he/she must provide a login token
+            // provide your name, password and *token(if admin)
             case 2: {
                 string username, password, token;
 
@@ -82,12 +83,16 @@ void Terminal::start() {
 
                 string* token_ptr = token=="-" ? nullptr : &token;
 
-                string result = application.create_user_account(token_ptr, username, password, token=="-");
+                string result = this->application.create_user_account(token_ptr, username, password, token=="-");
 
                 cout << "RESULT: " + result << endl;
                 break;
             }
 
+            // Get User details fetches the user account details{username, password, created_at, updated_at, user_id}
+            // For both admin and normal user
+            // token must be provided, if admin (provide the user_id you wish to get)
+            // use "-" when you mean empty value
             case 3: {
                 string user_id, token;
 
@@ -99,12 +104,17 @@ void Terminal::start() {
 
                 string* user_id_prt = user_id == "-" ? nullptr : &user_id;
 
-                string result = application.get_user(token, user_id_prt);
+                string result = this->application.get_user(token, user_id_prt);
                 cout << "RESULT: " + result << endl;
 
                 break;
             }
 
+            // To update a user account
+            // provide your login token(must)
+            // username if you wish to update "-" if not
+            // password if you wish to update "-" if not
+            // provide the user_id if an admin
             case 4: {
                 string user_id, token, username, password;
 
@@ -124,12 +134,13 @@ void Terminal::start() {
                 string* password_ptr = password == "-" ? nullptr : &password;
                 string* username_ptr = username == "-" ? nullptr : &username;
 
-                string result = application.update_user(token,  user_id_ptr, username_ptr, password_ptr);
-                cout << result << endl;
+                string result = this->application.update_user(token,  user_id_ptr, username_ptr, password_ptr);
+                cout << "RESULT: " + result << endl;
 
                 break;
             }
 
+            //
             case 5: {
                 string user_id, token, username, password, type, URL_, developer, name;
 
@@ -146,7 +157,7 @@ void Terminal::start() {
                 cin >> password;
 
                 cout << TYPE;
-                cout << "WEB or DESKTOP or GAME" << endl;
+                cout << "WEB or DESKTOP or GAME: " << endl;
                 cin >> type;
 
                 if (type == "WEB") {
@@ -212,12 +223,11 @@ void Terminal::start() {
                 string* user_id_ptr = user_id == "-" ? nullptr : &user_id;
 
                 string result = this->application.update_password(token, type, user_id_ptr, id, URL_ptr, username_ptr, password_ptr, name_ptr, developer_ptr);
-                cout << result << endl;
+                cout << "RESULT: " + result << endl;
 
                 break;
             }
 
-//           TODO: working now
             case 7: {
                 string token, password_id;
 
@@ -228,11 +238,10 @@ void Terminal::start() {
                 cin >> password_id;
 
                 string result = this->application.delete_password(token, password_id);
-                cout << result << endl;
+                cout << "RESULT: " + result << endl;
                 break;
             }
 
-//           TODO: done
             case 8: {
                 string token, user_id;
 
@@ -242,12 +251,11 @@ void Terminal::start() {
                 cout << USER_ID;
                 cin >> user_id;
 
-                string result = application.get_user_passwords(token, user_id);
-                cout << result << endl;
+                string result = this->application.get_user_passwords(token, user_id);
+                cout << "RESULT: " + result << endl;
                 break;
             }
 
-            // TODO: DONE
             case 9: {
                 string token, password_id;
 
@@ -258,7 +266,7 @@ void Terminal::start() {
                 cin >> password_id;
 
                 string result = this->application.get_password(token, password_id);
-                cout << result << endl;
+                cout << "RESULT: " + result << endl;
                 break;
             }
 
@@ -272,7 +280,7 @@ void Terminal::start() {
                 cin >> text;
 
                 string result = this->application.search_password(token, text);
-                cout << result << endl;
+                cout << "RESULT: " + result << endl;
                 break;
             }
 
@@ -282,6 +290,6 @@ void Terminal::start() {
             }
         }
 
-        cout << "__________________________________________________________________________________________" << endl;
+        cout << "____________________________________________________________________________________________________________________________________________" << endl;
     }
 }

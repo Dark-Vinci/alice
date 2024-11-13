@@ -4,13 +4,13 @@
 #include <vector>
 #include <string>
 #include <sstream>
+
 #include "controller.h"
 
 using namespace std;
 
 pair<string, bool> Controller::App::extract_token(string& str) {
     if (str.empty()) {
-        cout << "TOKEN" << endl;
         return {"", false};
     }
 
@@ -19,12 +19,7 @@ pair<string, bool> Controller::App::extract_token(string& str) {
     bool is_admin;
     string encrypted_id;
 
-    cout << "GOT HERE" << endl;
-
     auto sp = Utils::split(str, ',');
-
-    cout << sp[0] << endl;
-    cout << sp[1] << endl;
 
     for (const auto & st : sp) {
         if (st == "true") {
@@ -35,8 +30,6 @@ pair<string, bool> Controller::App::extract_token(string& str) {
             encrypted_id = st;
         }
     }
-
-    cout << "EMCRYPTED" + encrypted_id << endl;
 
     encrypted_id = this->crypto.decode(encrypted_id);
 
@@ -80,10 +73,7 @@ string Controller::App::delete_user(string &token, string*  user_id) {
         return TOKEN_NOT_PROVIDED;
     }
 
-    cout << token << endl;
     auto token_pair = this->extract_token(token);
-    cout << "FIRST -> " + token_pair.first << endl;
-    cout << " SECOND->" + token_pair.second << endl;
     if (token_pair.first.empty()) {
         return INVALID_TOKEN;
     }
@@ -258,9 +248,6 @@ string Controller::App::get_password(string& token, string& pass_id) {
         return RECORD_NOT_FOUND;
     }
 
-//    cout << "RESULT USER ID: " + result->user_id << endl;
-//    cout << "RESULT TOKEN: " + token_pair.first << endl;
-
     if (result->user_id != token_pair.first && !token_pair.second) {
         return NOT_AUTHORIZED;
     }
@@ -280,8 +267,6 @@ string Controller::App::delete_password(string& token, string& pass_id) {
     if (token_pair.first.empty()) {
         return INVALID_TOKEN;
     }
-
-//    cout << "TOKEN ID: " + token_pair.first << endl;
 
     auto result = this->password_service.delete_(pass_id, token_pair.second, token_pair.first);
     if (result == nullptr) {
@@ -303,8 +288,6 @@ string Controller::App::update_password(string& token, string& typ, string* user
     if (token_pair.first.empty()) {
         return INVALID_TOKEN;
     }
-
-    cout << "ABEG OOOOO2" << endl;
 
     string result_str = INVALID_OPERATION;
 
@@ -414,8 +397,6 @@ string Controller::App::get_user_passwords(string& token, string& user_id) {
     if (token_pair.first.empty()) {
         return INVALID_TOKEN;
     }
-
-    cout << "USER TOKEN" + token_pair.first << endl;
 
     vector<DB::Pass*> passwords = this->password_service.get_all_user(token_pair.first);
     if (passwords.empty()) {
