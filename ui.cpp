@@ -4,20 +4,20 @@
 #include "ui.h"
 
 void Terminal::print_options() {
-    cout << "INPUT NUMBER <1 - 9> TO PERFORM THE OPERATIONS BELOW" << endl;
+    cout << "INPUT NUMBER <0 - 10> TO PERFORM THE OPERATIONS BELOW" << endl;
     cout << "USE an hyphen \"-\" for values that are empty" << endl;
 
     //   User related actions
     cout << "0> Login To Account" << endl;
     cout << "1> Delete User/Self Account" << endl;
     cout << "2> Create User Account" << endl;
-    cout << "3> Delete User Account" << endl;
+    cout << "3> Get User Details" << endl;
     cout << "4> Update User Details" << endl;
     cout << "5> Create Password" << endl;
     cout << "6> Update User Password" << endl;
     cout << "7> Delete User password" << endl;
     cout << "8> Get All User Password" << endl;
-    cout << "9> Get User Password" << endl;
+    cout << "9> Get User Password by ID" << endl;
     cout << "10> Search User passwords" << endl;
 }
 
@@ -29,6 +29,8 @@ void Terminal::start() {
         print_options();
 
         int typ;
+        cout << "_______________________________________________________________PASSWORD MANAGER_________________________________________________________________" << endl;
+        cout << "Choose between 0 - 10: ";
         cin >> typ;
 
         switch (typ) {
@@ -71,7 +73,7 @@ void Terminal::start() {
             // If an admin is creating the account for the user, he/she must provide a login token
             // provide your name, password and *token(if admin)
             case 2: {
-                string username, password, token;
+                string username, password, token, is_admin;
 
                 cout << USERNAME;
                 cin >> username;
@@ -82,9 +84,13 @@ void Terminal::start() {
                 cout << TOKEN;
                 cin >> token;
 
+                cout << "0 for not admin and any other number for an admin" << endl;
+                cout << IS_ADMIN;
+                cin >> is_admin;
+
                 string* token_ptr = token=="-" ? nullptr : &token;
 
-                string result = this->application.create_user_account(token_ptr, username, password, token=="-");
+                string result = this->application.create_user_account(token_ptr, username, password, is_admin != "0");
 
                 cout << "RESULT: " + result << endl;
                 break;
@@ -311,6 +317,6 @@ void Terminal::start() {
             }
         }
 
-        cout << "____________________________________________________________________________________________________________________________________________" << endl;
+        cout << "_______________________________________________________________PASSWORD MANAGER_________________________________________________________________" << endl;
     }
 }

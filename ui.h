@@ -27,9 +27,10 @@ private:
     string TYPE = "TYPE: ";
     string TEXT = "TEXT: ";
     string ID = "ID: ";
+    string IS_ADMIN = "IS_ADMIN: ";
 public:
     Terminal() {
-        cout << "--------INITIALIZING THE TERMINAL APPLICATION--------" << endl;
+        cout << "---------------------------------------------------INITIALIZING THE TERMINAL APPLICATION---------------------------------------------------" << endl;
     }
 
     // application loop;
