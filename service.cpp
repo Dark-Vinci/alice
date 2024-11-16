@@ -127,18 +127,10 @@ DB::Pass* Service::Password::update(DB::GamePass pass, bool is_admin, string& us
         return nullptr;
     }
 
-    auto fetch = this->database.get(pass.id);
-
-    if (fetch == nullptr) {
-        return nullptr;
-    }
-
-    if (!is_admin && fetch->user_id != pass.user_id) {
+    if (!is_admin && pass.user_id != user_id) {
         cout << "ONLY ADMINS CAN DELETE FOR ANOTHER USER" << endl;
         return nullptr;
     }
-
-    delete fetch;
 
     auto result = this->database.update(pass);
 
@@ -150,18 +142,11 @@ DB::Pass* Service::Password::update(DB::WebPass pass, bool is_admin, string& use
         return nullptr;
     }
 
-//    auto fetch = this->database.get(pass.id);
-//
-//    if (fetch == nullptr) {
-//        return nullptr;
-//    }
-
     if (!is_admin && pass.user_id != user_id) {
         cout << "ONLY ADMINS CAN DELETE FOR ANOTHER USER" << endl;
         return nullptr;
     }
 
-//    delete fetch;
 
     auto result = this->database.update(pass);
 
@@ -173,18 +158,10 @@ DB::Pass* Service::Password::update(DB::DesktopPass pass, bool is_admin, string&
         return nullptr;
     }
 
-    auto fetch = this->database.get(pass.id);
-
-    if (fetch == nullptr) {
-        return nullptr;
-    }
-
-    if (!is_admin && fetch->user_id != user_id) {
+    if (!is_admin && pass.user_id != user_id) {
         cout << "ONLY ADMINS CAN DELETE FOR ANOTHER USER" << endl;
         return nullptr;
     }
-
-    delete fetch;
 
     auto result = this->database.update(pass);
 
@@ -329,7 +306,6 @@ DB::Pass* Service::Password::create(DB::DesktopPass pass) {
     auto result = this->database.create(pass);
 
     if (result == nullptr) {
-        cout << "NOT CREATED" << endl;
         return nullptr;
     }
 

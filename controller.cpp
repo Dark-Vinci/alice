@@ -355,32 +355,45 @@ string Controller::App::update_password(string& token, string& typ, string* user
 
     string result_str = INVALID_OPERATION;
 
+    if (user_id == nullptr) {
+        user_id = &token_pair.first;
+    }
+
     if (typ == "WEB") {
+        // fetch the password entity by id
         auto old = this->password_service.get_web(id);
+        // not found
         if (old == nullptr) {
             return UNABLE_TO_PERFORM_OPERATION;
         }
 
+        // update the updated time if present
         old->updated_at = time(0);
 
+        // update url if present
         if (URL != nullptr) {
             old->url = *URL;
         }
 
+        // update username if present
         if (username != nullptr) {
             old->username = *username;
         }
 
+        // update password if present
         if (password != nullptr) {
             old->password = this->crypto.encode(*password);
         }
 
+        // update name if present
         if (name != nullptr) {
             old->name = *name;
         }
 
-        auto result = this->password_service.update(*old, token_pair.second, old->user_id);
+        // try to update the password with the updated values
+        auto result = this->password_service.update(*old, token_pair.second, *user_id);
 
+        // failure updating
         if (result == nullptr) {
             return UNABLE_TO_PERFORM_OPERATION;
         }
@@ -413,7 +426,7 @@ string Controller::App::update_password(string& token, string& typ, string* user
         }
 
         // try to update the password
-        auto result = this->password_service.update(*old, token_pair.second, old->user_id);
+        auto result = this->password_service.update(*old, token_pair.second, *user_id);
         // updated failed
         if (result == nullptr) {
             return UNABLE_TO_PERFORM_OPERATION;
@@ -421,30 +434,39 @@ string Controller::App::update_password(string& token, string& typ, string* user
 
         result_str = result->to_string();
     } else if (typ == "GAME") {
+        // fetch the game entity
         auto old = this->password_service.get_game(id);
+        //not found
         if (old == nullptr) {
             return UNABLE_TO_PERFORM_OPERATION;
         }
 
+        // update the updated time
         old->updated_at = time(0);
 
+        // update the username if present
         if (username != nullptr) {
             old->username = *username;
         }
 
+        // update the password if present
         if (password != nullptr) {
             old->password = this->crypto.encode(*password);;
         }
 
+        // update the name if present
         if (name != nullptr) {
             old->name = *name;
         }
 
+        // update the developer if present
         if (developer != nullptr) {
             old->developer = *developer;
         }
 
-        auto result = this->password_service.update(*old, token_pair.second, old->user_id);
+        // try to update the password
+        auto result = this->password_service.update(*old, token_pair.second, *user_id);
+        // failure updating
         if (result == nullptr) {
             return UNABLE_TO_PERFORM_OPERATION;
         }

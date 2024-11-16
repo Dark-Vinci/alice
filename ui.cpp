@@ -33,8 +33,16 @@ void Terminal::start() {
         cout << "Choose between 0 - 10: ";
         cin >> typ;
 
+        // if the input is not an int; end the loop and exit the application
+        if (cin.fail()) {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cerr << "******************INVALID INPUT; SHUTTING DOWN APPLICATION*******************" << endl;
+            break;
+        }
+
         switch (typ) {
-            //     To login to user account, kindly use the right username and password used in the creation of the user account
+            // To login to user account, kindly use the right username and password used in the creation of the user account
             case 0: {
                 string username, password;
 
