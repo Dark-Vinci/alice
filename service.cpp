@@ -220,27 +220,33 @@ vector<DB::Pass*> Service::Password::get_all_user(string& user_id) {
 }
 
 DB::WebPass* Service::Password::get_web(const string& id) {
+    // input validation
     if (id.empty()) {
         return nullptr;
     }
 
-    return this->get_web(id);
+    // fetch the value from db
+    return this->database.get_web(id);
 }
 
 DB::GamePass* Service::Password::get_game(const string& id) {
+    // input validation
     if (id.empty()) {
         return nullptr;
     }
 
-    return this->get_game(id);
+    // fetch the value from db
+    return this->database.get_game(id);
 }
 
 DB::DesktopPass* Service::Password::get_desktop(const string& id) {
+    // input validation
     if (id.empty()) {
         return nullptr;
     }
 
-    return this->get_desktop(id);
+    // fetch the value from db
+    return this->database.get_desktop(id);
 }
 
 DB::Pass* Service::Password::delete_(const string& pass_id, bool is_admin, const string& user_id) {

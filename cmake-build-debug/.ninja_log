@@ -74,3 +74,8 @@
 2391	2559	1731743002498273174	passwordmanager	aa584465a2a3f2fc
 10	2192	1731743064663420979	CMakeFiles/passwordmanager.dir/ui.cpp.o	b60ae45bcb6dc74e
 2193	2394	1731743066845927749	passwordmanager	aa584465a2a3f2fc
+23	10979	1731758679179369959	CMakeFiles/passwordmanager.dir/ui.cpp.o	b60ae45bcb6dc74e
+21	11095	1731758679176941203	CMakeFiles/passwordmanager.dir/controller.cpp.o	21202c82fef7cabe
+11095	14951	1731758690251009069	passwordmanager	aa584465a2a3f2fc
+15	2859	1731758881260388425	CMakeFiles/passwordmanager.dir/service.cpp.o	2451f4c8501dfba4
+2860	3113	1731758884105512358	passwordmanager	aa584465a2a3f2fc

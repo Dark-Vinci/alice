@@ -45,7 +45,7 @@ void Terminal::start() {
                 cin >> password;
 
                 string result = this->application.login(username, password);
-                cout << "RESULT: " + result << endl;
+                cout << "RESULT: \n" + result << endl;
                 break;
             }
 
@@ -64,7 +64,7 @@ void Terminal::start() {
                 string* user_id_ptr = user_id == "-" ? nullptr : &user_id;
 
                 string result = this->application.delete_user(token, user_id_ptr);
-                cout << "RESULT: " + result << endl;
+                cout << "RESULT: \n" + result << endl;
 
                 break;
             }
@@ -92,7 +92,7 @@ void Terminal::start() {
 
                 string result = this->application.create_user_account(token_ptr, username, password, is_admin != "0");
 
-                cout << "RESULT: " + result << endl;
+                cout << "RESULT: \n" + result << endl;
                 break;
             }
 
@@ -112,7 +112,7 @@ void Terminal::start() {
                 string* user_id_prt = user_id == "-" ? nullptr : &user_id;
 
                 string result = this->application.get_user(token, user_id_prt);
-                cout << "RESULT: " + result << endl;
+                cout << "RESULT: \n" + result << endl;
 
                 break;
             }
@@ -142,7 +142,7 @@ void Terminal::start() {
                 string* username_ptr = username == "-" ? nullptr : &username;
 
                 string result = this->application.update_user(token,  user_id_ptr, username_ptr, password_ptr);
-                cout << "RESULT: " + result << endl;
+                cout << "RESULT: \n" + result << endl;
 
                 break;
             }
@@ -192,7 +192,7 @@ void Terminal::start() {
 
                 string result = this->application.create_password(token, type, URL_ptr, username, password, name, developer_ptr, user_id_ptr);
 
-                cout << "RESULT: " + result << endl;
+                cout << "RESULT: \n" + result << endl;
 
                 break;
             }
@@ -203,6 +203,16 @@ void Terminal::start() {
                 cout << TYPE;
                 cout << "WEB or DESKTOP or GAME" << endl;
                 cin >> type;
+
+                if (type == "WEB") {
+                    cout << URL;
+                    cin >> URL_;
+                }
+
+                if (type == "GAME") {
+                    cout << DEVELOPER;
+                    cin >> developer;
+                }
 
                 cout << TOKEN;
                 cin >> token;
@@ -215,12 +225,6 @@ void Terminal::start() {
 
                 cout << PASSWORD;
                 cin >> password;
-
-                cout << URL;
-                cin >> URL_;
-
-                cout << DEVELOPER;
-                cin >> developer;
 
                 cout << NAME;
                 cin >> name;
@@ -236,7 +240,7 @@ void Terminal::start() {
                 string* user_id_ptr = user_id == "-" ? nullptr : &user_id;
 
                 string result = this->application.update_password(token, type, user_id_ptr, id, URL_ptr, username_ptr, password_ptr, name_ptr, developer_ptr);
-                cout << "RESULT: " + result << endl;
+                cout << "RESULT: \n" + result << endl;
 
                 break;
             }
@@ -254,7 +258,7 @@ void Terminal::start() {
                 cin >> password_id;
 
                 string result = this->application.delete_password(token, password_id);
-                cout << "RESULT: " + result << endl;
+                cout << "RESULT: \n" + result << endl;
                 break;
             }
 
@@ -273,7 +277,7 @@ void Terminal::start() {
                 string* user_id_ptr = user_id == "-" ? nullptr : &user_id;
 
                 string result = this->application.get_user_passwords(token, user_id_ptr);
-                cout << "RESULT: " + result << endl;
+                cout << "RESULT: \n" + result << endl;
                 break;
             }
 
@@ -290,7 +294,7 @@ void Terminal::start() {
                 cin >> password_id;
 
                 string result = this->application.get_password(token, password_id);
-                cout << "RESULT: " + result << endl;
+                cout << "RESULT: \n" + result << endl;
                 break;
             }
 
@@ -307,7 +311,7 @@ void Terminal::start() {
                 cin >> text;
 
                 string result = this->application.search_password(token, text);
-                cout << "RESULT: " + result << endl;
+                cout << "RESULT: \n" + result << endl;
                 break;
             }
 

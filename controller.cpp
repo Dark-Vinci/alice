@@ -345,7 +345,10 @@ string Controller::App::update_password(string& token, string& typ, string* user
         return TOKEN_NOT_PROVIDED;
     }
 
+    // extract the is_admin property and he user id from the token
     pair<string, bool> token_pair = this->extract_token(token);
+
+    // invalid token
     if (token_pair.first.empty()) {
         return INVALID_TOKEN;
     }
@@ -353,13 +356,10 @@ string Controller::App::update_password(string& token, string& typ, string* user
     string result_str = INVALID_OPERATION;
 
     if (typ == "WEB") {
-        cout << "ABEG OOOOO" << endl;
         auto old = this->password_service.get_web(id);
         if (old == nullptr) {
             return UNABLE_TO_PERFORM_OPERATION;
         }
-
-        cout << "ABEG OOOOO999" << endl;
 
         old->updated_at = time(0);
 
@@ -379,36 +379,42 @@ string Controller::App::update_password(string& token, string& typ, string* user
             old->name = *name;
         }
 
-        cout << "ABEG OOOOO4" << endl;
         auto result = this->password_service.update(*old, token_pair.second, old->user_id);
 
-        cout << "ABEG OOOOO3" << endl;
         if (result == nullptr) {
             return UNABLE_TO_PERFORM_OPERATION;
         }
 
         result_str = result->to_string();
     } else if (typ == "DESKTOP") {
+        //fetch the desktop password by id
         auto old = this->password_service.get_desktop(id);
+        // password not found
         if (old == nullptr) {
             return UNABLE_TO_PERFORM_OPERATION;
         }
 
+        //update the updated at
         old->updated_at = time(0);
 
+        // update the username
         if (username != nullptr) {
             old->username = *username;
         }
 
+        // update the password
         if (password != nullptr) {
             old->password = this->crypto.encode(*password);
         }
 
+        // update the name
         if (name != nullptr) {
             old->name = *name;
         }
 
+        // try to update the password
         auto result = this->password_service.update(*old, token_pair.second, old->user_id);
+        // updated failed
         if (result == nullptr) {
             return UNABLE_TO_PERFORM_OPERATION;
         }
