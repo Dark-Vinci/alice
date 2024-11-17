@@ -30,7 +30,7 @@ namespace Controller {
     private:
         string USER_CREATED = "USER CREATED";
         string ADMIN_CREATED = "ADMIN CREATED";
-        string LOGIN_TOKEN = "LOGIN TOKEN";
+        string LOGIN_TOKEN = "LOGIN TOKEN: ";
 
     public:
         string create_user_account(string* token, string& username, string& password, bool is_admin);

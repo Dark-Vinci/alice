@@ -1,3 +1,5 @@
 User->id:z9kg3DY6h,password:ovlv,username:biyi,created_at:1731741316,updated_at:1731741316,is_admin:1
 User->id:MnJWAAL8Z,password:wvzv,username:jimi,created_at:1731741394,updated_at:1731741394,is_admin:1
 User->id:DipM0Rp99,password:gbzvjn,username:tomiwa,created_at:1731740965,updated_at:1731742107,is_admin:1
+User->id:k7cXgxgSn,password:ivpgbe,username:victor,created_at:1731786292,updated_at:1731786292,is_admin:1
+User->id:m6Fy5looi,password:xryiva,username:kelvin,created_at:1731786380,updated_at:1731786380,is_admin:0
